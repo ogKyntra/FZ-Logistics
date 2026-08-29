@@ -562,17 +562,17 @@ function renderTransportCanvas(doc) {
 
     // --- 1. MASTER HEADER WITH LOGO ---
     curY = M;
-    ctx.fillStyle = "#1e293b"; ctx.fillRect(M, curY, W, 450); 
+    ctx.fillStyle = "#1e293b"; ctx.fillRect(M, curY, W, 350); 
     
-    // Draw Logo if loaded (Works when hosted on GitHub Pages)
+    // Draw Logo on the left
     if (armyLogo.complete && armyLogo.naturalWidth !== 0) {
-        ctx.drawImage(armyLogo, canvas.width/2 - 100, curY + 25, 200, 200);
+        ctx.drawImage(armyLogo, M + 60, curY + 40, 270, 270);
     }
     
-    drawCanvasText(ctx, "UNITED STATES ARMY", canvas.width/2, curY + 290, 85, "Arial", "#fff", "center", "bold");
-    drawCanvasText(ctx, "FORT ZANCUDO LOGISTICS", canvas.width/2, curY + 350, 45, "Arial", "#94a3b8", "center", "normal");
-    drawCanvasText(ctx, "CARGO TRANSPORT RECORD", canvas.width/2, curY + 420, 55, "Arial", "#10b981", "center", "bold");
-    curY += 450;
+    drawCanvasText(ctx, "UNITED STATES ARMY", canvas.width/2, curY + 130, 95, "Arial", "#fff", "center", "bold");
+    drawCanvasText(ctx, "FORT ZANCUDO LOGISTICS", canvas.width/2, curY + 200, 50, "Arial", "#94a3b8", "center", "normal");
+    drawCanvasText(ctx, "CARGO TRANSPORT RECORD", canvas.width/2, curY + 280, 65, "Arial", "#10b981", "center", "bold");
+    curY += 350;
 
     const cw = W / 3;
     drawBox("DOCUMENT NUMBER", doc.doc_num, M, curY, cw, B_HEIGHT);
@@ -645,16 +645,17 @@ function printLogBook() {
     
     // --- 1. MASTER HEADER WITH LOGO ---
     curY = M;
-    ctx.fillStyle = "#1e293b"; ctx.fillRect(M, curY, W, 400); 
+    ctx.fillStyle = "#1e293b"; ctx.fillRect(M, curY, W, 350); 
     
+    // Draw Logo on the left
     if (armyLogo.complete && armyLogo.naturalWidth !== 0) {
-        ctx.drawImage(armyLogo, canvas.width/2 - 85, curY + 25, 170, 170);
+        ctx.drawImage(armyLogo, M + 60, curY + 40, 270, 270);
     }
 
-    drawCanvasText(ctx, "UNITED STATES ARMY", canvas.width/2, curY + 260, 70, "Arial", "#fff", "center", "bold");
-    drawCanvasText(ctx, "FORT ZANCUDO LOGISTICS", canvas.width/2, curY + 315, 40, "Arial", "#94a3b8", "center", "normal");
-    drawCanvasText(ctx, "VEHICLE MILEAGE & MAINTENANCE LOG", canvas.width/2, curY + 375, 50, "Arial", "#3b82f6", "center", "bold");
-    curY += 400;
+    drawCanvasText(ctx, "UNITED STATES ARMY", canvas.width/2, curY + 130, 95, "Arial", "#fff", "center", "bold");
+    drawCanvasText(ctx, "FORT ZANCUDO LOGISTICS", canvas.width/2, curY + 200, 50, "Arial", "#94a3b8", "center", "normal");
+    drawCanvasText(ctx, "VEHICLE MILEAGE & MAINTENANCE LOG", canvas.width/2, curY + 280, 55, "Arial", "#3b82f6", "center", "bold");
+    curY += 350;
 
     // Summary Row
     const totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
