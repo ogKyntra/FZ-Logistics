@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U.S. Army | FZ Logistics System</title>
+    <title>RTL | Rengoku Trucking Logistics</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
 
         :root {
-            --bg-body: #09090b;       
-            --bg-panel: #18181b;      
-            --bg-card: #27272a;       
-            --bg-hover: #3f3f46;
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
-            --border: #3f3f46;
-            --accent: #10b981;        
-            --accent-glow: rgba(16, 185, 129, 0.2);
+            /* Rengoku Trucking Theme - Deep Blacks and Fiery Oranges */
+            --bg-body: #050505;       
+            --bg-panel: #111113;      
+            --bg-card: #1c1c1f;       
+            --bg-hover: #27272b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #2e2e33;
+            --accent: #f97316;        /* Fiery Orange */
+            --accent-hover: #ea580c;
+            --accent-glow: rgba(249, 115, 22, 0.15);
             --danger: #ef4444;
-            --radius-panel: 20px;
-            --radius-card: 12px;
-            --radius-input: 8px;
+            --radius-panel: 24px;
+            --radius-card: 16px;
+            --radius-input: 10px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -28,202 +31,229 @@
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-        nav { width: 280px; background-color: var(--bg-panel); border-radius: var(--radius-panel); border: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* Sidebar */
+        nav { width: 300px; background-color: var(--bg-panel); border-radius: var(--radius-panel); border: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
         
-        .brand { padding: 40px 20px 30px; text-align: center; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
-        .brand img { width: 100px; height: 100px; margin-bottom: 15px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-        .brand h2 { font-weight: 700; color: #fff; font-size: 1.2rem; letter-spacing: 0.5px; }
-        .brand p { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;}
+        .brand { padding: 40px 20px 30px; text-align: center; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
+        .brand::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #f97316, #fb923c); }
+        .brand img { width: 140px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(249, 115, 22, 0.2)); transition: var(--transition); }
+        .brand img:hover { transform: scale(1.05); filter: drop-shadow(0 12px 20px rgba(249, 115, 22, 0.4)); }
+        .brand h2 { font-weight: 900; color: #fff; font-size: 1.4rem; letter-spacing: 0.5px; text-transform: uppercase; }
+        .brand p { font-size: 0.75rem; color: var(--accent); margin-top: 5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;}
         
-        .nav-links { flex-grow: 1; padding: 20px 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .nav-item { padding: 12px 20px; border-radius: var(--radius-card); cursor: pointer; font-weight: 500; font-size: 0.9rem; color: var(--text-muted); transition: all 0.2s ease; display: flex; align-items: center; }
-        .nav-item:hover { background-color: var(--bg-card); color: var(--text-main); }
-        .nav-item.active { background-color: var(--accent-glow); color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .nav-links { flex-grow: 1; padding: 20px 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .nav-item { padding: 14px 20px; border-radius: var(--radius-card); cursor: pointer; font-weight: 600; font-size: 0.95rem; color: var(--text-muted); transition: var(--transition); display: flex; align-items: center; position: relative; overflow: hidden; }
+        .nav-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background-color: var(--accent); transition: var(--transition); }
+        .nav-item:hover { background-color: var(--bg-card); color: var(--text-main); transform: translateX(5px); }
+        .nav-item.active { background-color: var(--accent-glow); color: var(--accent); }
+        .nav-item.active::before { width: 4px; }
 
-        main { flex-grow: 1; background-color: var(--bg-panel); border-radius: var(--radius-panel); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        header { padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-        header h2 { font-weight: 600; font-size: 1.4rem; color: var(--text-main); }
-        .clock { font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 1rem; background: var(--bg-card); padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); }
+        /* Main Area */
+        main { flex-grow: 1; background-color: var(--bg-panel); border-radius: var(--radius-panel); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.8); position: relative; }
+        
+        header { padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(17, 17, 19, 0.8); backdrop-filter: blur(10px); z-index: 10; }
+        header h2 { font-weight: 800; font-size: 1.6rem; color: var(--text-main); letter-spacing: -0.5px; }
+        .clock { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); font-size: 1.1rem; background: var(--accent-glow); padding: 10px 20px; border-radius: 20px; border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 15px var(--accent-glow); }
 
-        .content { flex-grow: 1; padding: 40px; overflow-y: auto; }
-        .view-section { display: none; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .content { flex-grow: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+        .view-section { display: none; animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         .view-section.active { display: block; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        .card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 30px; margin-bottom: 25px; }
+        /* Cards & Forms */
+        .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 35px; margin-bottom: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: var(--transition); }
+        .card:hover { border-color: rgba(249, 115, 22, 0.2); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
         .card-dashed { border: 2px dashed var(--border); background-color: transparent; text-align: center; }
-        .card h3 { margin-bottom: 25px; font-size: 1.05rem; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .card h3::before { content: ''; display: inline-block; width: 8px; height: 24px; background: var(--accent); border-radius: 4px; }
+        .card-dashed:hover { border-color: var(--accent); background-color: var(--accent-glow); }
+        .card h3 { margin-bottom: 25px; font-size: 1.15rem; color: var(--text-main); font-weight: 800; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .card h3::before { content: ''; display: inline-block; width: 6px; height: 24px; background: var(--accent); border-radius: 4px; box-shadow: 0 0 10px var(--accent); }
         
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 10px; }
         .form-group.full { grid-column: 1 / -1; }
         
-        label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
-        input, select, textarea { padding: 14px 16px; background-color: var(--bg-card); border: 1px solid var(--border); color: #fff; border-radius: var(--radius-input); outline: none; transition: all 0.2s; font-size: 0.95rem; }
-        input:focus, select:focus { border-color: var(--accent); background-color: #2a2a30; box-shadow: 0 0 0 4px var(--accent-glow); }
+        label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select, textarea { padding: 16px 20px; background-color: var(--bg-body); border: 1px solid var(--border); color: #fff; border-radius: var(--radius-input); outline: none; transition: var(--transition); font-size: 1rem; font-weight: 500; }
+        input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); transform: translateY(-2px); }
         
-        .btn { padding: 14px 24px; border: none; border-radius: var(--radius-input); cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
-        .btn-primary { background-color: var(--accent); color: #000; }
-        .btn-primary:hover { background-color: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px var(--accent-glow); }
-        .btn-secondary { background-color: var(--bg-card); color: var(--text-main); border: 1px solid var(--border); }
-        .btn-secondary:hover { background-color: var(--bg-hover); }
+        /* Buttons */
+        .btn { padding: 16px 28px; border: none; border-radius: var(--radius-input); cursor: pointer; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 150%; height: 150%; background: rgba(255,255,255,0.1); transform: translate(-50%, -50%) scale(0); border-radius: 50%; transition: transform 0.4s ease; }
+        .btn:active::after { transform: translate(-50%, -50%) scale(1); transition: 0s; }
+        
+        .btn-primary { background: linear-gradient(135deg, var(--accent), #fb923c); color: #000; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6); }
+        .btn-secondary { background-color: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); }
+        .btn-secondary:hover { background-color: var(--bg-hover); border-color: var(--text-muted); transform: translateY(-2px); }
         .btn-danger { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
-        .btn-danger:hover { background-color: var(--danger); color: #fff; }
+        .btn-danger:hover { background-color: var(--danger); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); transform: translateY(-2px); }
         
+        /* Tables */
         .table-container { overflow-x: auto; border-radius: var(--radius-card); border: 1px solid var(--border); background-color: var(--bg-card); }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 16px 24px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-        th { color: var(--text-muted); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        th, td { padding: 18px 24px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        th { color: var(--accent); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; background-color: rgba(0,0,0,0.2); }
         tr:last-child td { border-bottom: none; }
+        tr { transition: var(--transition); }
         tr:hover td { background-color: var(--bg-hover); }
 
-        .gen-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .gen-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 35px; }
 
-        #previewModal { display: none; position: fixed; inset: 0; background: rgba(9, 9, 11, 0.95); z-index: 1000; flex-direction: column; backdrop-filter: blur(8px); }
-        .modal-toolbar { padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: center; gap: 20px; flex-shrink: 0; background: transparent; }
+        /* Preview Modal */
+        #previewModal { display: none; position: fixed; inset: 0; background: rgba(5, 5, 5, 0.95); z-index: 1000; flex-direction: column; backdrop-filter: blur(10px); animation: fadeIn 0.3s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-toolbar { padding: 25px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: center; gap: 20px; flex-shrink: 0; background: var(--bg-panel); }
         .modal-body { flex-grow: 1; overflow: auto; display: flex; justify-content: center; padding: 40px; }
-        #canvasPreview { max-width: 100%; height: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border-radius: 4px; border: 1px solid #333; }
+        #canvasPreview { max-width: 100%; height: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.8); border-radius: 8px; border: 1px solid #333; }
         canvas { display: none; }
     </style>
 </head>
 <body>
 
+    <!-- SIDEBAR -->
     <nav>
         <div class="brand">
-            <img src="Emblem_of_the_U.S._Department_of_the_Army.png" alt="U.S. Army Logo">
-            <h2>U.S. ARMY</h2>
-            <p>Fort Zancudo Logistics</p>
+            <img src="RengokuTrucking.png" alt="Rengoku Trucking Logo" id="sidebar-logo">
+            <h2>RENGOKU TRUCKING</h2>
+            <p>Logistics & Freight</p>
         </div>
         <div class="nav-links">
-            <div class="nav-item active" onclick="nav('dashboard')">Mission Control</div>
-            <div class="nav-item" onclick="nav('generator')">Create Document</div>
-            <div class="nav-item" onclick="nav('logbook')">Log Book & Service</div>
-            <div class="nav-item" onclick="nav('personnel')">Personnel Roster</div>
-            <div class="nav-item" onclick="nav('vehicles')">Motor Pool</div>
-            <div class="nav-item" onclick="nav('documents')">Mission History</div>
+            <div class="nav-item active" onclick="nav('dashboard')">Dispatch Central</div>
+            <div class="nav-item" onclick="nav('generator')">Create Waybill</div>
+            <div class="nav-item" onclick="nav('logbook')">Fleet Logbook</div>
+            <div class="nav-item" onclick="nav('personnel')">Employee Roster</div>
+            <div class="nav-item" onclick="nav('vehicles')">Fleet Garage</div>
+            <div class="nav-item" onclick="nav('documents')">Shipping History</div>
             <div style="flex-grow: 1;"></div>
-            <div class="nav-item" onclick="resetSystem()" style="color: var(--danger); justify-content: center;">Reset System Data</div>
+            <div class="nav-item" onclick="resetSystem()" style="color: var(--danger); justify-content: center; border: 1px solid rgba(239, 68, 68, 0.2);">Wipe System Data</div>
         </div>
     </nav>
 
+    <!-- MAIN CONTENT -->
     <main>
         <header>
-            <h2 id="view-title">Mission Control</h2>
+            <h2 id="view-title">Dispatch Central</h2>
             <div class="clock" id="sys-clock">00:00:00</div>
         </header>
 
         <div class="content">
+            <!-- Dashboard -->
             <div id="view-dashboard" class="view-section active">
-                <div class="card card-dashed" style="padding: 80px 20px;">
-                    <h1 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 700;">Logistics Terminal Active</h1>
-                    <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 30px;">Select an option from the sidebar to begin processing logistics requests.</p>
-                    <button class="btn btn-primary" style="padding: 16px 32px;" onclick="nav('generator')">Start New Manifest</button>
+                <div class="card card-dashed" style="padding: 100px 20px;">
+                    <h1 style="font-size: 2.8rem; margin-bottom: 20px; font-weight: 900; color: #fff;">RTL DISPATCH <span style="color: var(--accent);">ONLINE</span></h1>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Welcome to the Rengoku Trucking Logistics terminal. Process waybills, track fleet mileage, and manage freight operations.</p>
+                    <button class="btn btn-primary" style="padding: 20px 40px; font-size: 1.1rem;" onclick="nav('generator')">Generate Freight Waybill</button>
                 </div>
             </div>
 
+            <!-- List View (Databases) -->
             <div id="view-list" class="view-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-                    <h3 id="list-title" style="margin-bottom: 0; font-size: 1.2rem;">Database</h3>
-                    <button class="btn btn-primary" onclick="showForm()">+ Add Record</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h3 id="list-title" style="margin-bottom: 0; font-size: 1.5rem; font-weight: 800;">Database</h3>
+                    <button class="btn btn-primary" onclick="showForm()">+ Add New Record</button>
                 </div>
                 <div class="table-container" id="list-table-container"></div>
             </div>
 
+            <!-- Form View -->
             <div id="view-form" class="view-section">
                 <div class="card">
                     <h3 id="form-title">Record Editor</h3>
                     <div class="form-grid" id="form-fields"></div>
-                    <div style="display: flex; gap: 12px; margin-top: 30px;">
+                    <div style="display: flex; gap: 15px; margin-top: 35px;">
                         <button class="btn btn-primary" onclick="saveRecord()">Save Record</button>
                         <button class="btn btn-secondary" onclick="nav(currentModule)">Cancel</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Log Book & Services View -->
             <div id="view-logbook" class="view-section">
                 <div class="gen-layout">
-                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; flex-direction: column; gap: 30px;">
                         <div class="card" style="margin-bottom:0;">
-                            <h3>Log A Trip (Mileage)</h3>
+                            <h3>Log Fleet Mileage</h3>
                             <div class="form-grid">
-                                <div class="form-group full"><label>Vehicle Used</label><select id="log-vehicle"></select></div>
-                                <div class="form-group"><label>Start Miles</label><input type="number" id="log-start" placeholder="e.g. 1200"></div>
-                                <div class="form-group"><label>End Miles</label><input type="number" id="log-end" placeholder="e.g. 1250"></div>
+                                <div class="form-group full"><label>Truck / Asset Used</label><select id="log-vehicle"></select></div>
+                                <div class="form-group"><label>Odometer Start</label><input type="number" id="log-start" placeholder="e.g. 120000"></div>
+                                <div class="form-group"><label>Odometer End</label><input type="number" id="log-end" placeholder="e.g. 120500"></div>
                             </div>
-                            <button class="btn btn-primary" style="margin-top: 20px; width: 100%;" onclick="saveTripLog()">Save Trip Log</button>
+                            <button class="btn btn-primary" style="margin-top: 25px; width: 100%;" onclick="saveTripLog()">Submit Mileage Log</button>
                         </div>
                         
                         <div class="card" style="margin-bottom:0; border-color: #3b82f6;">
-                            <h3 style="color: #60a5fa;">Log A Maintenance / Service</h3>
+                            <h3 style="color: #60a5fa; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);">Log Garage Maintenance</h3>
                             <div class="form-grid">
-                                <div class="form-group full"><label>Vehicle Serviced</label><select id="srv-vehicle"></select></div>
-                                <div class="form-group"><label>Current Miles</label><input type="number" id="srv-miles" placeholder="e.g. 1250"></div>
-                                <div class="form-group"><label>Service Completed</label><input type="text" id="srv-type" placeholder="e.g. Oil Change & Tires"></div>
+                                <div class="form-group full"><label>Asset Serviced</label><select id="srv-vehicle"></select></div>
+                                <div class="form-group"><label>Current Odometer</label><input type="number" id="srv-miles" placeholder="e.g. 120500"></div>
+                                <div class="form-group"><label>Service Performed</label><input type="text" id="srv-type" placeholder="e.g. Oil Change & Brake Pad Replacement"></div>
                             </div>
-                            <button class="btn btn-secondary" style="margin-top: 20px; width: 100%; border-color:#3b82f6; color:#60a5fa;" onclick="saveServiceLog()">Save Service Record</button>
+                            <button class="btn btn-secondary" style="margin-top: 25px; width: 100%; border-color:#3b82f6; color:#60a5fa;" onclick="saveServiceLog()">Submit Maintenance Record</button>
                         </div>
                     </div>
 
                     <div>
-                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 40px 25px;">
-                            <h3 style="justify-content: center; margin-bottom: 15px; border: none;">Print Fleet Log Book</h3>
-                            <h2 style="font-size: 2.5rem; margin-bottom: 5px; color: var(--text-main);" id="total-miles-display">0</h2>
-                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px; text-transform: uppercase;">Total Fleet Miles</p>
-                            <button class="btn btn-primary" style="width: 100%; padding: 18px;" onclick="printLogBook()">Generate Log Book Image</button>
+                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 50px 30px;">
+                            <h3 style="justify-content: center; margin-bottom: 20px; border: none;">Print Official Logbook</h3>
+                            <h2 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 5px; color: #fff;" id="total-miles-display">0</h2>
+                            <p style="color: var(--accent); font-size: 0.95rem; font-weight: 800; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 2px;">Total Fleet Miles</p>
+                            <button class="btn btn-primary" style="width: 100%; padding: 20px;" onclick="printLogBook()">Generate Printout</button>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Document Generator -->
             <div id="view-generator" class="view-section">
                 <div class="gen-layout">
-                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; flex-direction: column; gap: 30px;">
                         <div class="card" style="margin-bottom: 0;">
-                            <h3>Assignment Details</h3>
+                            <h3>Shipping Details</h3>
                             <div class="form-grid">
-                                <div class="form-group"><label>Assigned Operator</label><select id="gen-personnel"></select></div>
-                                <div class="form-group"><label>Vehicle Used</label><select id="gen-vehicle"></select></div>
+                                <div class="form-group"><label>Assigned Driver</label><select id="gen-personnel"></select></div>
+                                <div class="form-group"><label>Assigned Truck</label><select id="gen-vehicle"></select></div>
                             </div>
                         </div>
                         <div class="card" style="margin-bottom: 0;">
-                            <h3>Movement Route</h3>
+                            <h3>Routing Information</h3>
                             <div class="form-grid">
-                                <div class="form-group"><label>Origin</label><input type="text" id="gen-origin" placeholder="e.g. Fort Zancudo Base"></div>
-                                <div class="form-group"><label>Destination</label><input type="text" id="gen-dest" placeholder="e.g. LSIA Cargo Terminal"></div>
-                                <div class="form-group full"><label>Mission Purpose / Notes</label><input type="text" id="gen-purpose" placeholder="e.g. Routine supply restock"></div>
+                                <div class="form-group"><label>Pickup Location</label><input type="text" id="gen-origin" placeholder="e.g. Paleto Bay Lumber"></div>
+                                <div class="form-group"><label>Delivery Destination</label><input type="text" id="gen-dest" placeholder="e.g. LS Port Terminal"></div>
+                                <div class="form-group full"><label>Shipping Notes / Instructions</label><input type="text" id="gen-purpose" placeholder="e.g. Fragile load, avoid dirt roads"></div>
                             </div>
                         </div>
                         <div class="card" style="margin-bottom: 0;">
-                            <h3>Cargo Payload</h3>
+                            <h3>Freight Description</h3>
                             <div class="form-grid">
-                                <div class="form-group full"><label>Cargo Description</label><input type="text" id="gen-cargo-desc" placeholder="e.g. Standard MREs and Medical Supplies"></div>
+                                <div class="form-group full"><label>What is being hauled?</label><input type="text" id="gen-cargo-desc" placeholder="e.g. 10x Pallets of Processed Timber"></div>
                                 <div class="form-group full">
-                                    <label>Estimated Payload Weight Tier</label>
+                                    <label>Estimated Freight Weight</label>
                                     <select id="gen-weight">
-                                        <option value="low">Low (10,000 - 20,000 LBs)</option>
-                                        <option value="medium">Medium (25,000 - 35,000 LBs)</option>
-                                        <option value="high">High (35,000 - 45,000 LBs)</option>
+                                        <option value="low">Light Load (10,000 - 20,000 LBs)</option>
+                                        <option value="medium">Standard Load (25,000 - 35,000 LBs)</option>
+                                        <option value="high">Heavy Haul (35,000 - 45,000 LBs)</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 40px 25px;">
-                            <h3 style="justify-content: center; margin-bottom: 15px; border: none;">Ready to Print</h3>
-                            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 25px; line-height: 1.5;">The exact cargo weight will be calculated automatically on the final document based on your selected tier.</p>
-                            <button class="btn btn-primary" style="width: 100%; padding: 18px;" onclick="createNewDocument()">Generate Document</button>
+                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 50px 30px;">
+                            <h3 style="justify-content: center; margin-bottom: 20px; border: none;">Waybill Processing</h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 35px; line-height: 1.6;">Generating this document will create an official Bill of Lading with a randomized exact weight based on your selected load tier.</p>
+                            <button class="btn btn-primary" style="width: 100%; padding: 22px; font-size: 1.1rem;" onclick="createNewDocument()">Generate Waybill</button>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Mission History View -->
             <div id="view-documents" class="view-section">
                 <div class="card">
-                    <h3 style="margin-bottom: 20px;">Mission History</h3>
+                    <h3 style="margin-bottom: 25px;">Shipping History</h3>
                     <div class="table-container" id="history-table-container"></div>
                 </div>
             </div>
@@ -231,12 +261,14 @@
         </div>
     </main>
 
+    <!-- Canvas for Image Generation -->
     <canvas id="docCanvas" width="2480" height="3508"></canvas>
 
+    <!-- Image Preview Modal -->
     <div id="previewModal">
         <div class="modal-toolbar">
-            <button class="btn btn-secondary" onclick="closePreview()">← Return to Editor</button>
-            <button class="btn btn-primary" onclick="downloadPNG()">Download PNG Image</button>
+            <button class="btn btn-secondary" onclick="closePreview()">← Return to Dispatch</button>
+            <button class="btn btn-primary" onclick="downloadPNG()">Download Official Document</button>
         </div>
         <div class="modal-body">
             <img id="canvasPreview" src="" alt="Document Preview">
@@ -247,36 +279,37 @@
 // ==========================================
 // 1. GLOBAL ASSETS & DB SETUP
 // ==========================================
-const DB_PREFIX = 'samls_v4_';
+// Changed prefix so it starts fresh for Rengoku Trucking
+const DB_PREFIX = 'rtl_sys_v1_';
 let currentModule = '';
 let editId = null;
 
-// Load the army logo into memory for the Canvas
-const armyLogo = new Image();
-armyLogo.src = 'Emblem_of_the_U.S._Department_of_the_Army.png';
+// Load the Rengoku Trucking logo into memory for the Canvas
+const rtlLogo = new Image();
+rtlLogo.src = 'RengokuTrucking.png';
 
 const SCHEMAS = {
     personnel: {
-        title: 'Personnel Roster',
+        title: 'Employee Roster',
         fields: [
             { id: 'name', label: 'Full Name', type: 'text', req: true },
-            { id: 'rank', label: 'Rank', type: 'text', req: true },
-            { id: 'callsign', label: 'Callsign', type: 'text' }
+            { id: 'role', label: 'Job Role', type: 'select', opts: ['Owner / Operator', 'Lead Driver', 'Company Driver', 'Dispatcher', 'Mechanic'] },
+            { id: 'callsign', label: 'Radio Callsign', type: 'text' }
         ]
     },
     vehicles: {
-        title: 'Motor Pool',
+        title: 'Fleet Garage',
         fields: [
-            { id: 'make_model', label: 'Vehicle Make & Model', type: 'text', req: true },
-            { id: 'plate', label: 'License Plate / Reg', type: 'text', req: true },
-            { id: 'type', label: 'Vehicle Type', type: 'select', opts: ['Cargo Truck', 'Flatbed', 'Transport', 'Utility SUV', 'Other'] }
+            { id: 'make_model', label: 'Truck Make & Model', type: 'text', req: true },
+            { id: 'plate', label: 'License Plate', type: 'text', req: true },
+            { id: 'type', label: 'Truck Class', type: 'select', opts: ['Heavy Sleeper', 'Day Cab', 'Box Truck', 'Flatbed', 'Service Vehicle'] }
         ]
     }
 };
 
 const DEFAULT_DATA = {
-    personnel: [{ id: 'P1', name: 'Renji Rengoku', rank: 'Specialist', callsign: 'R-21' }],
-    vehicles: [{ id: 'V1', make_model: 'Oshkosh MTVR', plate: 'US-8842', type: 'Cargo Truck' }],
+    personnel: [{ id: 'P1', name: 'Renji Rengoku', role: 'Owner / Operator', callsign: 'R-21' }],
+    vehicles: [{ id: 'V1', make_model: 'Phantom Custom', plate: 'RTL-001', type: 'Heavy Sleeper' }],
     documents: [],
     logs: [],
     services: []
@@ -292,7 +325,7 @@ function getDB(table) {
     return JSON.parse(data);
 }
 function setDB(table, data) { localStorage.setItem(DB_PREFIX + table, JSON.stringify(data)); }
-function resetSystem() { if(confirm("Erase all data and reload defaults?")) { localStorage.clear(); location.reload(); } }
+function resetSystem() { if(confirm("WARNING: Erase all fleet data and reload defaults?")) { localStorage.clear(); location.reload(); } }
 
 // ==========================================
 // 3. UI & ROUTING
@@ -308,7 +341,13 @@ function nav(viewId) {
         renderTable();
     } else {
         document.getElementById('view-' + viewId).classList.add('active');
-        document.getElementById('view-title').innerText = viewId === 'dashboard' ? 'Mission Control' : viewId.replace('-', ' ').toUpperCase();
+        const titles = {
+            'dashboard': 'Dispatch Central',
+            'generator': 'Waybill Generator',
+            'logbook': 'Fleet Logbook',
+            'documents': 'Shipping History'
+        };
+        document.getElementById('view-title').innerText = titles[viewId] || viewId.toUpperCase();
         
         if (viewId === 'generator') initGenerator();
         if (viewId === 'logbook') initLogbook();
@@ -320,18 +359,18 @@ function renderTable() {
     const data = getDB(currentModule);
     const schema = SCHEMAS[currentModule].fields;
     const container = document.getElementById('list-table-container');
-    if (data.length === 0) { container.innerHTML = '<p style="padding:20px; color:var(--text-muted)">No records found.</p>'; return; }
+    if (data.length === 0) { container.innerHTML = '<p style="padding:30px; color:var(--text-muted); font-style:italic;">No records found in database.</p>'; return; }
 
     let html = '<table><thead><tr>';
     schema.forEach(f => html += `<th>${f.label}</th>`);
-    html += '<th style="width: 150px;">Actions</th></tr></thead><tbody>';
+    html += '<th style="width: 180px;">Management</th></tr></thead><tbody>';
     
     data.forEach(row => {
         html += '<tr>';
-        schema.forEach(f => html += `<td>${row[f.id] || '-'}</td>`);
+        schema.forEach(f => html += `<td><strong>${row[f.id] || '-'}</strong></td>`);
         html += `<td>
-            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.75rem;" onclick="editRecord('${row.id}')">Edit</button>
-            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.75rem; margin-left: 5px;" onclick="deleteRecord('${row.id}')">Del</button>
+            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem;" onclick="editRecord('${row.id}')">Edit</button>
+            <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.8rem; margin-left: 8px;" onclick="deleteRecord('${row.id}')">Del</button>
         </td></tr>`;
     });
     html += '</tbody></table>';
@@ -341,7 +380,7 @@ function renderTable() {
 function showForm(id = null) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
     document.getElementById('view-form').classList.add('active');
-    document.getElementById('form-title').innerText = id ? 'Edit Record' : 'Add Record';
+    document.getElementById('form-title').innerText = id ? 'Edit Database Record' : 'Add Database Record';
     editId = id;
     
     const schema = SCHEMAS[currentModule].fields;
@@ -355,7 +394,7 @@ function showForm(id = null) {
             f.opts.forEach(opt => html += `<option value="${opt}" ${data[f.id]===opt?'selected':''}>${opt}</option>`);
             html += `</select>`;
         } else {
-            html += `<input type="${f.type}" id="f_${f.id}" value="${data[f.id] || ''}">`;
+            html += `<input type="${f.type}" id="f_${f.id}" value="${data[f.id] || ''}" placeholder="Enter ${f.label.toLowerCase()}...">`;
         }
         html += `</div>`;
     });
@@ -373,7 +412,7 @@ function saveRecord() {
 }
 
 function deleteRecord(id) {
-    if(confirm('Delete this record?')) {
+    if(confirm('Permanently delete this record?')) {
         setDB(currentModule, getDB(currentModule).filter(r => r.id !== id));
         renderTable();
     }
@@ -388,8 +427,8 @@ setInterval(() => { document.getElementById('sys-clock').innerText = new Date().
 function initLogbook() {
     const data = getDB('vehicles');
     const options = data.map(item => `<option value='${item.make_model} (${item.plate})'>${item.make_model} [${item.plate}]</option>`).join('');
-    document.getElementById('log-vehicle').innerHTML = options;
-    document.getElementById('srv-vehicle').innerHTML = options;
+    document.getElementById('log-vehicle').innerHTML = options || '<option>No Vehicles in Fleet</option>';
+    document.getElementById('srv-vehicle').innerHTML = options || '<option>No Vehicles in Fleet</option>';
 
     let totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
     document.getElementById('total-miles-display').innerText = totalMiles.toLocaleString();
@@ -416,7 +455,6 @@ function saveTripLog() {
     document.getElementById('log-start').value = '';
     document.getElementById('log-end').value = '';
     initLogbook(); 
-    alert("Trip Logged Successfully.");
 }
 
 function saveServiceLog() {
@@ -424,7 +462,7 @@ function saveServiceLog() {
     const m = document.getElementById('srv-miles').value;
     const t = document.getElementById('srv-type').value;
 
-    if(!m || !t) { alert("Please enter both miles and service completed."); return; }
+    if(!m || !t) { alert("Please enter both current odometer and service completed."); return; }
 
     const srvs = getDB('services');
     srvs.push({
@@ -438,7 +476,6 @@ function saveServiceLog() {
     
     document.getElementById('srv-miles').value = '';
     document.getElementById('srv-type').value = '';
-    alert("Service Logged Successfully.");
 }
 
 // ==========================================
@@ -449,22 +486,22 @@ function initGenerator() {
         const data = getDB(db);
         document.getElementById(id).innerHTML = data.map(item => `<option value='${JSON.stringify(item)}'>${item[textKey]} ${valKey ? ' | '+item[valKey] : ''}</option>`).join('');
     };
-    pop('gen-personnel', 'personnel', 'name', 'callsign');
+    pop('gen-personnel', 'personnel', 'name', 'role');
     pop('gen-vehicle', 'vehicles', 'make_model', 'plate');
 }
 
 function renderDocHistory() {
     const data = getDB('documents').slice().reverse();
     const container = document.getElementById('history-table-container'); 
-    if (data.length === 0) { container.innerHTML = '<p style="padding:20px; color:var(--text-muted)">No history.</p>'; return; }
+    if (data.length === 0) { container.innerHTML = '<p style="padding:30px; color:var(--text-muted); font-style:italic;">No shipping history recorded.</p>'; return; }
     
-    let html = '<table><thead><tr><th>Doc Number</th><th>Date</th><th>Origin -> Dest</th><th style="width:120px;">Actions</th></tr></thead><tbody>';
+    let html = '<table><thead><tr><th>Waybill Number</th><th>Date</th><th>Route</th><th style="width:160px;">Actions</th></tr></thead><tbody>';
     data.forEach(r => {
         html += `<tr>
-            <td>${r.doc_num}</td>
+            <td><strong>${r.doc_num}</strong></td>
             <td>${r.date}</td>
             <td>${r.route}</td>
-            <td><button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.75rem;" onclick="reprintDocument('${r.id}')">Reprint</button></td>
+            <td><button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.8rem;" onclick="reprintDocument('${r.id}')">Reprint</button></td>
         </tr>`;
     });
     container.innerHTML = html + '</tbody></table>';
@@ -483,14 +520,14 @@ function createNewDocument() {
 
         const docObj = {
             id: generateID(),
-            doc_num: `FZLT-TRN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`,
+            doc_num: `RTL-WAYBILL-${Math.floor(100000 + Math.random() * 900000)}`,
             date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase(),
             time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + ' HRS',
-            p: pVal ? JSON.parse(pVal) : { rank: '', name: 'UNASSIGNED', callsign: 'N/A' },
+            p: pVal ? JSON.parse(pVal) : { role: '', name: 'UNASSIGNED', callsign: 'N/A' },
             v: vVal ? JSON.parse(vVal) : { type: 'N/A', make_model: 'UNASSIGNED', plate: 'N/A' },
             origin: document.getElementById('gen-origin').value || "N/A",
             dest: document.getElementById('gen-dest').value || "N/A",
-            purpose: document.getElementById('gen-purpose').value || "Routine Logistics",
+            purpose: document.getElementById('gen-purpose').value || "Standard Freight Delivery",
             cargoDesc: document.getElementById('gen-cargo-desc').value || "General Freight",
             weight: weight
         };
@@ -514,7 +551,7 @@ function reprintDocument(id) {
 }
 
 // ==========================================
-// 6. SHARED CANVAS RENDERING ENGINE
+// 6. SHARED CANVAS RENDERING ENGINE (TRUCKING THEME)
 // ==========================================
 
 function drawCanvasText(ctx, txt, x, y, size, font="Arial", col="#000", align="left", wght="normal") {
@@ -535,11 +572,12 @@ function renderTransportCanvas(doc) {
     const B_HEIGHT = 200; 
     const H_HEIGHT = 120; 
 
+    // Box drawer with Orange accents
     const drawBox = (lbl, val, x, y, w, h) => {
-        ctx.strokeStyle = "#222"; ctx.lineWidth = 5; ctx.strokeRect(x, y, w, h);
+        ctx.strokeStyle = "#111827"; ctx.lineWidth = 5; ctx.strokeRect(x, y, w, h);
         ctx.fillStyle = "#f8fafc"; ctx.fillRect(x+2, y+2, w-4, 70); 
         ctx.beginPath(); ctx.moveTo(x, y+72); ctx.lineTo(x+w, y+72); ctx.stroke(); 
-        drawCanvasText(ctx, lbl, x + 30, y + 50, 32, "Arial", "#475569", "left", "bold"); 
+        drawCanvasText(ctx, lbl, x + 30, y + 50, 32, "Arial", "#ea580c", "left", "bold"); // Orange Labels
         
         ctx.font = "bold 65px Arial"; ctx.fillStyle = "#000";
         const words = val.toString().split(' '); let line = ''; let ly = y + 145;
@@ -555,58 +593,60 @@ function renderTransportCanvas(doc) {
 
     const drawHeader = (title) => {
         curY += 50;
-        ctx.fillStyle = "#0f172a"; ctx.fillRect(M, curY, W, H_HEIGHT);
-        drawCanvasText(ctx, title, M + 40, curY + 80, 50, "Arial", "#fff", "left", "bold");
+        ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, H_HEIGHT);
+        // Orange accent strip
+        ctx.fillStyle = "#ea580c"; ctx.fillRect(M, curY, 15, H_HEIGHT);
+        drawCanvasText(ctx, title, M + 45, curY + 80, 50, "Arial", "#fff", "left", "bold");
         curY += H_HEIGHT;
     };
 
     // --- 1. MASTER HEADER WITH LOGO ---
     curY = M;
-    ctx.fillStyle = "#1e293b"; ctx.fillRect(M, curY, W, 350); 
+    ctx.fillStyle = "#0f0f11"; ctx.fillRect(M, curY, W, 350); 
     
     // Draw Logo on the left
-    if (armyLogo.complete && armyLogo.naturalWidth !== 0) {
-        ctx.drawImage(armyLogo, M + 60, curY + 40, 270, 270);
+    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
+        ctx.drawImage(rtlLogo, M + 60, curY + 40, 270, 270);
     }
     
-    drawCanvasText(ctx, "UNITED STATES ARMY", canvas.width/2, curY + 130, 95, "Arial", "#fff", "center", "bold");
-    drawCanvasText(ctx, "FORT ZANCUDO LOGISTICS", canvas.width/2, curY + 200, 50, "Arial", "#94a3b8", "center", "normal");
-    drawCanvasText(ctx, "CARGO TRANSPORT RECORD", canvas.width/2, curY + 280, 65, "Arial", "#10b981", "center", "bold");
+    drawCanvasText(ctx, "RENGOKU TRUCKING", canvas.width/2, curY + 130, 100, "Arial", "#fff", "center", "bold");
+    drawCanvasText(ctx, "COMMERCIAL FREIGHT & LOGISTICS", canvas.width/2, curY + 200, 45, "Arial", "#ea580c", "center", "bold");
+    drawCanvasText(ctx, "OFFICIAL WAYBILL & BILL OF LADING", canvas.width/2, curY + 280, 60, "Arial", "#f8fafc", "center", "bold");
     curY += 350;
 
     const cw = W / 3;
-    drawBox("DOCUMENT NUMBER", doc.doc_num, M, curY, cw, B_HEIGHT);
+    drawBox("WAYBILL NUMBER", doc.doc_num, M, curY, cw, B_HEIGHT);
     drawBox("DATE", doc.date, M+cw, curY, cw, B_HEIGHT);
     drawBox("TIME", doc.time, M+(cw*2), curY, cw, B_HEIGHT);
     curY += B_HEIGHT;
 
     // --- 2. ROUTING ---
-    drawHeader("MOVEMENT DIRECTIVE");
+    drawHeader("ROUTING INFORMATION");
     const hW = W / 2;
-    drawBox("ORIGIN", doc.origin, M, curY, hW, B_HEIGHT);
-    drawBox("DESTINATION", doc.dest, M+hW, curY, hW, B_HEIGHT);
+    drawBox("PICKUP LOCATION", doc.origin, M, curY, hW, B_HEIGHT);
+    drawBox("DELIVERY DESTINATION", doc.dest, M+hW, curY, hW, B_HEIGHT);
     curY += B_HEIGHT;
-    drawBox("MISSION PURPOSE", doc.purpose, M, curY, W, B_HEIGHT);
+    drawBox("SHIPPING NOTES / INSTRUCTIONS", doc.purpose, M, curY, W, B_HEIGHT);
     curY += B_HEIGHT;
 
     // --- 3. PERSONNEL & VEHICLE ---
-    drawHeader("ASSIGNED ASSETS");
-    drawBox("OPERATOR", `${doc.p.rank || ''} ${doc.p.name || ''}`, M, curY, hW, B_HEIGHT);
-    drawBox("CALLSIGN", doc.p.callsign || '', M+hW, curY, hW, B_HEIGHT);
+    drawHeader("ASSIGNED CARRIER");
+    drawBox("DRIVER", `${doc.p.role || ''} - ${doc.p.name || ''}`, M, curY, hW, B_HEIGHT);
+    drawBox("RADIO CALLSIGN", doc.p.callsign || '', M+hW, curY, hW, B_HEIGHT);
     curY += B_HEIGHT;
-    drawBox("VEHICLE TYPE", doc.v.type || '', M, curY, hW, B_HEIGHT);
-    drawBox("VEHICLE ID / PLATE", `${doc.v.make_model || ''} (${doc.v.plate || ''})`, M+hW, curY, hW, B_HEIGHT);
+    drawBox("TRUCK CLASS", doc.v.type || '', M, curY, hW, B_HEIGHT);
+    drawBox("TRUCK IDENTIFIER / PLATE", `${doc.v.make_model || ''} (${doc.v.plate || ''})`, M+hW, curY, hW, B_HEIGHT);
     curY += B_HEIGHT;
 
     // --- 4. CARGO PAYLOAD ---
-    drawHeader("PAYLOAD DETAILS");
-    drawBox("CARGO DESCRIPTION", doc.cargoDesc, M, curY, W, B_HEIGHT + 100);
+    drawHeader("FREIGHT DETAILS");
+    drawBox("FREIGHT DESCRIPTION", doc.cargoDesc, M, curY, W, B_HEIGHT + 100);
     curY += (B_HEIGHT + 100);
 
-    ctx.strokeStyle = "#222"; ctx.lineWidth = 5; ctx.strokeRect(M, curY, W, B_HEIGHT + 50);
+    ctx.strokeStyle = "#111827"; ctx.lineWidth = 5; ctx.strokeRect(M, curY, W, B_HEIGHT + 50);
     ctx.fillStyle = "#f8fafc"; ctx.fillRect(M+2, curY+2, W-4, 80); 
     ctx.beginPath(); ctx.moveTo(M, curY+82); ctx.lineTo(M+W, curY+82); ctx.stroke(); 
-    drawCanvasText(ctx, "TOTAL GROSS PAYLOAD WEIGHT", M + 40, curY + 55, 38, "Arial", "#475569", "left", "bold");
+    drawCanvasText(ctx, "TOTAL GROSS FREIGHT WEIGHT", M + 40, curY + 55, 38, "Arial", "#ea580c", "left", "bold");
     drawCanvasText(ctx, `${doc.weight.toLocaleString()} LBS`, canvas.width/2, curY + 195, 120, "Arial", "#000", "center", "bold");
     curY += (B_HEIGHT + 50);
 
@@ -616,17 +656,17 @@ function renderTransportCanvas(doc) {
     ctx.strokeStyle = "#000"; ctx.lineWidth = 4;
     
     ctx.beginPath(); ctx.moveTo(M, curY); ctx.lineTo(M + sigW, curY); ctx.stroke();
-    drawCanvasText(ctx, "ISSUING / AUTHORIZING OFFICER", M, curY + 50, 32, "Arial", "#475569", "left", "bold");
+    drawCanvasText(ctx, "DISPATCH AUTHORIZATION", M, curY + 50, 32, "Arial", "#64748b", "left", "bold");
     drawCanvasText(ctx, "AUTO-GENERATED SYSTEM RECORD", M, curY - 20, 38, "Courier New", "#000");
     
     ctx.beginPath(); ctx.moveTo(M + sigW + 160, curY); ctx.lineTo(M + W, curY); ctx.stroke();
-    drawCanvasText(ctx, "OPERATOR ACKNOWLEDGEMENT", M + sigW + 160, curY + 50, 32, "Arial", "#475569", "left", "bold");
+    drawCanvasText(ctx, "DRIVER ACKNOWLEDGEMENT", M + sigW + 160, curY + 50, 32, "Arial", "#64748b", "left", "bold");
     drawCanvasText(ctx, (doc.p.name || '').toUpperCase(), M + sigW + 160, curY - 20, 50, "Courier New", "#000");
 
     // --- 6. FOOTER ---
     const footY = canvas.height - 180;
-    ctx.fillStyle = "#0f172a"; ctx.fillRect(0, footY, canvas.width, 180);
-    drawCanvasText(ctx, "WTPRP ROLEPLAY DOCUMENT - NOT AN OFFICIAL GOVERNMENT RECORD", canvas.width/2, footY + 105, 36, "Arial", "#64748b", "center", "bold");
+    ctx.fillStyle = "#0f0f11"; ctx.fillRect(0, footY, canvas.width, 180);
+    drawCanvasText(ctx, "WTPRP ROLEPLAY DOCUMENT - COMMERCIAL WAYBILL", canvas.width/2, footY + 105, 36, "Arial", "#475569", "center", "bold");
 
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
     document.getElementById('previewModal').style.display = 'flex';
@@ -645,44 +685,44 @@ function printLogBook() {
     
     // --- 1. MASTER HEADER WITH LOGO ---
     curY = M;
-    ctx.fillStyle = "#1e293b"; ctx.fillRect(M, curY, W, 350); 
+    ctx.fillStyle = "#0f0f11"; ctx.fillRect(M, curY, W, 350); 
     
-    // Draw Logo on the left
-    if (armyLogo.complete && armyLogo.naturalWidth !== 0) {
-        ctx.drawImage(armyLogo, M + 60, curY + 40, 270, 270);
+    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
+        ctx.drawImage(rtlLogo, M + 60, curY + 40, 270, 270);
     }
 
-    drawCanvasText(ctx, "UNITED STATES ARMY", canvas.width/2, curY + 130, 95, "Arial", "#fff", "center", "bold");
-    drawCanvasText(ctx, "FORT ZANCUDO LOGISTICS", canvas.width/2, curY + 200, 50, "Arial", "#94a3b8", "center", "normal");
-    drawCanvasText(ctx, "VEHICLE MILEAGE & MAINTENANCE LOG", canvas.width/2, curY + 280, 55, "Arial", "#3b82f6", "center", "bold");
+    drawCanvasText(ctx, "RENGOKU TRUCKING", canvas.width/2, curY + 130, 100, "Arial", "#fff", "center", "bold");
+    drawCanvasText(ctx, "FLEET MANAGEMENT SYSTEM", canvas.width/2, curY + 200, 45, "Arial", "#ea580c", "center", "bold");
+    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", canvas.width/2, curY + 280, 55, "Arial", "#f8fafc", "center", "bold");
     curY += 350;
 
     // Summary Row
     const totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
-    ctx.strokeStyle = "#222"; ctx.lineWidth = 5; ctx.strokeRect(M, curY, W, 180);
+    ctx.strokeStyle = "#111827"; ctx.lineWidth = 5; ctx.strokeRect(M, curY, W, 180);
     ctx.fillStyle = "#f8fafc"; ctx.fillRect(M+2, curY+2, W-4, 60); 
     ctx.beginPath(); ctx.moveTo(M, curY+62); ctx.lineTo(M+W, curY+62); ctx.stroke(); 
-    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 45, 32, "Arial", "#475569", "left", "bold"); 
+    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 45, 32, "Arial", "#ea580c", "left", "bold"); 
     drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 145, 80, "Arial", "#000", "center", "bold");
     curY += 240;
 
     // --- 2. RECENT TRIPS (Last 5) ---
-    ctx.fillStyle = "#0f172a"; ctx.fillRect(M, curY, W, 100);
-    drawCanvasText(ctx, "RECENT TRIP LOGS (LAST 5)", M + 40, curY + 65, 45, "Arial", "#fff", "left", "bold");
+    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 100);
+    ctx.fillStyle = "#ea580c"; ctx.fillRect(M, curY, 15, 100);
+    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 45, curY + 65, 45, "Arial", "#fff", "left", "bold");
     curY += 100;
 
-    const ths1 = ["DATE", "VEHICLE", "START", "END", "DISTANCE"];
+    const ths1 = ["DATE", "TRUCK", "START", "END", "DISTANCE"];
     const cols1 = [250, 850, 250, 250, 300];
     
-    ctx.fillStyle = "#e2e8f0"; ctx.fillRect(M, curY, W, 70);
-    ctx.strokeStyle = "#333"; ctx.strokeRect(M, curY, W, 70);
+    ctx.fillStyle = "#f1f5f9"; ctx.fillRect(M, curY, W, 70);
+    ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 70);
     let cX = M;
-    ths1.forEach((h, i) => { drawCanvasText(ctx, h, cX + 20, curY + 48, 32, "Arial", "#0f172a", "left", "bold"); cX += cols1[i]; });
+    ths1.forEach((h, i) => { drawCanvasText(ctx, h, cX + 20, curY + 48, 32, "Arial", "#ea580c", "left", "bold"); cX += cols1[i]; });
     curY += 70;
 
     const recentLogs = getDB('logs').slice(-5).reverse();
     for(let i=0; i<5; i++) {
-        ctx.strokeStyle = "#333"; ctx.strokeRect(M, curY, W, 100);
+        ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 100);
         if(i < recentLogs.length) {
             const l = recentLogs[i];
             cX = M;
@@ -695,22 +735,23 @@ function printLogBook() {
     curY += 80;
 
     // --- 3. RECENT SERVICES (Last 4) ---
-    ctx.fillStyle = "#0f172a"; ctx.fillRect(M, curY, W, 100);
-    drawCanvasText(ctx, "RECENT MAINTENANCE & SERVICE RECORDS", M + 40, curY + 65, 45, "Arial", "#fff", "left", "bold");
+    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 100);
+    ctx.fillStyle = "#ea580c"; ctx.fillRect(M, curY, 15, 100);
+    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 4)", M + 45, curY + 65, 45, "Arial", "#fff", "left", "bold");
     curY += 100;
 
-    const ths2 = ["DATE", "VEHICLE", "MILEAGE", "SERVICE COMPLETED"];
+    const ths2 = ["DATE", "TRUCK", "ODOMETER", "SERVICE COMPLETED"];
     const cols2 = [250, 850, 300, 700];
     
-    ctx.fillStyle = "#e2e8f0"; ctx.fillRect(M, curY, W, 70);
-    ctx.strokeStyle = "#333"; ctx.strokeRect(M, curY, W, 70);
+    ctx.fillStyle = "#f1f5f9"; ctx.fillRect(M, curY, W, 70);
+    ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 70);
     cX = M;
-    ths2.forEach((h, i) => { drawCanvasText(ctx, h, cX + 20, curY + 48, 32, "Arial", "#0f172a", "left", "bold"); cX += cols2[i]; });
+    ths2.forEach((h, i) => { drawCanvasText(ctx, h, cX + 20, curY + 48, 32, "Arial", "#ea580c", "left", "bold"); cX += cols2[i]; });
     curY += 70;
 
     const recentSrvs = getDB('services').slice(-4).reverse();
     for(let i=0; i<4; i++) {
-        ctx.strokeStyle = "#333"; ctx.strokeRect(M, curY, W, 100);
+        ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 100);
         if(i < recentSrvs.length) {
             const s = recentSrvs[i];
             cX = M;
@@ -723,8 +764,8 @@ function printLogBook() {
 
     // --- FOOTER ---
     const footY = canvas.height - 180;
-    ctx.fillStyle = "#0f172a"; ctx.fillRect(0, footY, canvas.width, 180);
-    drawCanvasText(ctx, "WTPRP ROLEPLAY DOCUMENT - NOT AN OFFICIAL GOVERNMENT RECORD", canvas.width/2, footY + 105, 36, "Arial", "#64748b", "center", "bold");
+    ctx.fillStyle = "#0f0f11"; ctx.fillRect(0, footY, canvas.width, 180);
+    drawCanvasText(ctx, "WTPRP ROLEPLAY DOCUMENT - COMMERCIAL FLEET RECORD", canvas.width/2, footY + 105, 36, "Arial", "#475569", "center", "bold");
 
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
     document.getElementById('previewModal').style.display = 'flex';
@@ -734,7 +775,7 @@ function closePreview() { document.getElementById('previewModal').style.display 
 function downloadPNG() {
     const canvas = document.getElementById('docCanvas');
     const link = document.createElement('a');
-    link.download = `FZLT_RECORD_${Math.floor(Math.random()*90000)}.png`;
+    link.download = `RTL_RECORD_${Math.floor(Math.random()*90000)}.png`;
     link.href = canvas.toDataURL('image/png'); link.click();
 }
 
