@@ -5,175 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RTL | Rengoku Trucking Logistics</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+        /* Importing vintage-feeling Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Rokkitt:wght@400;600;800;900&display=swap');
 
         :root {
-            /* Rengoku Trucking Theme - Deep Blacks and Fiery Oranges */
-            --bg-body: #050505;       
-            --bg-panel: #111113;      
-            --bg-card: #1c1c1f;       
-            --bg-hover: #27272b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #2e2e33;
-            --accent: #f97316;        /* Fiery Orange */
-            --accent-hover: #ea580c;
-            --accent-glow: rgba(249, 115, 22, 0.15);
-            --danger: #ef4444;
-            --radius-panel: 24px;
-            --radius-card: 16px;
-            --radius-input: 10px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Dark Industrial Garage Retro Theme */
+            --bg-body: #191716;       /* Deep greasy asphalt / black */
+            --bg-panel: #24211f;      /* Dark metal panel */
+            --bg-card: #2e2a28;       /* Inner metal card */
+            --bg-hover: #3d3835;
+            
+            --text-main: #e8e4db;     /* Soft cream text */
+            --text-muted: #8a827c;    /* Faded text */
+            
+            --border: #4a4440;        
+            --border-heavy: #0d0b0a;  /* Heavy black shadows/borders */
+            
+            --accent: #d95a11;        /* Fiery Rust Orange */
+            --accent-hover: #e8732e;
+            --accent-glow: rgba(217, 90, 17, 0.15);
+            
+            --danger: #991b1b;
+            
+            --radius-panel: 6px;      
+            --radius-card: 4px;
+            --radius-input: 4px;
+            
+            --font-ui: 'Rokkitt', serif;
+            --font-data: 'Courier Prime', monospace;
+            
+            --transition: all 0.2s ease-in-out;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; padding: 20px; gap: 20px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: var(--font-ui); display: flex; height: 100vh; overflow: hidden; padding: 15px; gap: 15px; }
 
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-panel); border-left: 2px solid var(--border-heavy); }
+        ::-webkit-scrollbar-thumb { background: var(--border); }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-        /* Sidebar */
-        nav { width: 300px; background-color: var(--bg-panel); border-radius: var(--radius-panel); border: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
+        /* Sidebar - Industrial Style */
+        nav { width: 300px; background-color: var(--bg-panel); border: 2px solid var(--border-heavy); display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden; box-shadow: 4px 4px 0px rgba(13, 11, 10, 1); }
         
-        .brand { padding: 40px 20px 30px; text-align: center; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
-        .brand::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #f97316, #fb923c); }
-        .brand img { width: 140px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(249, 115, 22, 0.2)); transition: var(--transition); }
-        .brand img:hover { transform: scale(1.05); filter: drop-shadow(0 12px 20px rgba(249, 115, 22, 0.4)); }
-        .brand h2 { font-weight: 900; color: #fff; font-size: 1.4rem; letter-spacing: 0.5px; text-transform: uppercase; }
-        .brand p { font-size: 0.75rem; color: var(--accent); margin-top: 5px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;}
+        .brand { padding: 30px 20px 20px; text-align: center; border-bottom: 2px solid var(--border-heavy); display: flex; flex-direction: column; align-items: center; background-color: var(--bg-card); }
+        .brand img { width: 160px; height: auto; margin-bottom: 10px; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5)); }
+        .brand h2 { font-weight: 900; color: var(--text-main); font-size: 1.6rem; letter-spacing: 1px; text-transform: uppercase; text-shadow: 1px 1px 0px #000; }
+        .brand p { font-size: 0.9rem; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;}
         
-        .nav-links { flex-grow: 1; padding: 20px 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .nav-item { padding: 14px 20px; border-radius: var(--radius-card); cursor: pointer; font-weight: 600; font-size: 0.95rem; color: var(--text-muted); transition: var(--transition); display: flex; align-items: center; position: relative; overflow: hidden; }
-        .nav-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background-color: var(--accent); transition: var(--transition); }
-        .nav-item:hover { background-color: var(--bg-card); color: var(--text-main); transform: translateX(5px); }
-        .nav-item.active { background-color: var(--accent-glow); color: var(--accent); }
-        .nav-item.active::before { width: 4px; }
+        .nav-links { flex-grow: 1; padding: 15px 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
+        .nav-item { padding: 12px 15px; border: 1px solid transparent; cursor: pointer; font-weight: 800; font-size: 1.1rem; color: var(--text-muted); transition: var(--transition); display: flex; align-items: center; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-item:hover { background-color: var(--bg-card); color: var(--text-main); border-color: var(--border); }
+        .nav-item.active { background-color: var(--accent); color: #fff; border-color: var(--border-heavy); text-shadow: 1px 1px 0px rgba(0,0,0,0.5); }
 
         /* Main Area */
-        main { flex-grow: 1; background-color: var(--bg-panel); border-radius: var(--radius-panel); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.8); position: relative; }
+        main { flex-grow: 1; background-color: var(--bg-panel); border: 2px solid var(--border-heavy); display: flex; flex-direction: column; overflow: hidden; box-shadow: 4px 4px 0px rgba(13, 11, 10, 1); position: relative; }
         
-        header { padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(17, 17, 19, 0.8); backdrop-filter: blur(10px); z-index: 10; }
-        header h2 { font-weight: 800; font-size: 1.6rem; color: var(--text-main); letter-spacing: -0.5px; }
-        .clock { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); font-size: 1.1rem; background: var(--accent-glow); padding: 10px 20px; border-radius: 20px; border: 1px solid rgba(249, 115, 22, 0.3); box-shadow: 0 0 15px var(--accent-glow); }
+        header { padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-heavy); background: var(--bg-card); z-index: 10; }
+        header h2 { font-weight: 900; font-size: 1.8rem; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 0px #000; }
+        .clock { font-family: var(--font-data); font-weight: 700; color: var(--accent); font-size: 1.2rem; background: #141211; padding: 8px 15px; border: 2px solid var(--border-heavy); box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); }
 
-        .content { flex-grow: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
-        .view-section { display: none; animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        .view-section.active { display: block; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .content { flex-grow: 1; padding: 30px; overflow-y: auto; }
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: stampIn 0.3s ease-out forwards; }
+        @keyframes stampIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
         /* Cards & Forms */
-        .card { background-color: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 35px; margin-bottom: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: var(--transition); }
-        .card:hover { border-color: rgba(249, 115, 22, 0.2); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-        .card-dashed { border: 2px dashed var(--border); background-color: transparent; text-align: center; }
-        .card-dashed:hover { border-color: var(--accent); background-color: var(--accent-glow); }
-        .card h3 { margin-bottom: 25px; font-size: 1.15rem; color: var(--text-main); font-weight: 800; display: flex; align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .card h3::before { content: ''; display: inline-block; width: 6px; height: 24px; background: var(--accent); border-radius: 4px; box-shadow: 0 0 10px var(--accent); }
+        .card { background-color: var(--bg-card); border: 2px solid var(--border-heavy); padding: 30px; margin-bottom: 25px; position: relative; box-shadow: 3px 3px 0px rgba(13, 11, 10, 1); }
+        .card-dashed { border: 2px dashed var(--border); background-color: var(--bg-panel); text-align: center; }
+        .card h3 { margin-bottom: 20px; font-size: 1.3rem; color: var(--text-main); font-weight: 900; text-transform: uppercase; border-bottom: 2px solid var(--border-heavy); padding-bottom: 10px; display: inline-block; width: 100%;}
         
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
-        .form-group { display: flex; flex-direction: column; gap: 10px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group.full { grid-column: 1 / -1; }
         
-        label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        input, select, textarea { padding: 16px 20px; background-color: var(--bg-body); border: 1px solid var(--border); color: #fff; border-radius: var(--radius-input); outline: none; transition: var(--transition); font-size: 1rem; font-weight: 500; }
-        input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); transform: translateY(-2px); }
+        label { font-size: 0.95rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select, textarea { font-family: var(--font-data); padding: 12px 15px; background-color: #141211; border: 2px solid var(--border-heavy); color: var(--text-main); outline: none; transition: var(--transition); font-size: 1.1rem; font-weight: 700; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); }
+        input:focus, select:focus { border-color: var(--accent); background-color: #1a1512; }
         
         /* Buttons */
-        .btn { padding: 16px 28px; border: none; border-radius: var(--radius-input); cursor: pointer; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-        .btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 150%; height: 150%; background: rgba(255,255,255,0.1); transform: translate(-50%, -50%) scale(0); border-radius: 50%; transition: transform 0.4s ease; }
-        .btn:active::after { transform: translate(-50%, -50%) scale(1); transition: 0s; }
+        .btn { font-family: var(--font-ui); padding: 12px 24px; border: 2px solid var(--border-heavy); cursor: pointer; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); box-shadow: 2px 2px 0px rgba(13, 11, 10, 1); text-shadow: 1px 1px 0px rgba(0,0,0,0.3); }
+        .btn:active { box-shadow: 0px 0px 0px rgba(13, 11, 10, 1); transform: translate(2px, 2px); }
         
-        .btn-primary { background: linear-gradient(135deg, var(--accent), #fb923c); color: #000; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6); }
-        .btn-secondary { background-color: var(--bg-body); color: var(--text-main); border: 1px solid var(--border); }
-        .btn-secondary:hover { background-color: var(--bg-hover); border-color: var(--text-muted); transform: translateY(-2px); }
-        .btn-danger { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
-        .btn-danger:hover { background-color: var(--danger); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); transform: translateY(-2px); }
+        .btn-primary { background-color: var(--accent); color: #fff; }
+        .btn-primary:hover { background-color: var(--accent-hover); }
+        .btn-secondary { background-color: var(--bg-hover); color: var(--text-main); }
+        .btn-secondary:hover { background-color: var(--border); }
+        .btn-danger { background-color: var(--danger); color: #fff; }
         
         /* Tables */
-        .table-container { overflow-x: auto; border-radius: var(--radius-card); border: 1px solid var(--border); background-color: var(--bg-card); }
+        .table-container { overflow-x: auto; border: 2px solid var(--border-heavy); background-color: var(--bg-card); }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 18px 24px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-        th { color: var(--accent); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; background-color: rgba(0,0,0,0.2); }
-        tr:last-child td { border-bottom: none; }
-        tr { transition: var(--transition); }
+        th, td { padding: 15px 20px; text-align: left; border-bottom: 1px solid var(--border-heavy); font-size: 1.1rem; }
+        td { font-family: var(--font-data); font-weight: 700; }
+        th { color: var(--text-muted); font-weight: 900; font-size: 1rem; text-transform: uppercase; background-color: var(--bg-panel); border-bottom: 2px solid var(--border-heavy); }
         tr:hover td { background-color: var(--bg-hover); }
 
-        .gen-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 35px; }
+        .gen-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
 
         /* Preview Modal */
-        #previewModal { display: none; position: fixed; inset: 0; background: rgba(5, 5, 5, 0.95); z-index: 1000; flex-direction: column; backdrop-filter: blur(10px); animation: fadeIn 0.3s forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .modal-toolbar { padding: 25px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: center; gap: 20px; flex-shrink: 0; background: var(--bg-panel); }
+        #previewModal { display: none; position: fixed; inset: 0; background: rgba(13, 11, 10, 0.95); z-index: 1000; flex-direction: column; }
+        .modal-toolbar { padding: 20px 40px; border-bottom: 2px solid var(--accent); display: flex; justify-content: center; gap: 20px; flex-shrink: 0; background: var(--bg-card); }
         .modal-body { flex-grow: 1; overflow: auto; display: flex; justify-content: center; padding: 40px; }
-        #canvasPreview { max-width: 100%; height: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.8); border-radius: 8px; border: 1px solid #333; }
+        #canvasPreview { max-width: 100%; height: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border: 2px solid #000; background: #fff;}
         canvas { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
     <nav>
         <div class="brand">
             <img src="RengokuTrucking.png" alt="Rengoku Trucking Logo" id="sidebar-logo">
             <h2>RENGOKU TRUCKING</h2>
-            <p>Logistics & Freight</p>
+            <p>EST. 2026</p>
         </div>
         <div class="nav-links">
-            <div class="nav-item active" onclick="nav('dashboard')">Dispatch Central</div>
-            <div class="nav-item" onclick="nav('generator')">Create Waybill</div>
+            <div class="nav-item active" onclick="nav('dashboard')">Dispatch Office</div>
+            <div class="nav-item" onclick="nav('generator')">Draft Waybill</div>
             <div class="nav-item" onclick="nav('logbook')">Fleet Logbook</div>
             <div class="nav-item" onclick="nav('personnel')">Employee Roster</div>
-            <div class="nav-item" onclick="nav('vehicles')">Fleet Garage</div>
-            <div class="nav-item" onclick="nav('documents')">Shipping History</div>
+            <div class="nav-item" onclick="nav('vehicles')">Motor Pool</div>
+            <div class="nav-item" onclick="nav('documents')">Filing Cabinet</div>
             <div style="flex-grow: 1;"></div>
-            <div class="nav-item" onclick="resetSystem()" style="color: var(--danger); justify-content: center; border: 1px solid rgba(239, 68, 68, 0.2);">Wipe System Data</div>
+            <div class="nav-item" onclick="resetSystem()" style="color: #fca5a5; justify-content: center; border-top: 2px solid var(--border-heavy);">Burn Records</div>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main>
         <header>
-            <h2 id="view-title">Dispatch Central</h2>
+            <h2 id="view-title">Dispatch Office</h2>
             <div class="clock" id="sys-clock">00:00:00</div>
         </header>
 
         <div class="content">
-            <!-- Dashboard -->
             <div id="view-dashboard" class="view-section active">
-                <div class="card card-dashed" style="padding: 100px 20px;">
-                    <h1 style="font-size: 2.8rem; margin-bottom: 20px; font-weight: 900; color: #fff;">RTL DISPATCH <span style="color: var(--accent);">ONLINE</span></h1>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Welcome to the Rengoku Trucking Logistics terminal. Process waybills, track fleet mileage, and manage freight operations.</p>
-                    <button class="btn btn-primary" style="padding: 20px 40px; font-size: 1.1rem;" onclick="nav('generator')">Generate Freight Waybill</button>
+                <div class="card card-dashed" style="padding: 80px 20px;">
+                    <h1 style="font-size: 3rem; margin-bottom: 20px; font-weight: 900; color: var(--text-main); text-transform: uppercase;">Terminal <span style="color: var(--accent);">Active</span></h1>
+                    <p style="color: var(--text-muted); font-size: 1.2rem; font-family: var(--font-data); font-weight: 700; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Authorized personnel only. Process waybills, log fleet mileage, and manage company records.</p>
+                    <button class="btn btn-primary" style="padding: 15px 40px; font-size: 1.2rem;" onclick="nav('generator')">Draft New Waybill</button>
                 </div>
             </div>
 
-            <!-- List View (Databases) -->
             <div id="view-list" class="view-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                    <h3 id="list-title" style="margin-bottom: 0; font-size: 1.5rem; font-weight: 800;">Database</h3>
-                    <button class="btn btn-primary" onclick="showForm()">+ Add New Record</button>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 id="list-title" style="margin-bottom: 0; font-size: 1.6rem; font-weight: 900; text-transform: uppercase;">Database Records</h3>
+                    <button class="btn btn-primary" onclick="showForm()">+ File New Entry</button>
                 </div>
                 <div class="table-container" id="list-table-container"></div>
             </div>
 
-            <!-- Form View -->
             <div id="view-form" class="view-section">
                 <div class="card">
-                    <h3 id="form-title">Record Editor</h3>
+                    <h3 id="form-title">Record Form</h3>
                     <div class="form-grid" id="form-fields"></div>
-                    <div style="display: flex; gap: 15px; margin-top: 35px;">
-                        <button class="btn btn-primary" onclick="saveRecord()">Save Record</button>
-                        <button class="btn btn-secondary" onclick="nav(currentModule)">Cancel</button>
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="saveRecord()">Stamp & Save</button>
+                        <button class="btn btn-secondary" onclick="nav(currentModule)">Discard</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Log Book & Services View -->
             <div id="view-logbook" class="view-section">
                 <div class="gen-layout">
-                    <div style="display: flex; flex-direction: column; gap: 30px;">
+                    <div style="display: flex; flex-direction: column; gap: 25px;">
                         <div class="card" style="margin-bottom:0;">
                             <h3>Log Fleet Mileage</h3>
                             <div class="form-grid">
@@ -181,35 +175,34 @@
                                 <div class="form-group"><label>Odometer Start</label><input type="number" id="log-start" placeholder="e.g. 120000"></div>
                                 <div class="form-group"><label>Odometer End</label><input type="number" id="log-end" placeholder="e.g. 120500"></div>
                             </div>
-                            <button class="btn btn-primary" style="margin-top: 25px; width: 100%;" onclick="saveTripLog()">Submit Mileage Log</button>
+                            <button class="btn btn-primary" style="margin-top: 25px; width: 100%;" onclick="saveTripLog()">Submit To Ledger</button>
                         </div>
                         
-                        <div class="card" style="margin-bottom:0; border-color: #3b82f6;">
-                            <h3 style="color: #60a5fa; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);">Log Garage Maintenance</h3>
+                        <div class="card" style="margin-bottom:0;">
+                            <h3>Log Garage Maintenance</h3>
                             <div class="form-grid">
                                 <div class="form-group full"><label>Asset Serviced</label><select id="srv-vehicle"></select></div>
                                 <div class="form-group"><label>Current Odometer</label><input type="number" id="srv-miles" placeholder="e.g. 120500"></div>
-                                <div class="form-group"><label>Service Performed</label><input type="text" id="srv-type" placeholder="e.g. Oil Change & Brake Pad Replacement"></div>
+                                <div class="form-group"><label>Service Performed</label><input type="text" id="srv-type" placeholder="e.g. Oil Change & Brakes"></div>
                             </div>
-                            <button class="btn btn-secondary" style="margin-top: 25px; width: 100%; border-color:#3b82f6; color:#60a5fa;" onclick="saveServiceLog()">Submit Maintenance Record</button>
+                            <button class="btn btn-secondary" style="margin-top: 25px; width: 100%;" onclick="saveServiceLog()">File Service Record</button>
                         </div>
                     </div>
 
                     <div>
-                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 50px 30px;">
-                            <h3 style="justify-content: center; margin-bottom: 20px; border: none;">Print Official Logbook</h3>
-                            <h2 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 5px; color: #fff;" id="total-miles-display">0</h2>
-                            <p style="color: var(--accent); font-size: 0.95rem; font-weight: 800; margin-bottom: 35px; text-transform: uppercase; letter-spacing: 2px;">Total Fleet Miles</p>
-                            <button class="btn btn-primary" style="width: 100%; padding: 20px;" onclick="printLogBook()">Generate Printout</button>
+                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 40px 30px;">
+                            <h3 style="justify-content: center; border: none; margin-bottom: 10px;">Official Logbook</h3>
+                            <h2 style="font-family: var(--font-data); font-size: 3.5rem; font-weight: 700; margin-bottom: 5px; color: var(--text-main);" id="total-miles-display">0</h2>
+                            <p style="color: var(--accent); font-size: 1rem; font-weight: 900; margin-bottom: 30px; text-transform: uppercase;">Total Fleet Miles</p>
+                            <button class="btn btn-primary" style="width: 100%; padding: 18px;" onclick="printLogBook()">Print Paper Log</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Document Generator -->
             <div id="view-generator" class="view-section">
                 <div class="gen-layout">
-                    <div style="display: flex; flex-direction: column; gap: 30px;">
+                    <div style="display: flex; flex-direction: column; gap: 25px;">
                         <div class="card" style="margin-bottom: 0;">
                             <h3>Shipping Details</h3>
                             <div class="form-grid">
@@ -230,7 +223,7 @@
                             <div class="form-grid">
                                 <div class="form-group full"><label>What is being hauled?</label><input type="text" id="gen-cargo-desc" placeholder="e.g. 10x Pallets of Processed Timber"></div>
                                 <div class="form-group full">
-                                    <label>Estimated Freight Weight</label>
+                                    <label>Estimated Freight Weight Class</label>
                                     <select id="gen-weight">
                                         <option value="low">Light Load (10,000 - 20,000 LBs)</option>
                                         <option value="medium">Standard Load (25,000 - 35,000 LBs)</option>
@@ -241,19 +234,18 @@
                         </div>
                     </div>
                     <div>
-                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 50px 30px;">
-                            <h3 style="justify-content: center; margin-bottom: 20px; border: none;">Waybill Processing</h3>
-                            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 35px; line-height: 1.6;">Generating this document will create an official Bill of Lading with a randomized exact weight based on your selected load tier.</p>
-                            <button class="btn btn-primary" style="width: 100%; padding: 22px; font-size: 1.1rem;" onclick="createNewDocument()">Generate Waybill</button>
+                        <div class="card card-dashed" style="position: sticky; top: 0; padding: 40px 30px;">
+                            <h3 style="justify-content: center; border: none; margin-bottom: 15px;">Waybill Processing</h3>
+                            <p style="font-family: var(--font-data); color: var(--text-muted); font-size: 1rem; margin-bottom: 30px; font-weight: 700; line-height: 1.5;">Print command will generate an official carbon-copy style Bill of Lading.</p>
+                            <button class="btn btn-primary" style="width: 100%; padding: 20px; font-size: 1.2rem;" onclick="createNewDocument()">Print Waybill</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Mission History View -->
             <div id="view-documents" class="view-section">
                 <div class="card">
-                    <h3 style="margin-bottom: 25px;">Shipping History</h3>
+                    <h3 style="margin-bottom: 20px;">Filing Cabinet (History)</h3>
                     <div class="table-container" id="history-table-container"></div>
                 </div>
             </div>
@@ -261,13 +253,11 @@
         </div>
     </main>
 
-    <!-- Canvas for Image Generation -->
     <canvas id="docCanvas" width="2480" height="3508"></canvas>
 
-    <!-- Image Preview Modal -->
     <div id="previewModal">
         <div class="modal-toolbar">
-            <button class="btn btn-secondary" onclick="closePreview()">← Return to Dispatch</button>
+            <button class="btn btn-secondary" onclick="closePreview()">← Return to Desk</button>
             <button class="btn btn-primary" onclick="downloadPNG()">Download Official Document</button>
         </div>
         <div class="modal-body">
@@ -279,12 +269,11 @@
 // ==========================================
 // 1. GLOBAL ASSETS & DB SETUP
 // ==========================================
-// Changed prefix so it starts fresh for Rengoku Trucking
-const DB_PREFIX = 'rtl_sys_v1_';
+const DB_PREFIX = 'rtl_retro_v1_';
 let currentModule = '';
 let editId = null;
 
-// Load the Rengoku Trucking logo into memory for the Canvas
+// Load Logo
 const rtlLogo = new Image();
 rtlLogo.src = 'RengokuTrucking.png';
 
@@ -298,7 +287,7 @@ const SCHEMAS = {
         ]
     },
     vehicles: {
-        title: 'Fleet Garage',
+        title: 'Motor Pool',
         fields: [
             { id: 'make_model', label: 'Truck Make & Model', type: 'text', req: true },
             { id: 'plate', label: 'License Plate', type: 'text', req: true },
@@ -318,14 +307,14 @@ const DEFAULT_DATA = {
 // ==========================================
 // 2. CORE SYSTEM FUNCTIONS
 // ==========================================
-function generateID() { return Math.random().toString(36).substr(2, 9); }
+function generateID() { return Math.floor(100000 + Math.random() * 900000).toString(); }
 function getDB(table) {
     let data = localStorage.getItem(DB_PREFIX + table);
     if (!data) { setDB(table, DEFAULT_DATA[table]); return DEFAULT_DATA[table]; }
     return JSON.parse(data);
 }
 function setDB(table, data) { localStorage.setItem(DB_PREFIX + table, JSON.stringify(data)); }
-function resetSystem() { if(confirm("WARNING: Erase all fleet data and reload defaults?")) { localStorage.clear(); location.reload(); } }
+function resetSystem() { if(confirm("WARNING: Burn all paper records and restart?")) { localStorage.clear(); location.reload(); } }
 
 // ==========================================
 // 3. UI & ROUTING
@@ -341,12 +330,7 @@ function nav(viewId) {
         renderTable();
     } else {
         document.getElementById('view-' + viewId).classList.add('active');
-        const titles = {
-            'dashboard': 'Dispatch Central',
-            'generator': 'Waybill Generator',
-            'logbook': 'Fleet Logbook',
-            'documents': 'Shipping History'
-        };
+        const titles = { 'dashboard': 'Dispatch Office', 'generator': 'Draft Waybill', 'logbook': 'Fleet Logbook', 'documents': 'Filing Cabinet' };
         document.getElementById('view-title').innerText = titles[viewId] || viewId.toUpperCase();
         
         if (viewId === 'generator') initGenerator();
@@ -359,18 +343,18 @@ function renderTable() {
     const data = getDB(currentModule);
     const schema = SCHEMAS[currentModule].fields;
     const container = document.getElementById('list-table-container');
-    if (data.length === 0) { container.innerHTML = '<p style="padding:30px; color:var(--text-muted); font-style:italic;">No records found in database.</p>'; return; }
+    if (data.length === 0) { container.innerHTML = '<p style="padding:30px; font-family:var(--font-data); font-weight:700; color:var(--text-muted);">// NO RECORDS FOUND IN FILE //</p>'; return; }
 
     let html = '<table><thead><tr>';
     schema.forEach(f => html += `<th>${f.label}</th>`);
-    html += '<th style="width: 180px;">Management</th></tr></thead><tbody>';
+    html += '<th style="width: 220px;">Management</th></tr></thead><tbody>';
     
     data.forEach(row => {
         html += '<tr>';
-        schema.forEach(f => html += `<td><strong>${row[f.id] || '-'}</strong></td>`);
+        schema.forEach(f => html += `<td>${row[f.id] || '-'}</td>`);
         html += `<td>
-            <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.8rem;" onclick="editRecord('${row.id}')">Edit</button>
-            <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.8rem; margin-left: 8px;" onclick="deleteRecord('${row.id}')">Del</button>
+            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="editRecord('${row.id}')">Edit</button>
+            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.8rem; margin-left: 5px;" onclick="deleteRecord('${row.id}')">Del</button>
         </td></tr>`;
     });
     html += '</tbody></table>';
@@ -380,7 +364,7 @@ function renderTable() {
 function showForm(id = null) {
     document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
     document.getElementById('view-form').classList.add('active');
-    document.getElementById('form-title').innerText = id ? 'Edit Database Record' : 'Add Database Record';
+    document.getElementById('form-title').innerText = id ? 'Edit Document' : 'New Form Entry';
     editId = id;
     
     const schema = SCHEMAS[currentModule].fields;
@@ -394,7 +378,7 @@ function showForm(id = null) {
             f.opts.forEach(opt => html += `<option value="${opt}" ${data[f.id]===opt?'selected':''}>${opt}</option>`);
             html += `</select>`;
         } else {
-            html += `<input type="${f.type}" id="f_${f.id}" value="${data[f.id] || ''}" placeholder="Enter ${f.label.toLowerCase()}...">`;
+            html += `<input type="${f.type}" id="f_${f.id}" value="${data[f.id] || ''}">`;
         }
         html += `</div>`;
     });
@@ -412,13 +396,12 @@ function saveRecord() {
 }
 
 function deleteRecord(id) {
-    if(confirm('Permanently delete this record?')) {
+    if(confirm('Discard this record permanently?')) {
         setDB(currentModule, getDB(currentModule).filter(r => r.id !== id));
         renderTable();
     }
 }
 
-// Clock Setup
 setInterval(() => { document.getElementById('sys-clock').innerText = new Date().toLocaleTimeString('en-US', { hour12: false }); }, 1000);
 
 // ==========================================
@@ -427,8 +410,8 @@ setInterval(() => { document.getElementById('sys-clock').innerText = new Date().
 function initLogbook() {
     const data = getDB('vehicles');
     const options = data.map(item => `<option value='${item.make_model} (${item.plate})'>${item.make_model} [${item.plate}]</option>`).join('');
-    document.getElementById('log-vehicle').innerHTML = options || '<option>No Vehicles in Fleet</option>';
-    document.getElementById('srv-vehicle').innerHTML = options || '<option>No Vehicles in Fleet</option>';
+    document.getElementById('log-vehicle').innerHTML = options || '<option>No Vehicles Registered</option>';
+    document.getElementById('srv-vehicle').innerHTML = options || '<option>No Vehicles Registered</option>';
 
     let totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
     document.getElementById('total-miles-display').innerText = totalMiles.toLocaleString();
@@ -438,22 +421,12 @@ function saveTripLog() {
     const v = document.getElementById('log-vehicle').value;
     const s = parseInt(document.getElementById('log-start').value);
     const e = parseInt(document.getElementById('log-end').value);
-
-    if(!s || !e || e <= s) { alert("End miles must be greater than Start miles!"); return; }
+    if(!s || !e || e <= s) { alert("End miles must be greater than Start miles."); return; }
 
     const logs = getDB('logs');
-    logs.push({
-        id: generateID(),
-        date: new Date().toLocaleDateString('en-US').toUpperCase(),
-        vehicle: v,
-        start: s,
-        end: e,
-        distance: e - s
-    });
+    logs.push({ id: generateID(), date: new Date().toLocaleDateString('en-US').toUpperCase(), vehicle: v, start: s, end: e, distance: e - s });
     setDB('logs', logs);
-    
-    document.getElementById('log-start').value = '';
-    document.getElementById('log-end').value = '';
+    document.getElementById('log-start').value = ''; document.getElementById('log-end').value = '';
     initLogbook(); 
 }
 
@@ -461,21 +434,12 @@ function saveServiceLog() {
     const v = document.getElementById('srv-vehicle').value;
     const m = document.getElementById('srv-miles').value;
     const t = document.getElementById('srv-type').value;
-
-    if(!m || !t) { alert("Please enter both current odometer and service completed."); return; }
+    if(!m || !t) { alert("Missing service data."); return; }
 
     const srvs = getDB('services');
-    srvs.push({
-        id: generateID(),
-        date: new Date().toLocaleDateString('en-US').toUpperCase(),
-        vehicle: v,
-        miles: m,
-        service: t
-    });
+    srvs.push({ id: generateID(), date: new Date().toLocaleDateString('en-US').toUpperCase(), vehicle: v, miles: m, service: t });
     setDB('services', srvs);
-    
-    document.getElementById('srv-miles').value = '';
-    document.getElementById('srv-type').value = '';
+    document.getElementById('srv-miles').value = ''; document.getElementById('srv-type').value = '';
 }
 
 // ==========================================
@@ -493,15 +457,13 @@ function initGenerator() {
 function renderDocHistory() {
     const data = getDB('documents').slice().reverse();
     const container = document.getElementById('history-table-container'); 
-    if (data.length === 0) { container.innerHTML = '<p style="padding:30px; color:var(--text-muted); font-style:italic;">No shipping history recorded.</p>'; return; }
+    if (data.length === 0) { container.innerHTML = '<p style="padding:30px; font-family:var(--font-data); font-weight:700; color:var(--text-muted);">// NO DOCUMENTS IN FILE //</p>'; return; }
     
-    let html = '<table><thead><tr><th>Waybill Number</th><th>Date</th><th>Route</th><th style="width:160px;">Actions</th></tr></thead><tbody>';
+    let html = '<table><thead><tr><th>Waybill No.</th><th>Date</th><th>Route</th><th style="width:160px;">Action</th></tr></thead><tbody>';
     data.forEach(r => {
         html += `<tr>
-            <td><strong>${r.doc_num}</strong></td>
-            <td>${r.date}</td>
-            <td>${r.route}</td>
-            <td><button class="btn btn-primary" style="padding: 8px 16px; font-size: 0.8rem;" onclick="reprintDocument('${r.id}')">Reprint</button></td>
+            <td>${r.doc_num}</td><td>${r.date}</td><td>${r.route}</td>
+            <td><button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="reprintDocument('${r.id}')">Copy</button></td>
         </tr>`;
     });
     container.innerHTML = html + '</tbody></table>';
@@ -520,41 +482,40 @@ function createNewDocument() {
 
         const docObj = {
             id: generateID(),
-            doc_num: `RTL-WAYBILL-${Math.floor(100000 + Math.random() * 900000)}`,
+            doc_num: Math.floor(100000 + Math.random() * 900000).toString(),
             date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase(),
             time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + ' HRS',
             p: pVal ? JSON.parse(pVal) : { role: '', name: 'UNASSIGNED', callsign: 'N/A' },
             v: vVal ? JSON.parse(vVal) : { type: 'N/A', make_model: 'UNASSIGNED', plate: 'N/A' },
             origin: document.getElementById('gen-origin').value || "N/A",
             dest: document.getElementById('gen-dest').value || "N/A",
-            purpose: document.getElementById('gen-purpose').value || "Standard Freight Delivery",
+            purpose: document.getElementById('gen-purpose').value || "Standard Freight",
             cargoDesc: document.getElementById('gen-cargo-desc').value || "General Freight",
             weight: weight
         };
 
         docObj.route = `${docObj.origin} -> ${docObj.dest}`;
-        
-        const docs = getDB('documents');
-        docs.push(docObj);
-        setDB('documents', docs);
-
+        const docs = getDB('documents'); docs.push(docObj); setDB('documents', docs);
         renderTransportCanvas(docObj);
-    } catch (err) {
-        console.error(err);
-        alert("Error creating document: " + err.message);
-    }
+    } catch (err) { alert("Error: " + err.message); }
 }
 
 function reprintDocument(id) {
     const doc = getDB('documents').find(d => d.id === id);
-    if(doc) { renderTransportCanvas(doc); } else { alert("Document not found!"); }
+    if(doc) { renderTransportCanvas(doc); } else { alert("File missing."); }
 }
 
 // ==========================================
-// 6. SHARED CANVAS RENDERING ENGINE (TRUCKING THEME)
+// 6. RETRO CANVAS RENDERING ENGINE
 // ==========================================
 
-function drawCanvasText(ctx, txt, x, y, size, font="Arial", col="#000", align="left", wght="normal") {
+// Color Palette for Documents
+const C_PAPER = "#eadecb"; // Soft aged parchment
+const C_INK_BLACK = "#1c1815"; // Deep espresso brown/black
+const C_INK_BLUE = "#1e3b6d"; // Typewriter ribbon blue
+const C_INK_RED = "#9e2a2b"; // Faded stamp red
+
+function drawCanvasText(ctx, txt, x, y, size, font="Arial", col=C_INK_BLACK, align="left", wght="normal") {
     ctx.font = `${wght} ${size}px ${font}`; ctx.fillStyle = col; ctx.textAlign = align;
     ctx.fillText(txt, x, y);
 }
@@ -563,110 +524,110 @@ function renderTransportCanvas(doc) {
     const canvas = document.getElementById('docCanvas');
     const ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = C_PAPER;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     let curY = 0;
     const M = 150; 
     const W = canvas.width - (M * 2);
-    const B_HEIGHT = 200; 
-    const H_HEIGHT = 120; 
+    const B_HEIGHT = 240; 
 
-    // Box drawer with Orange accents
-    const drawBox = (lbl, val, x, y, w, h) => {
-        ctx.strokeStyle = "#111827"; ctx.lineWidth = 5; ctx.strokeRect(x, y, w, h);
-        ctx.fillStyle = "#f8fafc"; ctx.fillRect(x+2, y+2, w-4, 70); 
-        ctx.beginPath(); ctx.moveTo(x, y+72); ctx.lineTo(x+w, y+72); ctx.stroke(); 
-        drawCanvasText(ctx, lbl, x + 30, y + 50, 32, "Arial", "#ea580c", "left", "bold"); // Orange Labels
+    // Outer double border
+    ctx.strokeStyle = C_INK_BLACK; 
+    ctx.lineWidth = 6; ctx.strokeRect(M-10, M-10, W+20, canvas.height - (M*2) + 20);
+    ctx.lineWidth = 2; ctx.strokeRect(M-2, M-2, W+4, canvas.height - (M*2) + 4);
+
+    // Vintage form box drawer (Scaled up for Mobile Readability)
+    const drawFormBox = (lbl, val, x, y, w, h) => {
+        ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 3; ctx.strokeRect(x, y, w, h);
         
-        ctx.font = "bold 65px Arial"; ctx.fillStyle = "#000";
-        const words = val.toString().split(' '); let line = ''; let ly = y + 145;
+        drawCanvasText(ctx, lbl, x + 20, y + 45, 32, "Georgia", C_INK_BLACK, "left", "bold"); 
+        
+        ctx.font = "bold 60px 'Courier New'"; ctx.fillStyle = C_INK_BLUE;
+        const words = val.toString().split(' '); let line = ''; let ly = y + 130;
         for(let n = 0; n < words.length; n++) {
             let testLine = line + words[n] + ' ';
-            if (ctx.measureText(testLine).width > w - 60 && n > 0) {
+            if (ctx.measureText(testLine).width > w - 40 && n > 0) {
                 ctx.fillText(line, x + 30, ly);
-                line = words[n] + ' '; ly += 70;
+                line = words[n] + ' '; ly += 65; // Tightened line height
             } else { line = testLine; }
         }
         ctx.fillText(line, x + 30, ly);
     };
 
-    const drawHeader = (title) => {
+    const drawSectionHeader = (title) => {
         curY += 50;
-        ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, H_HEIGHT);
-        // Orange accent strip
-        ctx.fillStyle = "#ea580c"; ctx.fillRect(M, curY, 15, H_HEIGHT);
-        drawCanvasText(ctx, title, M + 45, curY + 80, 50, "Arial", "#fff", "left", "bold");
-        curY += H_HEIGHT;
+        ctx.fillStyle = C_INK_BLACK; ctx.fillRect(M, curY, W, 100);
+        drawCanvasText(ctx, title, M + 40, curY + 65, 48, "Georgia", C_PAPER, "left", "bold");
+        curY += 100;
     };
 
-    // --- 1. MASTER HEADER WITH LOGO ---
+    // --- 1. HEADER ---
     curY = M;
-    ctx.fillStyle = "#0f0f11"; ctx.fillRect(M, curY, W, 350); 
     
-    // Draw Logo on the left
     if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
-        ctx.drawImage(rtlLogo, M + 60, curY + 40, 270, 270);
+        ctx.drawImage(rtlLogo, M + 20, curY + 20, 240, 240);
     }
     
-    drawCanvasText(ctx, "RENGOKU TRUCKING", canvas.width/2, curY + 130, 100, "Arial", "#fff", "center", "bold");
-    drawCanvasText(ctx, "COMMERCIAL FREIGHT & LOGISTICS", canvas.width/2, curY + 200, 45, "Arial", "#ea580c", "center", "bold");
-    drawCanvasText(ctx, "OFFICIAL WAYBILL & BILL OF LADING", canvas.width/2, curY + 280, 60, "Arial", "#f8fafc", "center", "bold");
-    curY += 350;
+    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", canvas.width/2, curY + 140, 85, "Georgia", C_INK_BLACK, "center", "bold");
+    drawCanvasText(ctx, "SAN ANDREAS COMMERCIAL FREIGHT", canvas.width/2, curY + 200, 45, "Georgia", C_INK_BLACK, "center", "normal");
+    drawCanvasText(ctx, "OFFICIAL BILL OF LADING", canvas.width/2, curY + 280, 55, "Georgia", C_INK_BLACK, "center", "bold");
+    
+    // Top-Right-Aligned Red Serial Number
+    ctx.textAlign = "right";
+    drawCanvasText(ctx, "NO. " + doc.doc_num, M + W - 20, curY + 60, 55, "'Courier New'", C_INK_RED, "right", "bold");
+    ctx.textAlign = "left"; 
 
-    const cw = W / 3;
-    drawBox("WAYBILL NUMBER", doc.doc_num, M, curY, cw, B_HEIGHT);
-    drawBox("DATE", doc.date, M+cw, curY, cw, B_HEIGHT);
-    drawBox("TIME", doc.time, M+(cw*2), curY, cw, B_HEIGHT);
+    curY += 340;
+
+    const cw = W / 2;
+    drawFormBox("DATE ISSUED", doc.date, M, curY, cw, B_HEIGHT);
+    drawFormBox("TIME ISSUED", doc.time, M+cw, curY, cw, B_HEIGHT);
     curY += B_HEIGHT;
 
     // --- 2. ROUTING ---
-    drawHeader("ROUTING INFORMATION");
-    const hW = W / 2;
-    drawBox("PICKUP LOCATION", doc.origin, M, curY, hW, B_HEIGHT);
-    drawBox("DELIVERY DESTINATION", doc.dest, M+hW, curY, hW, B_HEIGHT);
+    drawSectionHeader("ROUTING & DESTINATION");
+    drawFormBox("POINT OF ORIGIN", doc.origin, M, curY, cw, B_HEIGHT);
+    drawFormBox("DELIVERY DESTINATION", doc.dest, M+cw, curY, cw, B_HEIGHT);
     curY += B_HEIGHT;
-    drawBox("SHIPPING NOTES / INSTRUCTIONS", doc.purpose, M, curY, W, B_HEIGHT);
-    curY += B_HEIGHT;
-
-    // --- 3. PERSONNEL & VEHICLE ---
-    drawHeader("ASSIGNED CARRIER");
-    drawBox("DRIVER", `${doc.p.role || ''} - ${doc.p.name || ''}`, M, curY, hW, B_HEIGHT);
-    drawBox("RADIO CALLSIGN", doc.p.callsign || '', M+hW, curY, hW, B_HEIGHT);
-    curY += B_HEIGHT;
-    drawBox("TRUCK CLASS", doc.v.type || '', M, curY, hW, B_HEIGHT);
-    drawBox("TRUCK IDENTIFIER / PLATE", `${doc.v.make_model || ''} (${doc.v.plate || ''})`, M+hW, curY, hW, B_HEIGHT);
+    drawFormBox("SHIPPING INSTRUCTIONS / REMARKS", doc.purpose, M, curY, W, B_HEIGHT);
     curY += B_HEIGHT;
 
-    // --- 4. CARGO PAYLOAD ---
-    drawHeader("FREIGHT DETAILS");
-    drawBox("FREIGHT DESCRIPTION", doc.cargoDesc, M, curY, W, B_HEIGHT + 100);
-    curY += (B_HEIGHT + 100);
+    // --- 3. CARRIER ---
+    drawSectionHeader("CARRIER ASSIGNMENT");
+    drawFormBox("ASSIGNED DRIVER", doc.p.name || '', M, curY, cw, B_HEIGHT);
+    drawFormBox("RADIO CALLSIGN", doc.p.callsign || '', M+cw, curY, cw, B_HEIGHT);
+    curY += B_HEIGHT;
+    drawFormBox("TRUCK CLASS", doc.v.type || '', M, curY, cw, B_HEIGHT);
+    drawFormBox("VEHICLE IDENTIFIER", `${doc.v.make_model || ''} (${doc.v.plate || ''})`, M+cw, curY, cw, B_HEIGHT);
+    curY += B_HEIGHT;
 
-    ctx.strokeStyle = "#111827"; ctx.lineWidth = 5; ctx.strokeRect(M, curY, W, B_HEIGHT + 50);
-    ctx.fillStyle = "#f8fafc"; ctx.fillRect(M+2, curY+2, W-4, 80); 
-    ctx.beginPath(); ctx.moveTo(M, curY+82); ctx.lineTo(M+W, curY+82); ctx.stroke(); 
-    drawCanvasText(ctx, "TOTAL GROSS FREIGHT WEIGHT", M + 40, curY + 55, 38, "Arial", "#ea580c", "left", "bold");
-    drawCanvasText(ctx, `${doc.weight.toLocaleString()} LBS`, canvas.width/2, curY + 195, 120, "Arial", "#000", "center", "bold");
-    curY += (B_HEIGHT + 50);
+    // --- 4. CARGO ---
+    drawSectionHeader("FREIGHT MANIFEST");
+    drawFormBox("DESCRIPTION OF ARTICLES, SPECIAL MARKS, AND EXCEPTIONS", doc.cargoDesc, M, curY, W, B_HEIGHT + 140);
+    curY += (B_HEIGHT + 140);
 
-    // --- 5. AUTHORIZATION ---
-    curY += 160;
+    ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 8; ctx.strokeRect(M, curY, W, B_HEIGHT + 20);
+    drawCanvasText(ctx, "TOTAL GROSS WEIGHT (LBS)", M + 30, curY + 60, 42, "Georgia", C_INK_BLACK, "left", "bold");
+    drawCanvasText(ctx, `${doc.weight.toLocaleString()}`, canvas.width/2, curY + 180, 150, "'Courier New'", C_INK_BLUE, "center", "bold");
+    curY += (B_HEIGHT + 20);
+
+    // --- 5. SIGNATURES ---
+    curY += 250;
     const sigW = (W/2) - 80;
-    ctx.strokeStyle = "#000"; ctx.lineWidth = 4;
+    ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 3;
     
     ctx.beginPath(); ctx.moveTo(M, curY); ctx.lineTo(M + sigW, curY); ctx.stroke();
-    drawCanvasText(ctx, "DISPATCH AUTHORIZATION", M, curY + 50, 32, "Arial", "#64748b", "left", "bold");
-    drawCanvasText(ctx, "AUTO-GENERATED SYSTEM RECORD", M, curY - 20, 38, "Courier New", "#000");
+    drawCanvasText(ctx, "AUTHORIZED AGENT SIGNATURE", M, curY + 50, 32, "Georgia", C_INK_BLACK, "left", "bold");
+    drawCanvasText(ctx, "SYSTEM AUTH", M + 20, curY - 20, 65, "'Courier New'", C_INK_BLUE, "left", "bold");
     
     ctx.beginPath(); ctx.moveTo(M + sigW + 160, curY); ctx.lineTo(M + W, curY); ctx.stroke();
-    drawCanvasText(ctx, "DRIVER ACKNOWLEDGEMENT", M + sigW + 160, curY + 50, 32, "Arial", "#64748b", "left", "bold");
-    drawCanvasText(ctx, (doc.p.name || '').toUpperCase(), M + sigW + 160, curY - 20, 50, "Courier New", "#000");
+    drawCanvasText(ctx, "DRIVER ACKNOWLEDGEMENT", M + sigW + 160, curY + 50, 32, "Georgia", C_INK_BLACK, "left", "bold");
+    drawCanvasText(ctx, (doc.p.name || '').toUpperCase(), M + sigW + 180, curY - 20, 65, "'Courier New'", C_INK_BLUE, "left", "bold");
 
     // --- 6. FOOTER ---
-    const footY = canvas.height - 180;
-    ctx.fillStyle = "#0f0f11"; ctx.fillRect(0, footY, canvas.width, 180);
-    drawCanvasText(ctx, "WTPRP ROLEPLAY DOCUMENT - COMMERCIAL WAYBILL", canvas.width/2, footY + 105, 36, "Arial", "#475569", "center", "bold");
+    const footY = canvas.height - M + 60;
+    drawCanvasText(ctx, "WTPRP ROLEPLAY - OFFICIAL COMMERCIAL RECORD - KEEP THIS COPY WITH FREIGHT", canvas.width/2, footY, 36, "Georgia", C_INK_BLACK, "center", "bold");
 
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
     document.getElementById('previewModal').style.display = 'flex';
@@ -676,96 +637,94 @@ function printLogBook() {
     const canvas = document.getElementById('docCanvas');
     const ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = C_PAPER;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     let curY = 0;
     const M = 150; 
     const W = canvas.width - (M * 2);
+
+    ctx.strokeStyle = C_INK_BLACK; 
+    ctx.lineWidth = 6; ctx.strokeRect(M-10, M-10, W+20, canvas.height - (M*2) + 20);
+    ctx.lineWidth = 2; ctx.strokeRect(M-2, M-2, W+4, canvas.height - (M*2) + 4);
     
-    // --- 1. MASTER HEADER WITH LOGO ---
+    // --- 1. HEADER ---
     curY = M;
-    ctx.fillStyle = "#0f0f11"; ctx.fillRect(M, curY, W, 350); 
-    
     if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
-        ctx.drawImage(rtlLogo, M + 60, curY + 40, 270, 270);
+        ctx.drawImage(rtlLogo, M + 20, curY + 20, 200, 200);
     }
 
-    drawCanvasText(ctx, "RENGOKU TRUCKING", canvas.width/2, curY + 130, 100, "Arial", "#fff", "center", "bold");
-    drawCanvasText(ctx, "FLEET MANAGEMENT SYSTEM", canvas.width/2, curY + 200, 45, "Arial", "#ea580c", "center", "bold");
-    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", canvas.width/2, curY + 280, 55, "Arial", "#f8fafc", "center", "bold");
-    curY += 350;
+    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", canvas.width/2, curY + 140, 85, "Georgia", C_INK_BLACK, "center", "bold");
+    drawCanvasText(ctx, "COMPANY FLEET LEDGER", canvas.width/2, curY + 200, 45, "Georgia", C_INK_BLACK, "center", "normal");
+    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", canvas.width/2, curY + 280, 55, "Georgia", C_INK_BLACK, "center", "bold");
+    curY += 340;
 
-    // Summary Row
     const totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
-    ctx.strokeStyle = "#111827"; ctx.lineWidth = 5; ctx.strokeRect(M, curY, W, 180);
-    ctx.fillStyle = "#f8fafc"; ctx.fillRect(M+2, curY+2, W-4, 60); 
-    ctx.beginPath(); ctx.moveTo(M, curY+62); ctx.lineTo(M+W, curY+62); ctx.stroke(); 
-    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 45, 32, "Arial", "#ea580c", "left", "bold"); 
-    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 145, 80, "Arial", "#000", "center", "bold");
+    ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 180);
+    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 55, 36, "Georgia", C_INK_BLACK, "left", "bold"); 
+    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 130, 95, "'Courier New'", C_INK_BLUE, "center", "bold");
     curY += 240;
 
-    // --- 2. RECENT TRIPS (Last 5) ---
-    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 100);
-    ctx.fillStyle = "#ea580c"; ctx.fillRect(M, curY, 15, 100);
-    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 45, curY + 65, 45, "Arial", "#fff", "left", "bold");
+    const drawGridText = (txt, x, y, isHeader=false) => {
+        drawCanvasText(ctx, txt, x, y, isHeader?36:46, isHeader?"Georgia":"'Courier New'", isHeader?C_INK_BLACK:C_INK_BLUE, "left", "bold");
+    };
+
+    // --- 2. TRIPS ---
+    ctx.fillStyle = C_INK_BLACK; ctx.fillRect(M, curY, W, 100);
+    drawCanvasText(ctx, "RECENT DISPATCH LOGS", M + 40, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
     curY += 100;
 
-    const ths1 = ["DATE", "TRUCK", "START", "END", "DISTANCE"];
-    const cols1 = [250, 850, 250, 250, 300];
+    const ths1 = ["DATE", "TRUCK", "START", "END", "DIST."];
+    const cols1 = [250, 900, 300, 300, 300];
     
-    ctx.fillStyle = "#f1f5f9"; ctx.fillRect(M, curY, W, 70);
-    ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 70);
+    ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 3;
     let cX = M;
-    ths1.forEach((h, i) => { drawCanvasText(ctx, h, cX + 20, curY + 48, 32, "Arial", "#ea580c", "left", "bold"); cX += cols1[i]; });
-    curY += 70;
+    ths1.forEach((h, i) => { drawGridText(h, cX + 25, curY + 55, true); cX += cols1[i]; });
+    ctx.strokeRect(M, curY, W, 80);
+    curY += 80;
 
     const recentLogs = getDB('logs').slice(-5).reverse();
     for(let i=0; i<5; i++) {
-        ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 100);
+        ctx.strokeRect(M, curY, W, 120);
         if(i < recentLogs.length) {
             const l = recentLogs[i];
             cX = M;
             [l.date, l.vehicle, l.start.toString(), l.end.toString(), `+${l.distance}`].forEach((val, idx) => {
-                drawCanvasText(ctx, val, cX + 20, curY + 60, 36, "Arial", "#000", "left", "bold"); cX += cols1[idx];
+                drawGridText(val, cX + 25, curY + 75); cX += cols1[idx];
             });
         }
-        curY += 100;
+        curY += 120;
     }
     curY += 80;
 
-    // --- 3. RECENT SERVICES (Last 4) ---
-    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 100);
-    ctx.fillStyle = "#ea580c"; ctx.fillRect(M, curY, 15, 100);
-    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 4)", M + 45, curY + 65, 45, "Arial", "#fff", "left", "bold");
+    // --- 3. SERVICES ---
+    ctx.fillStyle = C_INK_BLACK; ctx.fillRect(M, curY, W, 100);
+    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE", M + 40, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
     curY += 100;
 
-    const ths2 = ["DATE", "TRUCK", "ODOMETER", "SERVICE COMPLETED"];
-    const cols2 = [250, 850, 300, 700];
+    const ths2 = ["DATE", "TRUCK", "ODOMETER", "SERVICE RECORD"];
+    const cols2 = [250, 800, 300, 700];
     
-    ctx.fillStyle = "#f1f5f9"; ctx.fillRect(M, curY, W, 70);
-    ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 70);
     cX = M;
-    ths2.forEach((h, i) => { drawCanvasText(ctx, h, cX + 20, curY + 48, 32, "Arial", "#ea580c", "left", "bold"); cX += cols2[i]; });
-    curY += 70;
+    ths2.forEach((h, i) => { drawGridText(h, cX + 25, curY + 55, true); cX += cols2[i]; });
+    ctx.strokeRect(M, curY, W, 80);
+    curY += 80;
 
-    const recentSrvs = getDB('services').slice(-4).reverse();
-    for(let i=0; i<4; i++) {
-        ctx.strokeStyle = "#111827"; ctx.strokeRect(M, curY, W, 100);
+    const recentSrvs = getDB('services').slice(-5).reverse();
+    for(let i=0; i<5; i++) {
+        ctx.strokeRect(M, curY, W, 120);
         if(i < recentSrvs.length) {
             const s = recentSrvs[i];
             cX = M;
             [s.date, s.vehicle, s.miles.toString(), s.service].forEach((val, idx) => {
-                drawCanvasText(ctx, val, cX + 20, curY + 60, 36, "Arial", "#000", "left", "bold"); cX += cols2[idx];
+                drawGridText(val, cX + 25, curY + 75); cX += cols2[idx];
             });
         }
-        curY += 100;
+        curY += 120;
     }
 
-    // --- FOOTER ---
-    const footY = canvas.height - 180;
-    ctx.fillStyle = "#0f0f11"; ctx.fillRect(0, footY, canvas.width, 180);
-    drawCanvasText(ctx, "WTPRP ROLEPLAY DOCUMENT - COMMERCIAL FLEET RECORD", canvas.width/2, footY + 105, 36, "Arial", "#475569", "center", "bold");
+    const footY = canvas.height - M + 60;
+    drawCanvasText(ctx, "WTPRP ROLEPLAY - OFFICIAL COMMERCIAL RECORD", canvas.width/2, footY, 36, "Georgia", C_INK_BLACK, "center", "bold");
 
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
     document.getElementById('previewModal').style.display = 'flex';
@@ -775,7 +734,7 @@ function closePreview() { document.getElementById('previewModal').style.display 
 function downloadPNG() {
     const canvas = document.getElementById('docCanvas');
     const link = document.createElement('a');
-    link.download = `RTL_RECORD_${Math.floor(Math.random()*90000)}.png`;
+    link.download = `RTL_RECORD_${Math.floor(1000+Math.random()*9000)}.png`;
     link.href = canvas.toDataURL('image/png'); link.click();
 }
 
