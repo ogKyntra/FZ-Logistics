@@ -102,6 +102,9 @@
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group.full { grid-column: 1 / -1; }
         label { font-size: 0.85rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Dropdown Fix */
+        select option { background-color: var(--bg-card); color: var(--text-main); }
         input, select, textarea { font-family: var(--font-data); padding: 10px 12px; background-color: #141211; border: 2px solid var(--border-heavy); color: var(--text-main); outline: none; font-size: 1.05rem; font-weight: 700; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5); }
         input:focus, select:focus { border-color: var(--accent); background-color: #1a1512; }
         
@@ -209,7 +212,10 @@
         <div class="content">
             
             <div id="view-dashboard" class="view-section active">
-                <div class="dash-top-stats" id="dash-summary"></div>
+                
+                <div class="dash-top-stats" id="dash-summary">
+                    </div>
+
                 <div class="dash-grid-main">
                     <div class="card" style="margin-bottom:0; padding:20px;">
                         <h3 style="margin-bottom:15px;">Active Dispatch Board</h3>
@@ -220,6 +226,7 @@
                         <div id="dash-alerts"></div>
                     </div>
                 </div>
+
                 <div class="dash-grid-lower">
                     <div class="card" style="margin-bottom:0; padding:20px;">
                         <h3 style="margin-bottom:15px;">Fleet Status</h3>
@@ -292,7 +299,8 @@
                                 <div class="full"><label>Cargo Payload</label><p style="font-family:var(--font-data); font-weight:700; font-size:1.1rem; color:var(--text-main);" id="lc-cargo"></p></div>
                             </div>
 
-                            <div style="display:flex; gap:10px; border-top: 2px solid var(--border-heavy); padding-top:20px; flex-wrap:wrap;" id="lc-action-buttons"></div>
+                            <div style="display:flex; gap:10px; border-top: 2px solid var(--border-heavy); padding-top:20px; flex-wrap:wrap;" id="lc-action-buttons">
+                                </div>
                         </div>
 
                         <div class="card" id="lc-form-deliver" style="display:none; border-color:var(--success);">
@@ -347,6 +355,7 @@
                                 <button class="btn btn-secondary" onclick="hideLcForms()">Back</button>
                             </div>
                         </div>
+
                     </div>
                     <div>
                         <div class="card" style="position: sticky; top: 0;">
@@ -378,8 +387,8 @@
                             <h3>Log Fleet Mileage</h3>
                             <div class="form-grid">
                                 <div class="form-group full"><label>Truck / Asset Used</label><select id="log-vehicle"></select></div>
-                                <div class="form-group"><label>Odometer Start</label><input type="number" id="log-start"></div>
-                                <div class="form-group"><label>Odometer End</label><input type="number" id="log-end"></div>
+                                <div class="form-group"><label>Odometer Start</label><input type="number" id="log-start" placeholder="e.g. 120000"></div>
+                                <div class="form-group"><label>Odometer End</label><input type="number" id="log-end" placeholder="e.g. 120500"></div>
                             </div>
                             <button class="btn btn-primary" style="margin-top: 25px; width: 100%;" onclick="saveTripLog()">Submit To Ledger</button>
                         </div>
@@ -388,12 +397,13 @@
                             <h3>Log Garage Maintenance</h3>
                             <div class="form-grid">
                                 <div class="form-group full"><label>Asset Serviced</label><select id="srv-vehicle"></select></div>
-                                <div class="form-group"><label>Current Odometer</label><input type="number" id="srv-miles"></div>
-                                <div class="form-group"><label>Service Performed</label><input type="text" id="srv-type"></div>
+                                <div class="form-group"><label>Current Odometer</label><input type="number" id="srv-miles" placeholder="e.g. 120500"></div>
+                                <div class="form-group"><label>Service Performed</label><input type="text" id="srv-type" placeholder="e.g. Oil Change & Brakes"></div>
                             </div>
                             <button class="btn btn-secondary" style="margin-top: 25px; width: 100%;" onclick="saveServiceLog()">File Service Record</button>
                         </div>
                     </div>
+
                     <div>
                         <div class="card card-dashed" style="position: sticky; top: 0; padding: 40px 30px;">
                             <h3 style="justify-content: center; border: none; margin-bottom: 10px;">Official Logbook</h3>
@@ -420,12 +430,6 @@
                             <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Backup</button>
                         </div>
                     </div>
-
-                    <div style="margin-top: 50px; padding-top: 30px; border-top: 2px dashed var(--danger);">
-                        <h3 style="color:var(--danger); border:none; margin-bottom:10px;">DANGER ZONE</h3>
-                        <p style="font-family:var(--font-data); font-weight:700; color:var(--text-muted); margin-bottom:20px;">This will permanently wipe all waybills, history, personnel, and fleet records.</p>
-                        <button class="btn btn-danger" onclick="resetSystem()">Burn All Company Records</button>
-                    </div>
                 </div>
             </div>
 
@@ -436,6 +440,7 @@
                 </div>
                 <div class="table-container" id="list-table-container"></div>
             </div>
+
             <div id="view-form" class="view-section">
                 <div class="card">
                     <h3 id="form-title">Record Form</h3>
@@ -472,6 +477,7 @@ let editId = null;
 let activeWaybillId = null; 
 let pendingDraftDoc = null; 
 let isReprintMode = false;
+let modalDownloadName = 'RTL_DOCUMENT.png'; // Global tracker for clean filenames
 
 const rtlLogo = new Image();
 rtlLogo.src = 'RengokuTrucking.png';
@@ -492,7 +498,7 @@ const SCHEMAS = {
             { id: 'make_model', label: 'Truck Make & Model', type: 'text', req: true },
             { id: 'plate', label: 'License Plate', type: 'text', req: true },
             { id: 'type', label: 'Truck Class', type: 'select', opts: ['Heavy Sleeper', 'Day Cab', 'Box Truck', 'Flatbed', 'Service Vehicle'] },
-            { id: 'status', label: 'Status', type: 'select', opts: ['AVAILABLE', 'MAINTENANCE'] }
+            { id: 'status', label: 'Status', type: 'select', opts: ['AVAILABLE', 'MAINTENANCE', 'ASSIGNED'] }
         ]
     }
 };
@@ -500,7 +506,8 @@ const SCHEMAS = {
 const DEFAULT_DATA = {
     personnel: [{ id: 'P1', name: 'Renji Rengoku', employee_id: 'RTL-001', role: 'Owner / Operator', callsign: 'R-21' }],
     vehicles: [
-        { id: 'V1', make_model: 'Phantom Custom', plate: 'RTL-001', type: 'Heavy Sleeper', status: 'AVAILABLE', current_load: null }
+        { id: 'V1', make_model: 'Phantom Custom', plate: 'RTL-001', type: 'Heavy Sleeper', status: 'AVAILABLE', current_load: null },
+        { id: 'V2', make_model: 'Kenworth W900', plate: 'HAUL-99', type: 'Heavy Sleeper', status: 'MAINTENANCE', current_load: null }
     ],
     waybills: [], logs: [], services: [], activity: []
 };
@@ -631,8 +638,7 @@ function saveRecord() {
     if (editId) {
         let idx = data.findIndex(r => r.id === editId);
         if(currentModule === 'vehicles') {
-            record.status = data[idx].status || 'AVAILABLE';
-            record.current_load = data[idx].current_load || null;
+            record.current_load = data[idx].current_load || null; // Preserve assignments
         }
         data[idx] = record;
     } else {
@@ -826,7 +832,6 @@ function previewWaybillDraft() {
     try {
         pendingDraftDoc = buildDraftObject();
         isReprintMode = false;
-        document.getElementById('modal-download-btn').innerText = "Download & File Waybill";
         renderTransportCanvas(pendingDraftDoc);
     } catch (err) { alert(err.message); }
 }
@@ -1051,7 +1056,6 @@ function reprintDocument(id) {
     const doc = getDB('waybills').find(d => d.id === id);
     if(doc) { 
         isReprintMode = true;
-        document.getElementById('modal-download-btn').innerText = "Download Reprint";
         renderTransportCanvas(doc); 
     } else { alert("File missing."); }
 }
@@ -1070,6 +1074,10 @@ function renderTransportCanvas(doc) {
     const canvas = document.getElementById('docCanvas');
     const ctx = canvas.getContext('2d');
     
+    // Set global download tracker so executeDownload works cleanly
+    modalDownloadName = `RTL_WAYBILL_${doc.doc_num}.png`;
+    document.getElementById('modal-download-btn').innerText = isReprintMode ? "Download Official Reprint" : "Download & File Waybill";
+
     ctx.fillStyle = C_PAPER;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1108,7 +1116,6 @@ function renderTransportCanvas(doc) {
 
     // --- 1. HEADER ---
     curY = M;
-    
     if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
         ctx.drawImage(rtlLogo, M + 20, curY + 20, 240, 240);
     }
@@ -1181,6 +1188,10 @@ function printLogBook() {
     const canvas = document.getElementById('docCanvas');
     const ctx = canvas.getContext('2d');
     
+    // Set global download tracker
+    modalDownloadName = `RTL_FLEET_LOG_${new Date().toLocaleDateString('en-US').replace(/\//g,'-')}.png`;
+    document.getElementById('modal-download-btn').innerText = "Download Official Logbook";
+
     ctx.fillStyle = C_PAPER;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1198,15 +1209,17 @@ function printLogBook() {
         ctx.drawImage(rtlLogo, M + 20, curY + 20, 200, 200);
     }
 
-    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", canvas.width/2, curY + 110, 95, "Georgia", C_INK_BLACK, "center", "bold");
+    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", canvas.width/2, curY + 110, 85, "Georgia", C_INK_BLACK, "center", "bold");
     drawCanvasText(ctx, "COMPANY FLEET LEDGER", canvas.width/2, curY + 180, 45, "Georgia", C_INK_BLACK, "center", "normal");
     drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", canvas.width/2, curY + 260, 60, "Georgia", C_INK_BLACK, "center", "bold");
     curY += 340;
 
     const totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
     ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 180);
-    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 55, 36, "Georgia", C_INK_BLACK, "left", "bold"); 
-    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 130, 95, "'Courier New'", C_INK_BLUE, "center", "bold");
+    ctx.fillStyle = "#f8fafc"; ctx.fillRect(M+2, curY+2, W-4, 60); 
+    ctx.beginPath(); ctx.moveTo(M, curY+62); ctx.lineTo(M+W, curY+62); ctx.stroke(); 
+    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 45, 32, "Georgia", C_INK_BLACK, "left", "bold"); 
+    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 145, 80, "'Courier New'", C_INK_BLUE, "center", "bold");
     curY += 240;
 
     const drawGridText = (txt, x, y, isHeader=false) => {
@@ -1307,13 +1320,14 @@ function printLogBook() {
 }
 
 function closePreview() { document.getElementById('previewModal').style.display = 'none'; }
+
 function executeDownload() {
     if(!isReprintMode && pendingDraftDoc) {
         processNewWaybill();
     } else {
         const canvas = document.getElementById('docCanvas');
         const link = document.createElement('a');
-        link.download = `RTL_WAYBILL_${Math.floor(1000+Math.random()*9000)}.png`;
+        link.download = modalDownloadName;
         link.href = canvas.toDataURL('image/png'); link.click();
     }
 }
