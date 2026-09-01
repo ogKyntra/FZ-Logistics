@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;800;900&display=swap');
 
         :root {
-            color-scheme: dark; /* Forces browser native elements to dark mode */
+            color-scheme: dark;
             --bg-base: #0a0a0c;
             --bg-panel: #141417;
             --bg-card: #202024;
@@ -38,7 +38,6 @@
             overflow: hidden; 
             padding: 15px; 
             gap: 15px; 
-            /* Subtle grid background for the rugged tablet aesthetic */
             background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 40px 40px;
         }
@@ -206,11 +205,12 @@
 </head>
 <body>
 
+    <!-- SIDEBAR NAVIGATION -->
     <nav>
         <div class="brand">
             <img src="RengokuTrucking.png" alt="Rengoku Trucking">
             <h2>RENGOKU</h2>
-            <p>CAB OS v2.0</p>
+            <p>CAB OS v2.2</p>
         </div>
         <div class="nav-links">
             <button class="nav-btn active" onclick="switchTab('waybill')">📄 Draft Waybill</button>
@@ -221,6 +221,7 @@
         <div class="settings-btn" onclick="switchTab('settings')">⚙️ DATA BACKUP / RESET</div>
     </nav>
 
+    <!-- MAIN INTERFACE -->
     <main>
         <header>
             <h1 id="header-title">DRAFT WAYBILL</h1>
@@ -229,6 +230,7 @@
 
         <div class="view-container">
             
+            <!-- 1. WAYBILL GENERATOR -->
             <div id="view-waybill" class="view active">
                 <div class="card">
                     <h3>Trip Details</h3>
@@ -258,8 +260,10 @@
                 <button class="action-btn" style="margin-top: 15px;" onclick="generateWaybill()">Print Official Waybill</button>
             </div>
 
+            <!-- 2. LOGBOOK -->
             <div id="view-logbook" class="view">
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap:25px;">
+                    <!-- Mileage Log -->
                     <div class="card" style="margin:0;">
                         <h3>Log Miles</h3>
                         <div class="form-group" style="margin-bottom:20px;"><label>Select Truck</label><select id="log-truck"></select></div>
@@ -270,6 +274,7 @@
                         <button class="action-btn" onclick="saveTrip()">Save Trip</button>
                     </div>
 
+                    <!-- Maintenance Log -->
                     <div class="card" style="margin:0;">
                         <h3>Log Maintenance</h3>
                         <div class="form-group" style="margin-bottom:20px;"><label>Select Truck</label><select id="srv-truck"></select></div>
@@ -286,6 +291,7 @@
                 </div>
             </div>
 
+            <!-- 3. MY GARAGE -->
             <div id="view-garage" class="view">
                 <div class="card">
                     <h3>Register New Truck</h3>
@@ -304,6 +310,7 @@
                 </div>
             </div>
 
+            <!-- 4. PAPER TRAIL (HISTORY) -->
             <div id="view-history" class="view">
                 <div class="list-container">
                     <table>
@@ -313,6 +320,7 @@
                 </div>
             </div>
 
+            <!-- 5. SETTINGS -->
             <div id="view-settings" class="view">
                 <div class="card">
                     <h3>Data Backup</h3>
@@ -334,10 +342,13 @@
         </div>
     </main>
 
+    <!-- Toast Notifications -->
     <div id="toast-container"></div>
 
+    <!-- Hidden Canvas -->
     <canvas id="docCanvas" width="2480" height="3508"></canvas>
 
+    <!-- Preview Modal -->
     <div id="previewModal">
         <div class="modal-toolbar">
             <button class="action-btn secondary" style="width:auto;" onclick="document.getElementById('previewModal').style.display='none'">← Return to Terminal</button>
@@ -352,14 +363,14 @@
 // ==========================================
 // 1. SYSTEM SETUP & STATE
 // ==========================================
-const DB_KEY = 'rtl_cab_os_v2';
+const DB_KEY = 'rtl_cab_os_v4';
 const rtlLogo = new Image();
 rtlLogo.src = 'RengokuTrucking.png';
 
 let currentDownloadName = 'Document.png';
 
 const defaultData = {
-    trucks: [{ id: '1', make: 'Phantom Custom', plate: 'RTL-001' }],
+    trucks: [{ id: '1', make: 'Endless W900', plate: '2TB340GG' }],
     waybills: [],
     logs: [],
     services: []
@@ -688,7 +699,7 @@ function drawWaybillCanvas(doc) {
     drawCanvasText(ctx, doc.driver.toUpperCase(), M + cw + (cw/2), curY - 20, 65, "'Courier New'", C_TYPED, "center", "bold");
 
     // Barcode at very bottom
-    drawBarcode(ctx, canvas.width/2 - 250, canvas.height - M - 90, 500, 70);
+    drawBarcode(ctx, canvas.width/2 - 200, canvas.height - M - 120, 400, 80);
 
     currentDownloadName = `WAYBILL_${doc.doc_num}.png`;
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
@@ -703,111 +714,120 @@ function drawLogbookCanvas() {
     ctx.fillStyle = C_PAPER; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const M = 120; const W = canvas.width - (M * 2);
-    ctx.strokeStyle = C_INK; ctx.lineWidth = 6; ctx.strokeRect(M-15, M-15, W+30, canvas.height - (M*2) + 30);
-    ctx.lineWidth = 2; ctx.strokeRect(M-5, M-5, W+10, canvas.height - (M*2) + 10);
+    ctx.strokeStyle = C_INK; ctx.lineWidth = 8; ctx.strokeRect(M-15, M-15, W+30, canvas.height - (M*2) + 30);
+    ctx.lineWidth = 3; ctx.strokeRect(M-5, M-5, W+10, canvas.height - (M*2) + 10);
 
     let curY = M;
     
     // Watermark
     if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
         ctx.globalAlpha = 0.05;
-        ctx.drawImage(rtlLogo, (canvas.width/2) - 600, (canvas.height/2) - 600, 1200, 1200);
+        ctx.drawImage(rtlLogo, (canvas.width/2) - 800, (canvas.height/2) - 800, 1600, 1600);
         ctx.globalAlpha = 1.0;
         
-        ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 250);
-        ctx.drawImage(rtlLogo, M + 30, curY + 25, 200, 200);
+        ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 260);
+        ctx.drawImage(rtlLogo, M + 40, curY + 20, 220, 220);
     } else {
-        ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 250);
+        ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 260);
     }
 
-    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", M + 260, curY + 120, 85, "Georgia", C_PAPER, "left", "bold");
-    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", M + 265, curY + 190, 45, "Georgia", C_PAPER, "left", "bold");
-    curY += 250;
+    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", M + 300, curY + 130, 110, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", M + 305, curY + 210, 55, "Georgia", C_PAPER, "left", "bold");
+    curY += 260;
 
     const db = getDB();
-    const totalMiles = db.logs.reduce((sum, log) => sum + log.dist, 0);
+    const totalMiles = db.logs.reduce((sum, log) => sum + (log.dist || 0), 0);
     
-    ctx.fillStyle = "#dfd5be"; ctx.fillRect(M, curY, W, 70);
-    ctx.strokeStyle = C_INK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 220);
-    ctx.beginPath(); ctx.moveTo(M, curY+70); ctx.lineTo(M+W, curY+70); ctx.lineWidth = 2; ctx.stroke();
-    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 30, curY + 48, 32, "Georgia", C_INK, "left", "bold"); 
-    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 175, 110, "'Courier New'", C_TYPED, "center", "bold");
-    curY += 220;
+    // Total Miles Hero
+    ctx.fillStyle = "#dfd5be"; ctx.fillRect(M, curY, W, 80);
+    ctx.strokeStyle = C_INK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 250);
+    ctx.beginPath(); ctx.moveTo(M, curY+80); ctx.lineTo(M+W, curY+80); ctx.lineWidth = 2; ctx.stroke();
+    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 35, curY + 55, 45, "Georgia", C_INK, "left", "bold"); 
+    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 195, 130, "'Courier New'", C_TYPED, "center", "bold");
+    curY += 250;
 
-    const drawGridText = (txt, x, y, isHeader=false) => { drawCanvasText(ctx, txt, x, y, isHeader?30:38, isHeader?"Georgia":"'Courier New'", isHeader?C_PAPER:C_TYPED, "left", "bold"); };
+    const drawGridText = (txt, x, y, isHeader=false) => { 
+        drawCanvasText(ctx, txt, x, y, isHeader?45:60, isHeader?"Georgia":"'Courier New'", isHeader?C_PAPER:C_TYPED, "left", "bold"); 
+    };
 
-    // TRIPS
+    // TRIPS SECTION
     curY += 40;
-    ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 80);
-    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 30, curY + 55, 38, "Georgia", C_PAPER, "left", "bold");
-    curY += 80;
+    ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 90);
+    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 35, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
+    curY += 90;
 
-    const ths1 = ["DATE", "TRUCK", "START", "END", "DIST"]; const cols1 = [250, 950, 300, 300, 200]; 
-    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 70); // Darker header for grid
-    ctx.strokeStyle = C_INK; ctx.lineWidth = 3;
-    let cX = M; ths1.forEach((h, i) => { drawGridText(h, cX + 25, curY + 48, true); cX += cols1[i]; });
-    ctx.strokeRect(M, curY, W, 70); curY += 70;
+    const ths1 = ["DATE", "TRUCK", "START", "END", "DIST"]; 
+    const cols1 = [340, 800, 350, 350, 400]; // Total exactly 2240 (W)
+    
+    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 80);
+    ctx.strokeStyle = C_INK; ctx.lineWidth = 4;
+    let cX = M; ths1.forEach((h, i) => { drawGridText(h, cX + 25, curY + 58, true); cX += cols1[i]; });
+    ctx.strokeRect(M, curY, W, 80); 
+    curY += 80;
 
     const rLogs = db.logs.slice(-5).reverse();
     for(let i=0; i<5; i++) {
         if(i < rLogs.length) {
             const l = rLogs[i];
-            const truckLines = getWrappedLines(ctx, l.truck || "Unknown", cols1[1] - 40, "bold 38px 'Courier New'");
-            const rH = Math.max(100, (truckLines.length * 45) + 55);
+            const truckLines = getWrappedLines(ctx, l.truck || "Unknown", cols1[1] - 40, "bold 60px 'Courier New'");
+            const rH = Math.max(130, (truckLines.length * 65) + 70);
 
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
             ctx.fillRect(M, curY, W, rH);
             ctx.strokeRect(M, curY, W, rH);
             
             let cX = M;
-            drawGridText(l.date || "N/A", cX + 25, curY + 60); cX += cols1[0];
-            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 60 + (j*45))); cX += cols1[1];
-            drawGridText((l.start || 0).toString(), cX + 25, curY + 60); cX += cols1[2];
-            drawGridText((l.end || 0).toString(), cX + 25, curY + 60); cX += cols1[3];
-            drawGridText(`+${l.dist || 0}`, cX + 25, curY + 60); cX += cols1[4];
+            drawGridText(l.date || "N/A", cX + 25, curY + 80); cX += cols1[0];
+            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 80 + (j*65))); cX += cols1[1];
+            drawGridText((l.start || 0).toString(), cX + 25, curY + 80); cX += cols1[2];
+            drawGridText((l.end || 0).toString(), cX + 25, curY + 80); cX += cols1[3];
+            drawGridText(`+${l.dist || 0}`, cX + 25, curY + 80); cX += cols1[4];
             curY += rH;
         } else {
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
-            ctx.fillRect(M, curY, W, 100); ctx.strokeRect(M, curY, W, 100); curY += 100;
+            ctx.fillRect(M, curY, W, 130); ctx.strokeRect(M, curY, W, 130); curY += 130;
         }
     }
-
-    // SERVICES
-    curY += 40;
-    ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 80);
-    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 5)", M + 30, curY + 55, 38, "Georgia", C_PAPER, "left", "bold");
     curY += 80;
 
-    const ths2 = ["DATE", "TRUCK", "ODO", "SERVICE RECORD"]; const cols2 = [250, 800, 250, 800];
-    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 70);
-    cX = M; ths2.forEach((h, i) => { drawGridText(h, cX + 25, curY + 48, true); cX += cols2[i]; });
-    ctx.strokeRect(M, curY, W, 70); curY += 70;
+    // SERVICES SECTION
+    ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 90);
+    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 5)", M + 35, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
+    curY += 90;
+
+    const ths2 = ["DATE", "TRUCK", "ODO", "SERVICE RECORD"]; 
+    const cols2 = [340, 750, 300, 850]; // Total exactly 2240 (W)
+    
+    ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 80);
+    cX = M; ths2.forEach((h, i) => { drawGridText(h, cX + 25, curY + 58, true); cX += cols2[i]; });
+    ctx.strokeRect(M, curY, W, 80); 
+    curY += 80;
 
     const rSrvs = db.services.slice(-5).reverse();
     for(let i=0; i<5; i++) {
         if(i < rSrvs.length) {
             const s = rSrvs[i];
-            const truckLines = getWrappedLines(ctx, s.truck || "Unknown", cols2[1] - 40, "bold 38px 'Courier New'");
-            const srvLines = getWrappedLines(ctx, s.desc || "N/A", cols2[3] - 40, "bold 38px 'Courier New'");
-            const rH = Math.max(100, (Math.max(truckLines.length, srvLines.length) * 45) + 55);
+            const truckLines = getWrappedLines(ctx, s.truck || "Unknown", cols2[1] - 40, "bold 60px 'Courier New'");
+            const srvLines = getWrappedLines(ctx, s.desc || "N/A", cols2[3] - 40, "bold 60px 'Courier New'");
+            const rH = Math.max(130, (Math.max(truckLines.length, srvLines.length) * 65) + 70);
 
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
             ctx.fillRect(M, curY, W, rH);
             ctx.strokeRect(M, curY, W, rH);
             
             let cX = M;
-            drawGridText(s.date || "N/A", cX + 25, curY + 60); cX += cols2[0];
-            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 60 + (j*45))); cX += cols2[1];
-            drawGridText((s.odo || 0).toString(), cX + 25, curY + 60); cX += cols2[2];
-            srvLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 60 + (j*45))); cX += cols2[3];
+            drawGridText(s.date || "N/A", cX + 25, curY + 80); cX += cols2[0];
+            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 80 + (j*65))); cX += cols2[1];
+            drawGridText((s.odo || 0).toString(), cX + 25, curY + 80); cX += cols2[2];
+            srvLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 80 + (j*65))); cX += cols2[3];
             curY += rH;
         } else {
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
-            ctx.fillRect(M, curY, W, 100); ctx.strokeRect(M, curY, W, 100); curY += 100;
+            ctx.fillRect(M, curY, W, 130); ctx.strokeRect(M, curY, W, 130); curY += 130;
         }
     }
 
-    drawBarcode(ctx, canvas.width/2 - 250, canvas.height - M - 90, 500, 70);
+    drawBarcode(ctx, canvas.width/2 - 300, canvas.height - M - 120, 600, 100);
 
     currentDownloadName = `LOGBOOK_${new Date().getTime()}.png`;
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
@@ -826,7 +846,8 @@ function executeDownload() {
 // ==========================================
 function factoryReset() {
     if(confirm("Are you absolutely sure? This will wipe EVERYTHING.")) {
-        localStorage.removeItem(DB_KEY); location.reload();
+        localStorage.removeItem(DB_KEY);
+        location.reload();
     }
 }
 function exportData() {
