@@ -131,7 +131,6 @@
         
         label { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Fully styled inputs to prevent black-on-black invisibility */
         input, select { 
             padding: 16px 20px; 
             background-color: var(--bg-base); 
@@ -145,7 +144,6 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
         }
         
-        /* Custom dropdown arrow for selects */
         select {
             appearance: none;
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ea580c%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
@@ -155,7 +153,6 @@
             padding-right: 40px;
         }
         select option { background-color: var(--bg-card); color: #fff; font-weight: 600; }
-        
         input:focus, select:focus { border-color: var(--accent); background-color: #1a1512; box-shadow: 0 0 0 4px var(--accent-glow); }
 
         /* Buttons */
@@ -210,7 +207,7 @@
         <div class="brand">
             <img src="RengokuTrucking.png" alt="Rengoku Trucking">
             <h2>RENGOKU</h2>
-            <p>CAB OS v2.2</p>
+            <p>CAB OS v2.3</p>
         </div>
         <div class="nav-links">
             <button class="nav-btn active" onclick="switchTab('waybill')">📄 Draft Waybill</button>
@@ -594,30 +591,30 @@ function getWrappedLines(ctx, text, maxWidth, font) {
     return lines;
 }
 
-// Form Box Drawer
+// Massive Form Box Drawer
 function drawFormBox(ctx, lbl, val, x, y, w, h) {
     ctx.strokeStyle = C_INK; ctx.lineWidth = 3; ctx.strokeRect(x, y, w, h);
-    ctx.fillStyle = "#dfd5be"; ctx.fillRect(x, y, w, 55);
-    ctx.beginPath(); ctx.moveTo(x, y+55); ctx.lineTo(x+w, y+55); ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = "#dfd5be"; ctx.fillRect(x, y, w, 75);
+    ctx.beginPath(); ctx.moveTo(x, y+75); ctx.lineTo(x+w, y+75); ctx.lineWidth = 2; ctx.stroke();
     
-    drawCanvasText(ctx, lbl, x + 20, y + 38, 24, "Georgia", C_INK, "left", "bold"); 
+    drawCanvasText(ctx, lbl, x + 25, y + 50, 34, "Georgia", C_INK, "left", "bold"); 
     
     ctx.fillStyle = C_TYPED;
-    const lines = getWrappedLines(ctx, val, w - 40, "bold 55px 'Courier New'");
-    let ly = y + 120;
-    lines.forEach(line => { ctx.fillText(line, x + 25, ly); ly += 65; });
+    const lines = getWrappedLines(ctx, val, w - 50, "bold 75px 'Courier New'");
+    let ly = y + 155; 
+    lines.forEach(line => { ctx.fillText(line, x + 30, ly); ly += 85; });
 }
 
 function drawSectionHeader(ctx, title, x, y, w) {
-    ctx.fillStyle = C_INK; ctx.fillRect(x, y, w, 90);
-    drawCanvasText(ctx, title, x + 30, y + 60, 42, "Georgia", C_PAPER, "left", "bold");
-    return y + 90;
+    ctx.fillStyle = C_INK; ctx.fillRect(x, y, w, 100);
+    drawCanvasText(ctx, title, x + 35, y + 65, 48, "Georgia", C_PAPER, "left", "bold");
+    return y + 100;
 }
 
 function drawBarcode(ctx, x, y, w, h) {
     ctx.fillStyle = C_INK;
-    for(let i=0; i<w; i+= Math.random()*8 + 2) {
-        let width = Math.random() > 0.5 ? 2 : 6;
+    for(let i=0; i<w; i+= Math.random()*8 + 3) {
+        let width = Math.random() > 0.5 ? 4 : 8;
         ctx.fillRect(x + i, y, width, h);
     }
 }
@@ -633,73 +630,73 @@ function drawWaybillCanvas(doc) {
 
     // Borders
     ctx.strokeStyle = C_INK; ctx.lineWidth = 8; ctx.strokeRect(M-15, M-15, W+30, canvas.height - (M*2) + 30);
-    ctx.lineWidth = 2; ctx.strokeRect(M-5, M-5, W+10, canvas.height - (M*2) + 10);
+    ctx.lineWidth = 3; ctx.strokeRect(M-5, M-5, W+10, canvas.height - (M*2) + 10);
 
     let curY = M;
 
     // Header Area
-    ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 250);
-    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) ctx.drawImage(rtlLogo, M + 30, curY + 25, 200, 200);
+    ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 260);
+    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) ctx.drawImage(rtlLogo, M + 30, curY + 30, 200, 200);
     
-    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", M + 260, curY + 120, 85, "Georgia", C_PAPER, "left", "bold");
-    drawCanvasText(ctx, "COMMERCIAL FREIGHT WAYBILL", M + 265, curY + 190, 45, "Georgia", C_PAPER, "left", "normal");
+    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", M + 260, curY + 110, 90, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "COMMERCIAL FREIGHT WAYBILL", M + 265, curY + 180, 45, "Georgia", C_PAPER, "left", "normal");
     
     // Serial Badge
     ctx.fillStyle = C_PAPER; ctx.fillRect(M + W - 450, curY + 50, 400, 150);
     ctx.strokeStyle = C_RED; ctx.lineWidth = 4; ctx.strokeRect(M + W - 440, curY + 60, 380, 130);
-    drawCanvasText(ctx, "WAYBILL NO.", M + W - 250, curY + 100, 30, "Georgia", C_RED, "center", "bold");
-    drawCanvasText(ctx, doc.doc_num, M + W - 250, curY + 160, 55, "'Courier New'", C_RED, "center", "bold");
+    drawCanvasText(ctx, "WAYBILL NO.", M + W - 250, curY + 105, 36, "Georgia", C_RED, "center", "bold");
+    drawCanvasText(ctx, doc.doc_num, M + W - 250, curY + 165, 60, "'Courier New'", C_RED, "center", "bold");
 
-    curY += 250;
+    curY += 260;
     const cw = W / 2;
-    drawFormBox(ctx, "DATE ISSUED", doc.date, M, curY, cw, 180);
-    drawFormBox(ctx, "TIME ISSUED", doc.time, M+cw, curY, cw, 180);
-    curY += 180;
+    drawFormBox(ctx, "DATE ISSUED", doc.date, M, curY, cw, 220);
+    drawFormBox(ctx, "TIME ISSUED", doc.time, M+cw, curY, cw, 220);
+    curY += 220;
 
     curY = drawSectionHeader(ctx, "ROUTING & DRIVER", M, curY, W);
-    drawFormBox(ctx, "POINT OF ORIGIN", doc.origin, M, curY, cw, 220);
-    drawFormBox(ctx, "DELIVERY DESTINATION", doc.dest, M+cw, curY, cw, 220);
-    curY += 220;
-    drawFormBox(ctx, "ASSIGNED DRIVER", doc.driver, M, curY, cw, 200);
-    drawFormBox(ctx, "VEHICLE INFO", doc.truck, M+cw, curY, cw, 200);
-    curY += 200;
+    drawFormBox(ctx, "POINT OF ORIGIN", doc.origin, M, curY, cw, 260);
+    drawFormBox(ctx, "DELIVERY DESTINATION", doc.dest, M+cw, curY, cw, 260);
+    curY += 260;
+    drawFormBox(ctx, "ASSIGNED DRIVER", doc.driver, M, curY, cw, 240);
+    drawFormBox(ctx, "VEHICLE INFO", doc.truck, M+cw, curY, cw, 240);
+    curY += 240;
 
     curY = drawSectionHeader(ctx, "FREIGHT DETAILS", M, curY, W);
     
     // Dynamic Box Sizing to use empty space
-    const targetBottom = canvas.height - M - 600; // Leave 600px for weight, sigs, barcode
-    const cargoHeight = Math.max(400, targetBottom - curY);
+    const targetBottom = canvas.height - M - 650; // Leave 650px for weight, sigs, barcode
+    const cargoHeight = Math.max(500, targetBottom - curY);
     
     drawFormBox(ctx, "DESCRIPTION OF ARTICLES, SPECIAL MARKS, AND EXCEPTIONS", doc.cargo, M, curY, W, cargoHeight);
     curY += cargoHeight;
 
     // Massive Weight Box
-    ctx.fillStyle = "#dfd5be"; ctx.fillRect(M, curY, W, 70);
-    ctx.strokeStyle = C_INK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 250);
-    ctx.beginPath(); ctx.moveTo(M, curY+70); ctx.lineTo(M+W, curY+70); ctx.lineWidth = 2; ctx.stroke();
-    drawCanvasText(ctx, "TOTAL GROSS WEIGHT (LBS)", M + 30, curY + 48, 32, "Georgia", C_INK, "left", "bold");
-    drawCanvasText(ctx, doc.weight.toLocaleString(), canvas.width/2, curY + 200, 150, "'Courier New'", C_TYPED, "center", "bold");
-    curY += 250;
+    ctx.fillStyle = "#dfd5be"; ctx.fillRect(M, curY, W, 90);
+    ctx.strokeStyle = C_INK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 300);
+    ctx.beginPath(); ctx.moveTo(M, curY+90); ctx.lineTo(M+W, curY+90); ctx.lineWidth = 2; ctx.stroke();
+    drawCanvasText(ctx, "TOTAL GROSS WEIGHT (LBS)", M + 40, curY + 60, 45, "Georgia", C_INK, "left", "bold");
+    drawCanvasText(ctx, doc.weight.toLocaleString(), canvas.width/2, curY + 230, 160, "'Courier New'", C_TYPED, "center", "bold");
+    curY += 300;
 
     // Disclaimer
     curY += 50;
-    drawCanvasText(ctx, "RECEIVED, subject to the classifications and tariffs in effect on the date of the issue of this Bill of Lading.", canvas.width/2, curY, 20, "Georgia", C_INK, "center", "bold");
-    drawCanvasText(ctx, "The property described above, in apparent good order. Liability is limited to declared value.", canvas.width/2, curY + 30, 20, "Georgia", C_INK, "center", "normal");
+    drawCanvasText(ctx, "RECEIVED, subject to the classifications and tariffs in effect on the date of the issue of this Bill of Lading.", canvas.width/2, curY, 28, "Georgia", C_INK, "center", "bold");
+    drawCanvasText(ctx, "The property described above, in apparent good order. Liability is limited to declared value.", canvas.width/2, curY + 40, 26, "Georgia", C_INK, "center", "normal");
 
     // Signatures
-    curY += 160;
-    ctx.strokeStyle = C_INK; ctx.lineWidth = 3;
+    curY += 180;
+    ctx.strokeStyle = C_INK; ctx.lineWidth = 4;
     
-    ctx.beginPath(); ctx.moveTo(M + 50, curY); ctx.lineTo(M + cw - 50, curY); ctx.stroke();
-    drawCanvasText(ctx, "ISSUING AGENT SIGNATURE", M + (cw/2), curY + 40, 24, "Georgia", C_INK, "center", "bold");
-    drawCanvasText(ctx, "SYSTEM AUTH", M + (cw/2), curY - 20, 65, "'Courier New'", C_TYPED, "center", "bold");
+    ctx.beginPath(); ctx.moveTo(M + 80, curY); ctx.lineTo(M + cw - 80, curY); ctx.stroke();
+    drawCanvasText(ctx, "ISSUING AGENT SIGNATURE", M + (cw/2), curY + 55, 36, "Georgia", C_INK, "center", "bold");
+    drawCanvasText(ctx, "SYSTEM AUTH", M + (cw/2), curY - 30, 75, "'Courier New'", C_TYPED, "center", "bold");
 
-    ctx.beginPath(); ctx.moveTo(M + cw + 50, curY); ctx.lineTo(M + W - 50, curY); ctx.stroke();
-    drawCanvasText(ctx, "DRIVER ACKNOWLEDGEMENT", M + cw + (cw/2), curY + 40, 24, "Georgia", C_INK, "center", "bold");
-    drawCanvasText(ctx, doc.driver.toUpperCase(), M + cw + (cw/2), curY - 20, 65, "'Courier New'", C_TYPED, "center", "bold");
+    ctx.beginPath(); ctx.moveTo(M + cw + 80, curY); ctx.lineTo(M + W - 80, curY); ctx.stroke();
+    drawCanvasText(ctx, "DRIVER ACKNOWLEDGEMENT", M + cw + (cw/2), curY + 55, 36, "Georgia", C_INK, "center", "bold");
+    drawCanvasText(ctx, doc.driver.toUpperCase(), M + cw + (cw/2), curY - 30, 75, "'Courier New'", C_TYPED, "center", "bold");
 
     // Barcode at very bottom
-    drawBarcode(ctx, canvas.width/2 - 200, canvas.height - M - 120, 400, 80);
+    drawBarcode(ctx, canvas.width/2 - 300, canvas.height - M - 100, 600, 100);
 
     currentDownloadName = `WAYBILL_${doc.doc_num}.png`;
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
@@ -726,13 +723,13 @@ function drawLogbookCanvas() {
         ctx.globalAlpha = 1.0;
         
         ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 260);
-        ctx.drawImage(rtlLogo, M + 40, curY + 20, 220, 220);
+        ctx.drawImage(rtlLogo, M + 30, curY + 30, 200, 200);
     } else {
         ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 260);
     }
 
-    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", M + 300, curY + 130, 110, "Georgia", C_PAPER, "left", "bold");
-    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", M + 305, curY + 210, 55, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", M + 260, curY + 110, 90, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "OFFICIAL MAINTENANCE & MILEAGE LOG", M + 265, curY + 180, 48, "Georgia", C_PAPER, "left", "bold");
     curY += 260;
 
     const db = getDB();
@@ -742,26 +739,26 @@ function drawLogbookCanvas() {
     ctx.fillStyle = "#dfd5be"; ctx.fillRect(M, curY, W, 80);
     ctx.strokeStyle = C_INK; ctx.lineWidth = 4; ctx.strokeRect(M, curY, W, 250);
     ctx.beginPath(); ctx.moveTo(M, curY+80); ctx.lineTo(M+W, curY+80); ctx.lineWidth = 2; ctx.stroke();
-    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 35, curY + 55, 45, "Georgia", C_INK, "left", "bold"); 
-    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 195, 130, "'Courier New'", C_TYPED, "center", "bold");
+    drawCanvasText(ctx, "TOTAL RECORDED FLEET MILEAGE", M + 35, curY + 55, 38, "Georgia", C_INK, "left", "bold"); 
+    drawCanvasText(ctx, `${totalMiles.toLocaleString()} MILES`, canvas.width/2, curY + 195, 120, "'Courier New'", C_TYPED, "center", "bold");
     curY += 250;
 
     const drawGridText = (txt, x, y, isHeader=false) => { 
-        drawCanvasText(ctx, txt, x, y, isHeader?45:60, isHeader?"Georgia":"'Courier New'", isHeader?C_PAPER:C_TYPED, "left", "bold"); 
+        drawCanvasText(ctx, txt, x, y, isHeader?36:50, isHeader?"Georgia":"'Courier New'", isHeader?C_PAPER:C_TYPED, "left", "bold"); 
     };
 
     // TRIPS SECTION
     curY += 40;
     ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 90);
-    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 35, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 35, curY + 60, 42, "Georgia", C_PAPER, "left", "bold");
     curY += 90;
 
     const ths1 = ["DATE", "TRUCK", "START", "END", "DIST"]; 
-    const cols1 = [340, 800, 350, 350, 400]; // Total exactly 2240 (W)
+    const cols1 = [300, 950, 350, 350, 290]; // Sum 2240
     
     ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 80);
     ctx.strokeStyle = C_INK; ctx.lineWidth = 4;
-    let cX = M; ths1.forEach((h, i) => { drawGridText(h, cX + 25, curY + 58, true); cX += cols1[i]; });
+    let cX = M; ths1.forEach((h, i) => { drawGridText(h, cX + 25, curY + 55, true); cX += cols1[i]; });
     ctx.strokeRect(M, curY, W, 80); 
     curY += 80;
 
@@ -769,37 +766,37 @@ function drawLogbookCanvas() {
     for(let i=0; i<5; i++) {
         if(i < rLogs.length) {
             const l = rLogs[i];
-            const truckLines = getWrappedLines(ctx, l.truck || "Unknown", cols1[1] - 40, "bold 60px 'Courier New'");
-            const rH = Math.max(130, (truckLines.length * 65) + 70);
+            const truckLines = getWrappedLines(ctx, l.truck || "Unknown", cols1[1] - 40, "bold 50px 'Courier New'");
+            const rH = Math.max(120, (truckLines.length * 60) + 60);
 
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
             ctx.fillRect(M, curY, W, rH);
             ctx.strokeRect(M, curY, W, rH);
             
             let cX = M;
-            drawGridText(l.date || "N/A", cX + 25, curY + 80); cX += cols1[0];
-            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 80 + (j*65))); cX += cols1[1];
-            drawGridText((l.start || 0).toString(), cX + 25, curY + 80); cX += cols1[2];
-            drawGridText((l.end || 0).toString(), cX + 25, curY + 80); cX += cols1[3];
-            drawGridText(`+${l.dist || 0}`, cX + 25, curY + 80); cX += cols1[4];
+            drawGridText(l.date || "N/A", cX + 25, curY + 75); cX += cols1[0];
+            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 75 + (j*60))); cX += cols1[1];
+            drawGridText((l.start || 0).toString(), cX + 25, curY + 75); cX += cols1[2];
+            drawGridText((l.end || 0).toString(), cX + 25, curY + 75); cX += cols1[3];
+            drawGridText(`+${l.dist || 0}`, cX + 25, curY + 75); cX += cols1[4];
             curY += rH;
         } else {
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
-            ctx.fillRect(M, curY, W, 130); ctx.strokeRect(M, curY, W, 130); curY += 130;
+            ctx.fillRect(M, curY, W, 120); ctx.strokeRect(M, curY, W, 120); curY += 120;
         }
     }
-    curY += 80;
 
     // SERVICES SECTION
+    curY += 60;
     ctx.fillStyle = C_INK; ctx.fillRect(M, curY, W, 90);
-    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 5)", M + 35, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 5)", M + 35, curY + 60, 42, "Georgia", C_PAPER, "left", "bold");
     curY += 90;
 
     const ths2 = ["DATE", "TRUCK", "ODO", "SERVICE RECORD"]; 
-    const cols2 = [340, 750, 300, 850]; // Total exactly 2240 (W)
+    const cols2 = [300, 750, 300, 890]; // Sum 2240
     
     ctx.fillStyle = "#111827"; ctx.fillRect(M, curY, W, 80);
-    cX = M; ths2.forEach((h, i) => { drawGridText(h, cX + 25, curY + 58, true); cX += cols2[i]; });
+    cX = M; ths2.forEach((h, i) => { drawGridText(h, cX + 25, curY + 55, true); cX += cols2[i]; });
     ctx.strokeRect(M, curY, W, 80); 
     curY += 80;
 
@@ -807,27 +804,27 @@ function drawLogbookCanvas() {
     for(let i=0; i<5; i++) {
         if(i < rSrvs.length) {
             const s = rSrvs[i];
-            const truckLines = getWrappedLines(ctx, s.truck || "Unknown", cols2[1] - 40, "bold 60px 'Courier New'");
-            const srvLines = getWrappedLines(ctx, s.desc || "N/A", cols2[3] - 40, "bold 60px 'Courier New'");
-            const rH = Math.max(130, (Math.max(truckLines.length, srvLines.length) * 65) + 70);
+            const truckLines = getWrappedLines(ctx, s.truck || "Unknown", cols2[1] - 40, "bold 50px 'Courier New'");
+            const srvLines = getWrappedLines(ctx, s.desc || "N/A", cols2[3] - 40, "bold 50px 'Courier New'");
+            const rH = Math.max(120, (Math.max(truckLines.length, srvLines.length) * 60) + 60);
 
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
             ctx.fillRect(M, curY, W, rH);
             ctx.strokeRect(M, curY, W, rH);
             
             let cX = M;
-            drawGridText(s.date || "N/A", cX + 25, curY + 80); cX += cols2[0];
-            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 80 + (j*65))); cX += cols2[1];
-            drawGridText((s.odo || 0).toString(), cX + 25, curY + 80); cX += cols2[2];
-            srvLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 80 + (j*65))); cX += cols2[3];
+            drawGridText(s.date || "N/A", cX + 25, curY + 75); cX += cols2[0];
+            truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 75 + (j*60))); cX += cols2[1];
+            drawGridText((s.odo || 0).toString(), cX + 25, curY + 75); cX += cols2[2];
+            srvLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 75 + (j*60))); cX += cols2[3];
             curY += rH;
         } else {
             ctx.fillStyle = i % 2 === 0 ? "#fcfaf5" : C_PAPER;
-            ctx.fillRect(M, curY, W, 130); ctx.strokeRect(M, curY, W, 130); curY += 130;
+            ctx.fillRect(M, curY, W, 120); ctx.strokeRect(M, curY, W, 120); curY += 120;
         }
     }
 
-    drawBarcode(ctx, canvas.width/2 - 300, canvas.height - M - 120, 600, 100);
+    drawBarcode(ctx, canvas.width/2 - 300, canvas.height - M - 100, 600, 80);
 
     currentDownloadName = `LOGBOOK_${new Date().getTime()}.png`;
     document.getElementById('canvasPreview').src = canvas.toDataURL("image/png");
