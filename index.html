@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RTL | Company Operating System</title>
+    <title>RTL | Dispatch Terminal</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Rokkitt:wght@400;600;800;900&display=swap');
 
@@ -161,7 +161,6 @@
 </head>
 <body>
 
-    <!-- SIDEBAR -->
     <nav>
         <div class="brand">
             <img src="RengokuTrucking.png" alt="Rengoku Trucking Logo" id="sidebar-logo">
@@ -197,7 +196,6 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main>
         <header>
             <div class="breadcrumbs" id="breadcrumbs">RENGOKU TRUCKING <span>/</span> DISPATCH OFFICE</div>
@@ -210,13 +208,8 @@
 
         <div class="content">
             
-            <!-- 1. DISPATCH OFFICE (DASHBOARD) -->
             <div id="view-dashboard" class="view-section active">
-                
-                <div class="dash-top-stats" id="dash-summary">
-                    <!-- Injected via JS -->
-                </div>
-
+                <div class="dash-top-stats" id="dash-summary"></div>
                 <div class="dash-grid-main">
                     <div class="card" style="margin-bottom:0; padding:20px;">
                         <h3 style="margin-bottom:15px;">Active Dispatch Board</h3>
@@ -227,7 +220,6 @@
                         <div id="dash-alerts"></div>
                     </div>
                 </div>
-
                 <div class="dash-grid-lower">
                     <div class="card" style="margin-bottom:0; padding:20px;">
                         <h3 style="margin-bottom:15px;">Fleet Status</h3>
@@ -244,7 +236,6 @@
                 </div>
             </div>
 
-            <!-- 2. WAYBILL GENERATOR -->
             <div id="view-generator" class="view-section">
                 <div class="gen-layout">
                     <div style="display: flex; flex-direction: column; gap: 20px;">
@@ -277,20 +268,19 @@
                         <div class="card" style="position: sticky; top: 0; text-align:center;">
                             <h3 style="border: none; justify-content:center;">Waybill Processing</h3>
                             <p style="font-family: var(--font-data); color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; font-weight: 700; line-height: 1.5;">Preview allows you to review the draft.<br><br>Downloading generates the official document, locks the truck, and shifts to Load Control.</p>
-                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;" onclick="previewWaybillDraft()">Preview Draft</button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 15px; padding: 15px;" onclick="previewWaybillDraft()">Preview Draft</button>
                             <button class="btn btn-primary" style="width: 100%;" onclick="processNewWaybill()">Download & File Waybill</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. LOAD CONTROL -->
             <div id="view-load-control" class="view-section">
                 <div class="gen-layout">
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                         <div class="card" style="margin-bottom:0;">
                             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid var(--border-heavy); padding-bottom: 15px; margin-bottom:20px;">
-                                <h3 style="border:none; margin:0; padding:0; width:auto;">Load: <span id="lc-doc-num" style="color:var(--accent);"></span></h3>
+                                <h3 style="border:none; margin:0; padding:0; width:auto;">Load Control: <span id="lc-doc-num" style="color:var(--accent);"></span></h3>
                                 <div id="lc-status-badge"></div>
                             </div>
                             
@@ -302,12 +292,9 @@
                                 <div class="full"><label>Cargo Payload</label><p style="font-family:var(--font-data); font-weight:700; font-size:1.1rem; color:var(--text-main);" id="lc-cargo"></p></div>
                             </div>
 
-                            <div style="display:flex; gap:10px; border-top: 2px solid var(--border-heavy); padding-top:20px; flex-wrap:wrap;" id="lc-action-buttons">
-                                <!-- Injected -->
-                            </div>
+                            <div style="display:flex; gap:10px; border-top: 2px solid var(--border-heavy); padding-top:20px; flex-wrap:wrap;" id="lc-action-buttons"></div>
                         </div>
 
-                        <!-- Action Forms -->
                         <div class="card" id="lc-form-deliver" style="display:none; border-color:var(--success);">
                             <h3 style="color:var(--success); border-color:var(--success);">Complete Delivery</h3>
                             <div class="form-grid">
@@ -326,7 +313,7 @@
                             <div class="form-grid">
                                 <div class="form-group"><label>Reason</label>
                                     <select id="lc-cancel-reason">
-                                        <option>Customer Cancellation</option><option>Vehicle Issue</option><option>Driver Unavailable</option><option>Cargo Unavailable</option><option>Route Issue</option>
+                                        <option>Customer Cancellation</option><option>Vehicle Issue</option><option>Driver Unavailable</option><option>Cargo Unavailable</option><option>Route Issue</option><option>Other</option>
                                     </select>
                                 </div>
                                 <div class="form-group full"><label>Notes</label><input type="text" id="lc-cancel-notes" placeholder="Details..."></div>
@@ -347,6 +334,19 @@
                                 <button class="btn btn-secondary" onclick="hideLcForms()">Back</button>
                             </div>
                         </div>
+
+                        <div class="card" id="lc-form-return" style="display:none; border-color:var(--info);">
+                            <h3 style="color:var(--info); border-color:var(--info);">Return Shipment</h3>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Return Location</label><input type="text" id="lc-return-loc" placeholder="Where is it going?"></div>
+                                <div class="form-group"><label>Final Odometer</label><input type="number" id="lc-return-miles" placeholder="Mileage at dropoff"></div>
+                                <div class="form-group full"><label>Reason / Notes</label><input type="text" id="lc-return-notes" placeholder="Why was it returned?"></div>
+                            </div>
+                            <div style="display:flex; gap:10px; margin-top:20px;">
+                                <button class="btn" style="background:var(--info); color:#fff;" onclick="executeReturn()">Confirm Return</button>
+                                <button class="btn btn-secondary" onclick="hideLcForms()">Back</button>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <div class="card" style="position: sticky; top: 0;">
@@ -357,7 +357,6 @@
                 </div>
             </div>
 
-            <!-- 4. FILING CABINET -->
             <div id="view-documents" class="view-section">
                 <div class="card" style="padding:20px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -372,14 +371,13 @@
                 </div>
             </div>
 
-            <!-- 5. FLEET LOGBOOK -->
             <div id="view-logbook" class="view-section">
                 <div class="gen-layout">
                     <div style="display: flex; flex-direction: column; gap: 25px;">
                         <div class="card" style="margin-bottom:0;">
                             <h3>Log Fleet Mileage</h3>
                             <div class="form-grid">
-                                <div class="form-group full"><label>Asset Used</label><select id="log-vehicle"></select></div>
+                                <div class="form-group full"><label>Truck / Asset Used</label><select id="log-vehicle"></select></div>
                                 <div class="form-group"><label>Odometer Start</label><input type="number" id="log-start"></div>
                                 <div class="form-group"><label>Odometer End</label><input type="number" id="log-end"></div>
                             </div>
@@ -407,7 +405,6 @@
                 </div>
             </div>
 
-            <!-- 6. DATA MANAGEMENT -->
             <div id="view-data" class="view-section">
                 <div class="card">
                     <h3 style="margin-bottom: 20px;">Data Management</h3>
@@ -432,7 +429,6 @@
                 </div>
             </div>
 
-            <!-- GENERIC DB VIEWS -->
             <div id="view-list" class="view-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3 id="list-title" style="margin-bottom: 0; font-size: 1.6rem; font-weight: 900; text-transform: uppercase;">Database</h3>
@@ -504,8 +500,7 @@ const SCHEMAS = {
 const DEFAULT_DATA = {
     personnel: [{ id: 'P1', name: 'Renji Rengoku', employee_id: 'RTL-001', role: 'Owner / Operator', callsign: 'R-21' }],
     vehicles: [
-        { id: 'V1', make_model: 'Phantom Custom', plate: 'RTL-001', type: 'Heavy Sleeper', status: 'AVAILABLE', current_load: null },
-        { id: 'V2', make_model: 'Kenworth W900', plate: 'HAUL-99', type: 'Heavy Sleeper', status: 'MAINTENANCE', current_load: null }
+        { id: 'V1', make_model: 'Phantom Custom', plate: 'RTL-001', type: 'Heavy Sleeper', status: 'AVAILABLE', current_load: null }
     ],
     waybills: [], logs: [], services: [], activity: []
 };
@@ -635,10 +630,9 @@ function saveRecord() {
     let data = getDB(currentModule);
     if (editId) {
         let idx = data.findIndex(r => r.id === editId);
-        if(currentModule === 'vehicles' && data[idx].status === 'ASSIGNED') {
-            record.status = 'ASSIGNED'; record.current_load = data[idx].current_load;
-        } else if (currentModule === 'vehicles') {
-            record.status = data[idx].status || 'AVAILABLE'; record.current_load = null;
+        if(currentModule === 'vehicles') {
+            record.status = data[idx].status || 'AVAILABLE';
+            record.current_load = data[idx].current_load || null;
         }
         data[idx] = record;
     } else {
@@ -804,7 +798,7 @@ function buildDraftObject() {
 
     return {
         id: generateID(),
-        doc_num: `RTL-WB-${Math.floor(10000 + Math.random() * 90000)}`,
+        doc_num: `RTL-WB-${Math.floor(100000 + Math.random() * 900000).toString()}`,
         status: 'DRAFT',
         date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase(),
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + ' HRS',
@@ -823,7 +817,7 @@ function buildDraftObject() {
         history: [{
             date: new Date().toLocaleDateString('en-US'),
             time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-            oldStat: 'NONE', newStat: 'DRAFT', notes: 'Draft created.'
+            oldStat: 'NONE', newStat: 'DRAFT', notes: 'Waybill draft initiated.'
         }]
     };
 }
@@ -846,7 +840,7 @@ function processNewWaybill() {
         doc.history.push({
             date: new Date().toLocaleDateString('en-US'),
             time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-            oldStat: 'DRAFT', newStat: 'IN_TRANSIT', notes: 'Waybill officially filed.'
+            oldStat: 'DRAFT', newStat: 'IN_TRANSIT', notes: 'Waybill officially filed and downloaded.'
         });
 
         const vehs = getDB('vehicles');
@@ -861,15 +855,11 @@ function processNewWaybill() {
         wbs.push(doc);
         setDB('waybills', wbs);
 
-        logActivity(`Waybill generated. Driver ${doc.p.name} dispatched.`, doc.doc_num);
+        logActivity(`Waybill ${doc.doc_num} issued. ${doc.v.plate} assigned to load.`);
 
         isReprintMode = true; 
         renderTransportCanvas(doc); 
-        
-        const canvas = document.getElementById('docCanvas');
-        const link = document.createElement('a');
-        link.download = `${doc.doc_num}.png`;
-        link.href = canvas.toDataURL('image/png'); link.click();
+        executeDownload();
 
         pendingDraftDoc = null;
         closePreview();
@@ -879,7 +869,7 @@ function processNewWaybill() {
 }
 
 // ==========================================
-// 6. LOAD CONTROL & LIFECYCLE
+// 6. LOAD CONTROL SYSTEM
 // ==========================================
 function openLoadControl(wbId) {
     activeWaybillId = wbId;
@@ -998,7 +988,8 @@ function executeCancel() {
 }
 
 function executeHold() {
-    updateLoadStatus('ON_HOLD', document.getElementById('lc-hold-notes').value || "Load paused.");
+    const notes = document.getElementById('lc-hold-notes').value;
+    updateLoadStatus('ON_HOLD', notes || "Load paused.");
 }
 
 function resumeLoad() {
