@@ -25,16 +25,14 @@
             --accent-hover: #e8732e;
             --accent-glow: rgba(217, 90, 17, 0.15);
             
-            --stat-draft: #8a827c;
-            --stat-transit: #d95a11;
-            --stat-delivered: #166534;
-            --stat-hold: #a16207;
-            --stat-canceled: #991b1b;
-            --stat-returned: #1e3a8a;
+            --danger: #991b1b;
+            --success: #166534;
+            --warning: #854d0e;
+            --info: #1e3a8a;
             
-            --radius-panel: 4px;      
-            --radius-card: 2px;
-            --radius-input: 2px;
+            --radius-panel: 6px;      
+            --radius-card: 4px;
+            --radius-input: 4px;
             
             --font-ui: 'Rokkitt', serif;
             --font-data: 'Courier Prime', monospace;
@@ -163,7 +161,6 @@
 </head>
 <body>
 
-    <!-- SIDEBAR -->
     <nav>
         <div class="brand">
             <img src="RengokuTrucking.png" alt="Rengoku Trucking Logo" id="sidebar-logo">
@@ -193,13 +190,12 @@
             <div style="flex-grow: 1;"></div>
             
             <div class="nav-group" style="margin-bottom: 0;">
-                <div class="nav-group-title">DATA MANAGEMENT</div>
-                <div class="nav-item" onclick="resetSystem()" style="color: #fca5a5; font-size: 0.9rem;">Burn Records</div>
+                <div class="nav-group-title">SYSTEM</div>
+                <div class="nav-item" onclick="nav('data')" style="font-size: 0.95rem;">Data Management</div>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
     <main>
         <header>
             <div class="breadcrumbs" id="breadcrumbs">RENGOKU TRUCKING <span>/</span> DISPATCH OFFICE</div>
@@ -212,12 +208,10 @@
 
         <div class="content">
             
-            <!-- 1. DISPATCH OFFICE (DASHBOARD) -->
             <div id="view-dashboard" class="view-section active">
                 
                 <div class="dash-top-stats" id="dash-summary">
-                    <!-- Injected via JS -->
-                </div>
+                    </div>
 
                 <div class="dash-grid-main">
                     <div class="card" style="margin-bottom:0; padding:20px;">
@@ -246,7 +240,6 @@
                 </div>
             </div>
 
-            <!-- 2. WAYBILL GENERATOR (Reverted Layout) -->
             <div id="view-generator" class="view-section">
                 <div class="gen-layout">
                     <div style="display: flex; flex-direction: column; gap: 20px;">
@@ -278,21 +271,20 @@
                     <div>
                         <div class="card" style="position: sticky; top: 0; text-align:center;">
                             <h3 style="border: none; justify-content:center;">Waybill Processing</h3>
-                            <p style="font-family: var(--font-data); color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; font-weight: 700; line-height: 1.5;">Preview allows you to review the draft.<br><br>Downloading generates the official document, locks the truck, and shifts to Load Control.</p>
-                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 15px;" onclick="previewWaybillDraft()">Preview Draft</button>
+                            <p style="font-family: var(--font-data); color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; font-weight: 700; line-height: 1.5;">Previewing allows you to review the draft.<br><br>Downloading generates the official document, locks the truck, and shifts to Load Control.</p>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: 15px; padding: 15px;" onclick="previewWaybillDraft()">Preview Draft</button>
                             <button class="btn btn-primary" style="width: 100%;" onclick="processNewWaybill()">Download & File Waybill</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. LOAD CONTROL -->
             <div id="view-load-control" class="view-section">
                 <div class="gen-layout">
                     <div style="display: flex; flex-direction: column; gap: 20px;">
                         <div class="card" style="margin-bottom:0;">
                             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid var(--border-heavy); padding-bottom: 15px; margin-bottom:20px;">
-                                <h3 style="border:none; margin:0; padding:0; width:auto;">Load: <span id="lc-doc-num" style="color:var(--accent);"></span></h3>
+                                <h3 style="border:none; margin:0; padding:0; width:auto;">Load Control: <span id="lc-doc-num" style="color:var(--accent);"></span></h3>
                                 <div id="lc-status-badge"></div>
                             </div>
                             
@@ -305,11 +297,9 @@
                             </div>
 
                             <div style="display:flex; gap:10px; border-top: 2px solid var(--border-heavy); padding-top:20px; flex-wrap:wrap;" id="lc-action-buttons">
-                                <!-- Injected -->
-                            </div>
+                                </div>
                         </div>
 
-                        <!-- Action Forms -->
                         <div class="card" id="lc-form-deliver" style="display:none; border-color:var(--success);">
                             <h3 style="color:var(--success); border-color:var(--success);">Complete Delivery</h3>
                             <div class="form-grid">
@@ -328,7 +318,7 @@
                             <div class="form-grid">
                                 <div class="form-group"><label>Reason</label>
                                     <select id="lc-cancel-reason">
-                                        <option>Customer Cancellation</option><option>Vehicle Issue</option><option>Driver Unavailable</option><option>Cargo Unavailable</option><option>Route Issue</option>
+                                        <option>Customer Cancellation</option><option>Vehicle Issue</option><option>Driver Unavailable</option><option>Cargo Unavailable</option><option>Route Issue</option><option>Other</option>
                                     </select>
                                 </div>
                                 <div class="form-group full"><label>Notes</label><input type="text" id="lc-cancel-notes" placeholder="Details..."></div>
@@ -349,6 +339,20 @@
                                 <button class="btn btn-secondary" onclick="hideLcForms()">Back</button>
                             </div>
                         </div>
+
+                        <div class="card" id="lc-form-return" style="display:none; border-color:var(--info);">
+                            <h3 style="color:var(--info);">Return Shipment</h3>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Return Location</label><input type="text" id="lc-return-loc" placeholder="Where is it going?"></div>
+                                <div class="form-group"><label>Final Odometer</label><input type="number" id="lc-return-miles" placeholder="Mileage at dropoff"></div>
+                                <div class="form-group full"><label>Reason / Notes</label><input type="text" id="lc-return-notes" placeholder="Why was it returned?"></div>
+                            </div>
+                            <div style="display:flex; gap:10px; margin-top:20px;">
+                                <button class="btn" style="background:var(--info); color:#fff;" onclick="executeReturn()">Confirm Return</button>
+                                <button class="btn btn-secondary" onclick="hideLcForms()">Back</button>
+                            </div>
+                        </div>
+
                     </div>
                     <div>
                         <div class="card" style="position: sticky; top: 0;">
@@ -359,24 +363,27 @@
                 </div>
             </div>
 
-            <!-- 4. FILING CABINET -->
             <div id="view-documents" class="view-section">
                 <div class="card" style="padding:20px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3 style="margin:0; border:none; padding:0;">Company Records</h3>
+                        <h3 style="margin:0; border:none; padding:0;">Filing Cabinet</h3>
+                        <div style="display:flex; gap:10px;" id="doc-filters">
+                            <button class="btn btn-primary" onclick="renderFilingCabinet('ALL')">ALL</button>
+                            <button class="btn btn-secondary" onclick="renderFilingCabinet('IN_TRANSIT')">ACTIVE</button>
+                            <button class="btn btn-secondary" onclick="renderFilingCabinet('DELIVERED')">COMPLETED</button>
+                        </div>
                     </div>
                     <div class="table-container" id="history-table-container"></div>
                 </div>
             </div>
 
-            <!-- 5. FLEET LOGBOOK -->
             <div id="view-logbook" class="view-section">
                 <div class="gen-layout">
                     <div style="display: flex; flex-direction: column; gap: 25px;">
                         <div class="card" style="margin-bottom:0;">
                             <h3>Log Fleet Mileage</h3>
                             <div class="form-grid">
-                                <div class="form-group full"><label>Asset Used</label><select id="log-vehicle"></select></div>
+                                <div class="form-group full"><label>Truck / Asset Used</label><select id="log-vehicle"></select></div>
                                 <div class="form-group"><label>Odometer Start</label><input type="number" id="log-start"></div>
                                 <div class="form-group"><label>Odometer End</label><input type="number" id="log-end"></div>
                             </div>
@@ -404,7 +411,30 @@
                 </div>
             </div>
 
-            <!-- GENERIC DB VIEWS -->
+            <div id="view-data" class="view-section">
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">Data Management</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 30px; font-family: var(--font-data); font-weight: 700;">
+                        This terminal operates entirely on local browser storage. Use these tools to backup or restore your company records.
+                    </p>
+                    
+                    <div style="display:flex; gap:20px; flex-wrap:wrap; align-items: center;">
+                        <button class="btn btn-primary" onclick="exportData()">Export Database Backup (JSON)</button>
+                        
+                        <div style="border-left: 2px solid var(--border-heavy); padding-left:20px; display:flex; gap:10px; align-items:center;">
+                            <input type="file" id="import-file" style="display:none;" accept=".json" onchange="importData(event)">
+                            <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import Backup</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 50px; padding-top: 30px; border-top: 2px dashed var(--danger);">
+                        <h3 style="color:var(--danger); border:none; margin-bottom:10px;">DANGER ZONE</h3>
+                        <p style="font-family:var(--font-data); font-weight:700; color:var(--text-muted); margin-bottom:20px;">This will permanently wipe all waybills, history, personnel, and fleet records.</p>
+                        <button class="btn btn-danger" onclick="resetSystem()">Burn All Company Records</button>
+                    </div>
+                </div>
+            </div>
+
             <div id="view-list" class="view-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3 id="list-title" style="margin-bottom: 0; font-size: 1.6rem; font-weight: 900; text-transform: uppercase;">Database</h3>
@@ -483,7 +513,7 @@ const DEFAULT_DATA = {
 };
 
 // ==========================================
-// 2. CORE SYSTEM & LOGIC
+// 2. CORE SYSTEM & DB FUNCTIONS
 // ==========================================
 function generateID() { return Math.floor(100000 + Math.random() * 900000).toString(); }
 function getDB(table) {
@@ -518,15 +548,17 @@ setInterval(() => { document.getElementById('sys-clock').innerText = new Date().
 // ==========================================
 function nav(viewId) {
     document.querySelectorAll('.view-section, .nav-item').forEach(el => el.classList.remove('active'));
+    
     const navItem = document.querySelector(`.nav-item[onclick="nav('${viewId}')"]`);
     if(navItem) navItem.classList.add('active');
 
     const lcNav = document.getElementById('nav-load-control');
-    if(viewId === 'load-control') { lcNav.style.display = 'flex'; lcNav.classList.add('active'); } 
-    else if (viewId !== 'load-control' && !activeWaybillId) { lcNav.style.display = 'none'; }
-
-    const titles = { 'dashboard': 'Dispatch Office', 'generator': 'Draft Waybill', 'logbook': 'Fleet Logbook', 'documents': 'Filing Cabinet', 'load-control': 'Load Control' };
-    document.getElementById('breadcrumbs').innerHTML = `RENGOKU TRUCKING <span>/</span> ${titles[viewId] ? titles[viewId].toUpperCase() : viewId.toUpperCase()}`;
+    if(viewId === 'load-control') {
+        lcNav.style.display = 'flex';
+        lcNav.classList.add('active');
+    } else if (viewId !== 'load-control' && !activeWaybillId) {
+        lcNav.style.display = 'none';
+    }
 
     if (SCHEMAS[viewId]) {
         currentModule = viewId;
@@ -535,10 +567,13 @@ function nav(viewId) {
         renderTable();
     } else {
         document.getElementById('view-' + viewId).classList.add('active');
+        const titles = { 'dashboard': 'Dispatch Office', 'generator': 'Draft Waybill', 'logbook': 'Fleet Logbook', 'documents': 'Filing Cabinet', 'load-control': 'Load Control', 'data': 'Data Management' };
+        document.getElementById('breadcrumbs').innerHTML = `RENGOKU TRUCKING <span>/</span> ${titles[viewId] ? titles[viewId].toUpperCase() : viewId.toUpperCase()}`;
+        
         if (viewId === 'dashboard') renderDashboard();
         if (viewId === 'generator') initGenerator();
         if (viewId === 'logbook') initLogbook();
-        if (viewId === 'documents') renderFilingCabinet();
+        if (viewId === 'documents') renderFilingCabinet('ALL');
         if (viewId === 'load-control') renderLoadControl();
     }
 }
@@ -602,12 +637,15 @@ function saveRecord() {
     let data = getDB(currentModule);
     if (editId) {
         let idx = data.findIndex(r => r.id === editId);
-        if(currentModule === 'vehicles' && data[idx].status === 'ASSIGNED') {
-            record.status = 'ASSIGNED'; record.current_load = data[idx].current_load;
+        if(currentModule === 'vehicles') {
+            record.status = data[idx].status || 'AVAILABLE';
+            record.current_load = data[idx].current_load || null;
         }
         data[idx] = record;
     } else {
-        if(currentModule === 'vehicles') { record.current_load = null; }
+        if(currentModule === 'vehicles') {
+            record.status = 'AVAILABLE'; record.current_load = null;
+        }
         data.push(record);
     }
     setDB(currentModule, data);
@@ -622,7 +660,7 @@ function deleteRecord(id) {
 }
 
 // ==========================================
-// 4. DISPATCH OFFICE (DASHBOARD)
+// 4. DASHBOARD & FILING CABINET
 // ==========================================
 function renderDashboard() {
     const wbs = getDB('waybills');
@@ -634,7 +672,6 @@ function renderDashboard() {
     const availFleet = vehs.filter(v => v.status === 'AVAILABLE');
     const maintFleet = vehs.filter(v => v.status === 'MAINTENANCE');
 
-    // 1. Top Stats
     document.getElementById('dash-summary').innerHTML = `
         <div class="stat-box"><h4>Active Loads</h4><div class="val">${active.length.toString().padStart(2, '0')}</div><div class="sub">Requiring Action</div></div>
         <div class="stat-box"><h4>In Transit</h4><div class="val">${transit.length.toString().padStart(2, '0')}</div><div class="sub">Currently Moving</div></div>
@@ -643,7 +680,6 @@ function renderDashboard() {
         <div class="stat-box"><h4>In Garage</h4><div class="val">${maintFleet.length.toString().padStart(2, '0')}</div><div class="sub">Maintenance Required</div></div>
     `;
 
-    // 2. Active Dispatch Board
     let html = '';
     if(active.length === 0) {
         html = '<div class="empty-state">NO ACTIVE LOADS</div>';
@@ -663,21 +699,17 @@ function renderDashboard() {
     }
     document.getElementById('dash-active-loads').innerHTML = html;
 
-    // 3. Alerts
     let alertsHtml = '';
     const held = wbs.filter(w => w.status === 'ON_HOLD');
     if(held.length > 0) held.forEach(w => alertsHtml += `<div class="alert-item" style="color:var(--warning); border-color:var(--warning);"><span class="alert-icon">⚠️</span> LOAD ON HOLD: ${w.doc_num}</div>`);
     if(maintFleet.length > 0) maintFleet.forEach(v => alertsHtml += `<div class="alert-item" style="color:var(--danger); border-color:var(--danger);"><span class="alert-icon">🔧</span> GARAGE: ${v.plate} Requires Maintenance</div>`);
-    
     document.getElementById('dash-alerts').innerHTML = alertsHtml || '<div class="empty-state">NO ACTIVE ALERTS</div>';
 
-    // 4. Fleet Status List
     document.getElementById('dash-fleet').innerHTML = vehs.map(v => {
         let col = v.status === 'AVAILABLE' ? 'var(--text-main)' : (v.status === 'ASSIGNED' ? 'var(--accent)' : 'var(--danger)');
         return `<div class="feed-item"><div class="feed-main">${v.make_model} [${v.plate}]</div><div class="feed-sub" style="color:${col}; font-weight:700;">${v.status} ${v.current_load ? '('+v.current_load+')' : ''}</div></div>`;
     }).join('');
 
-    // 5. Timeline (Today's History)
     const today = new Date().toLocaleDateString('en-US');
     let timelineEvents = [];
     wbs.forEach(w => {
@@ -685,7 +717,6 @@ function renderDashboard() {
             if(h.date === today) timelineEvents.push({ time: h.time, num: w.doc_num, dest: w.dest, event: h.newStat });
         });
     });
-    // Sort by time descending (string comparison works for 24h format if padded, but standard locale string might need manual sort. Simple reverse works for sequential).
     document.getElementById('dash-timeline').innerHTML = timelineEvents.reverse().slice(0,5).map(t => `
         <div class="timeline-item">
             <div class="feed-time">${t.time} ── ${t.num}</div>
@@ -694,7 +725,6 @@ function renderDashboard() {
         </div>
     `).join('') || '<div class="empty-state">NO TIMELINE DATA TODAY</div>';
 
-    // 6. Performance (This Month Approximation)
     const totalDel = wbs.filter(w=>w.status === 'DELIVERED').length;
     const totalCanc = wbs.filter(w=>w.status === 'CANCELED').length;
     const totalWt = wbs.filter(w=>w.status === 'DELIVERED').reduce((sum, w) => sum + parseInt(w.weight), 0);
@@ -709,8 +739,45 @@ function renderDashboard() {
     `;
 }
 
+function renderFilingCabinet(filter = 'ALL') {
+    document.querySelectorAll('#doc-filters .btn').forEach(b => {
+        b.className = 'btn btn-secondary';
+        if(b.innerText === filter || (filter === 'IN_TRANSIT' && b.innerText === 'ACTIVE') || (filter === 'DELIVERED' && b.innerText === 'COMPLETED')) {
+            b.className = 'btn btn-primary';
+        }
+    });
+
+    let data = getDB('waybills').slice().reverse();
+    if (filter === 'IN_TRANSIT') data = data.filter(w => w.status === 'IN_TRANSIT' || w.status === 'ON_HOLD');
+    else if (filter === 'DELIVERED') data = data.filter(w => w.status === 'DELIVERED' || w.status === 'CANCELED' || w.status === 'RETURNED');
+
+    const container = document.getElementById('history-table-container'); 
+    if (data.length === 0) { container.innerHTML = '<div class="empty-state">NO DOCUMENTS IN FILE</div>'; return; }
+    
+    let html = '<table><thead><tr><th>Waybill No.</th><th>Status</th><th>Date</th><th>Origin -> Dest</th><th style="width:250px;">Action</th></tr></thead><tbody>';
+    data.forEach(r => {
+        let bClass = 'b-transit';
+        if(r.status==='DELIVERED') bClass='b-delivered';
+        if(r.status==='CANCELED') bClass='b-canceled';
+        if(r.status==='ON_HOLD') bClass='b-hold';
+        if(r.status==='RETURNED') bClass='b-returned';
+
+        html += `<tr>
+            <td style="font-weight:bold;">${r.doc_num}</td>
+            <td><span class="badge ${bClass}">${r.status.replace('_', ' ')}</span></td>
+            <td>${r.date}</td>
+            <td>${r.route}</td>
+            <td>
+                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="openLoadControl('${r.id}')">Manage</button>
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem; margin-left: 5px;" onclick="reprintDocument('${r.id}')">Print</button>
+            </td>
+        </tr>`;
+    });
+    container.innerHTML = html + '</tbody></table>';
+}
+
 // ==========================================
-// 5. WAYBILL GENERATION (Simple Payload)
+// 5. WAYBILL GENERATION
 // ==========================================
 function initGenerator() {
     const pData = getDB('personnel');
@@ -738,7 +805,7 @@ function buildDraftObject() {
 
     return {
         id: generateID(),
-        doc_num: `RTL-WB-${Math.floor(10000 + Math.random() * 90000)}`,
+        doc_num: `RTL-WB-${Math.floor(100000 + Math.random() * 900000).toString()}`,
         status: 'DRAFT',
         date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).toUpperCase(),
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }) + ' HRS',
@@ -757,7 +824,7 @@ function buildDraftObject() {
         history: [{
             date: new Date().toLocaleDateString('en-US'),
             time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-            oldStat: 'NONE', newStat: 'DRAFT', notes: 'Draft created.'
+            oldStat: 'NONE', newStat: 'DRAFT', notes: 'Waybill draft initiated.'
         }]
     };
 }
@@ -780,7 +847,7 @@ function processNewWaybill() {
         doc.history.push({
             date: new Date().toLocaleDateString('en-US'),
             time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
-            oldStat: 'DRAFT', newStat: 'IN_TRANSIT', notes: 'Waybill officially filed.'
+            oldStat: 'DRAFT', newStat: 'IN_TRANSIT', notes: 'Waybill officially filed and downloaded.'
         });
 
         const vehs = getDB('vehicles');
@@ -795,16 +862,11 @@ function processNewWaybill() {
         wbs.push(doc);
         setDB('waybills', wbs);
 
-        logActivity(`Waybill generated. Driver ${doc.p.name} dispatched.`, doc.doc_num);
+        logActivity(`Waybill ${doc.doc_num} issued. ${doc.v.plate} assigned to load.`);
 
         isReprintMode = true; 
         renderTransportCanvas(doc); 
-        
-        // Output image
-        const canvas = document.getElementById('docCanvas');
-        const link = document.createElement('a');
-        link.download = `${doc.doc_num}.png`;
-        link.href = canvas.toDataURL('image/png'); link.click();
+        executeDownload();
 
         pendingDraftDoc = null;
         closePreview();
@@ -814,7 +876,7 @@ function processNewWaybill() {
 }
 
 // ==========================================
-// 6. LOAD CONTROL & LIFECYCLE
+// 6. LOAD CONTROL SYSTEM
 // ==========================================
 function openLoadControl(wbId) {
     activeWaybillId = wbId;
@@ -870,18 +932,18 @@ function showLcForm(type) {
     document.getElementById(`lc-form-${type}`).style.display = 'block';
 }
 function hideLcForms() {
-    ['deliver', 'cancel', 'hold', 'return'].forEach(t => {
-        if(document.getElementById(`lc-form-${t}`)) document.getElementById(`lc-form-${t}`).style.display = 'none';
-    });
+    ['deliver', 'cancel', 'hold', 'return'].forEach(t => document.getElementById(`lc-form-${t}`).style.display = 'none');
 }
 
-function updateLoadStatus(newStatus, notes, logDistance = 0) {
+function updateLoadStatus(newStatus, notes, deliveryData = null) {
     const wbs = getDB('waybills');
     const idx = wbs.findIndex(w => w.id === activeWaybillId);
     const doc = wbs[idx];
     const oldStat = doc.status;
 
     doc.status = newStatus;
+    if(deliveryData) doc.deliveryData = deliveryData;
+
     doc.history.push({
         date: new Date().toLocaleDateString('en-US'),
         time: new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }),
@@ -896,9 +958,10 @@ function updateLoadStatus(newStatus, notes, logDistance = 0) {
             vehs[vIdx].current_load = null;
             setDB('vehicles', vehs);
         }
+        logActivity(`Load ${doc.doc_num} marked ${newStatus}. ${doc.v.plate} is now AVAILABLE.`);
+    } else {
+        logActivity(`Load ${doc.doc_num} status changed to ${newStatus}.`);
     }
-
-    logActivity(`Load ${doc.doc_num} updated to ${newStatus}.`, doc.doc_num);
 
     wbs[idx] = doc;
     setDB('waybills', wbs);
@@ -912,9 +975,9 @@ function executeDelivery() {
     
     if(!rec) { alert("Receiver name required."); return; }
     
-    updateLoadStatus('DELIVERED', `Signed by: ${rec}. Notes: ${notes || 'None'}`);
+    updateLoadStatus('DELIVERED', `Signed by: ${rec}. Notes: ${notes || 'None'}`, { final_miles: miles, receiver: rec });
 
-    if(miles) { // auto log trip if miles entered
+    if(miles) { 
         const logs = getDB('logs');
         logs.push({ id: generateID(), date: new Date().toLocaleDateString('en-US').toUpperCase(), vehicle: getDB('waybills').find(w=>w.id===activeWaybillId).v.make_model, start: 0, end: miles, distance: miles });
         setDB('logs', logs);
@@ -930,7 +993,8 @@ function executeCancel() {
 }
 
 function executeHold() {
-    updateLoadStatus('ON_HOLD', document.getElementById('lc-hold-notes').value || "Load paused.");
+    const notes = document.getElementById('lc-hold-notes').value;
+    updateLoadStatus('ON_HOLD', notes || "Load paused.");
 }
 
 function resumeLoad() {
@@ -944,84 +1008,59 @@ function executeReturn() {
 }
 
 // ==========================================
-// 7. FILING CABINET
+// 8. DATA EXPORT & IMPORT
 // ==========================================
-function renderFilingCabinet() {
-    const data = getDB('waybills').slice().reverse();
-    const container = document.getElementById('history-table-container'); 
-    if (data.length === 0) { container.innerHTML = '<div class="empty-state">NO DOCUMENTS IN FILE</div>'; return; }
-    
-    let html = '<table><thead><tr><th>Waybill No.</th><th>Status</th><th>Date</th><th>Route</th><th style="width:200px;">Action</th></tr></thead><tbody>';
-    data.forEach(r => {
-        let bClass = 'b-transit';
-        if(r.status==='DELIVERED') bClass='b-delivered';
-        if(r.status==='CANCELED') bClass='b-canceled';
-        if(r.status==='ON_HOLD') bClass='b-hold';
-        if(r.status==='RETURNED') bClass='b-returned';
+function exportData() {
+    const allData = {
+        personnel: getDB('personnel'),
+        vehicles: getDB('vehicles'),
+        waybills: getDB('waybills'),
+        logs: getDB('logs'),
+        services: getDB('services'),
+        activity: getDB('activity')
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData));
+    const link = document.createElement('a');
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", `RTL_BACKUP_${new Date().toLocaleDateString('en-US').replace(/\//g,'-')}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
-        html += `<tr>
-            <td style="font-family:var(--font-data); font-weight:700;">${r.doc_num}</td>
-            <td><span class="badge ${bClass}">${r.status.replace('_',' ')}</span></td>
-            <td>${r.date}</td><td>${r.route}</td>
-            <td>
-                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="openLoadControl('${r.id}')">Manage</button>
-                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="reprintDocument('${r.id}')">Print</button>
-            </td>
-        </tr>`;
-    });
-    container.innerHTML = html + '</tbody></table>';
+function importData(event) {
+    const file = event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if(data.personnel && data.vehicles) {
+                Object.keys(data).forEach(k => setDB(k, data[k]));
+                alert("Data imported successfully. The terminal will now reload.");
+                location.reload();
+            } else { 
+                alert("Invalid backup file format."); 
+            }
+        } catch(err) { 
+            alert("Error parsing JSON file."); 
+        }
+    };
+    reader.readAsText(file);
 }
 
 // ==========================================
-// 8. LOGBOOK (Same robust wrapping engine)
+// 7. CANVAS RENDERING ENGINE
 // ==========================================
-function initLogbook() {
-    const data = getDB('vehicles');
-    const options = data.map(item => `<option value='${item.make_model} (${item.plate})'>${item.make_model} [${item.plate}]</option>`).join('');
-    document.getElementById('log-vehicle').innerHTML = options || '<option>No Vehicles Registered</option>';
-    document.getElementById('srv-vehicle').innerHTML = options || '<option>No Vehicles Registered</option>';
-
-    let totalMiles = getDB('logs').reduce((sum, log) => sum + parseInt(log.distance || 0), 0);
-    document.getElementById('total-miles-display').innerText = totalMiles.toLocaleString();
-}
-function saveTripLog() {
-    const v = document.getElementById('log-vehicle').value;
-    const s = parseInt(document.getElementById('log-start').value);
-    const e = parseInt(document.getElementById('log-end').value);
-    if(!s || !e || e <= s) { alert("End miles must be greater than Start miles."); return; }
-
-    const logs = getDB('logs');
-    logs.push({ id: generateID(), date: new Date().toLocaleDateString('en-US').toUpperCase(), vehicle: v, start: s, end: e, distance: e - s });
-    setDB('logs', logs);
-    document.getElementById('log-start').value = ''; document.getElementById('log-end').value = '';
-    logActivity(`Trip recorded for ${v}: +${e-s} miles.`);
-    initLogbook(); 
-}
-function saveServiceLog() {
-    const v = document.getElementById('srv-vehicle').value;
-    const m = document.getElementById('srv-miles').value;
-    const t = document.getElementById('srv-type').value;
-    if(!m || !t) { alert("Missing service data."); return; }
-
-    const srvs = getDB('services');
-    srvs.push({ id: generateID(), date: new Date().toLocaleDateString('en-US').toUpperCase(), vehicle: v, miles: m, service: t });
-    setDB('services', srvs);
-    document.getElementById('srv-miles').value = ''; document.getElementById('srv-type').value = '';
-    
-    // Auto flag vehicle for maintenance if user logs it here? 
-    // Usually they log it AFTER it's done. So we'll ensure vehicle is AVAILABLE if they log service.
-    const vehs = getDB('vehicles');
-    const vRef = vehs.find(x => `${x.make_model} (${x.plate})` === v);
-    if(vRef && vRef.status === 'MAINTENANCE') {
-        vRef.status = 'AVAILABLE';
-        setDB('vehicles', vehs);
-    }
-    logActivity(`Service logged for ${v}.`);
+function reprintDocument(id) {
+    const doc = getDB('waybills').find(d => d.id === id);
+    if(doc) { 
+        isReprintMode = true;
+        document.getElementById('modal-download-btn').innerText = "Download Reprint";
+        renderTransportCanvas(doc); 
+    } else { alert("File missing."); }
 }
 
-// ==========================================
-// 9. CANVAS RENDERING ENGINE (REVERTED WAYBILL + LOGBOOK)
-// ==========================================
 const C_PAPER = "#eadecb"; 
 const C_INK_BLACK = "#1c1815"; 
 const C_INK_BLUE = "#1e3b6d"; 
@@ -1035,15 +1074,24 @@ function drawCanvasText(ctx, txt, x, y, size, font="Arial", col=C_INK_BLACK, ali
 function renderTransportCanvas(doc) {
     const canvas = document.getElementById('docCanvas');
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = C_PAPER; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = C_PAPER;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    let curY = 0; const M = 150; const W = canvas.width - (M * 2); const B_HEIGHT = 240; 
-    ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 6; ctx.strokeRect(M-10, M-10, W+20, canvas.height - (M*2) + 20);
+    let curY = 0;
+    const M = 150; 
+    const W = canvas.width - (M * 2);
+    const B_HEIGHT = 240; 
+
+    ctx.strokeStyle = C_INK_BLACK; 
+    ctx.lineWidth = 6; ctx.strokeRect(M-10, M-10, W+20, canvas.height - (M*2) + 20);
     ctx.lineWidth = 2; ctx.strokeRect(M-2, M-2, W+4, canvas.height - (M*2) + 4);
 
     const drawFormBox = (lbl, val, x, y, w, h) => {
         ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 3; ctx.strokeRect(x, y, w, h);
+        
         drawCanvasText(ctx, lbl, x + 20, y + 45, 32, "Georgia", C_INK_BLACK, "left", "bold"); 
+        
         ctx.font = "bold 60px 'Courier New'"; ctx.fillStyle = C_INK_BLUE;
         const words = (val||"").toString().split(' '); let line = ''; let ly = y + 130;
         for(let n = 0; n < words.length; n++) {
@@ -1063,24 +1111,30 @@ function renderTransportCanvas(doc) {
         curY += 100;
     };
 
+    // --- 1. HEADER ---
     curY = M;
-    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) ctx.drawImage(rtlLogo, M + 20, curY + 20, 240, 240);
+    
+    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
+        ctx.drawImage(rtlLogo, M + 20, curY + 20, 240, 240);
+    }
+    
     drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", canvas.width/2, curY + 120, 85, "Georgia", C_INK_BLACK, "center", "bold");
     drawCanvasText(ctx, "SAN ANDREAS COMMERCIAL FREIGHT", canvas.width/2, curY + 190, 45, "Georgia", C_INK_BLACK, "center", "normal");
     drawCanvasText(ctx, "OFFICIAL BILL OF LADING", canvas.width/2, curY + 280, 60, "Georgia", C_INK_BLACK, "center", "bold");
     
-    // Top right serial
     ctx.textAlign = "right";
-    drawCanvasText(ctx, "NO.", M + W - 320, curY + 95, 42, "Georgia", C_INK_RED, "right", "bold");
+    drawCanvasText(ctx, "NO.", M + W - 220, curY + 95, 42, "Georgia", C_INK_RED, "right", "bold");
     drawCanvasText(ctx, doc.doc_num, M + W - 20, curY + 100, 60, "'Courier New'", C_INK_RED, "right", "bold");
     ctx.textAlign = "left"; 
 
     curY += 340;
+
     const cw = W / 2;
     drawFormBox("DATE ISSUED", doc.date, M, curY, cw, B_HEIGHT);
     drawFormBox("TIME ISSUED", doc.time, M+cw, curY, cw, B_HEIGHT);
     curY += B_HEIGHT;
 
+    // --- 2. ROUTING ---
     drawSectionHeader("ROUTING & DESTINATION");
     drawFormBox("POINT OF ORIGIN", doc.origin, M, curY, cw, B_HEIGHT);
     drawFormBox("DELIVERY DESTINATION", doc.dest, M+cw, curY, cw, B_HEIGHT);
@@ -1088,6 +1142,7 @@ function renderTransportCanvas(doc) {
     drawFormBox("SHIPPING INSTRUCTIONS / REMARKS", doc.purpose, M, curY, W, B_HEIGHT);
     curY += B_HEIGHT;
 
+    // --- 3. CARRIER ---
     drawSectionHeader("CARRIER ASSIGNMENT");
     drawFormBox("ASSIGNED DRIVER", doc.p.name || '', M, curY, cw, B_HEIGHT);
     drawFormBox("RADIO CALLSIGN", doc.p.callsign || '', M+cw, curY, cw, B_HEIGHT);
@@ -1096,6 +1151,7 @@ function renderTransportCanvas(doc) {
     drawFormBox("VEHICLE IDENTIFIER", `${doc.v.make_model || ''} (${doc.v.plate || ''})`, M+cw, curY, cw, B_HEIGHT);
     curY += B_HEIGHT;
 
+    // --- 4. CARGO ---
     drawSectionHeader("FREIGHT MANIFEST");
     drawFormBox("DESCRIPTION OF ARTICLES, SPECIAL MARKS, AND EXCEPTIONS", doc.cargoDesc, M, curY, W, B_HEIGHT + 140);
     curY += (B_HEIGHT + 140);
@@ -1105,6 +1161,7 @@ function renderTransportCanvas(doc) {
     drawCanvasText(ctx, `${doc.weight.toLocaleString()}`, canvas.width/2, curY + 180, 150, "'Courier New'", C_INK_BLUE, "center", "bold");
     curY += (B_HEIGHT + 20);
 
+    // --- 5. SIGNATURES ---
     curY += 250;
     const sigW = (W/2) - 80;
     ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 3;
@@ -1117,6 +1174,7 @@ function renderTransportCanvas(doc) {
     drawCanvasText(ctx, "DRIVER ACKNOWLEDGEMENT", M + sigW + 160, curY + 50, 32, "Georgia", C_INK_BLACK, "left", "bold");
     drawCanvasText(ctx, (doc.p.name || '').toUpperCase(), M + sigW + 180, curY - 20, 65, "'Courier New'", C_INK_BLUE, "left", "bold");
 
+    // --- 6. FOOTER ---
     const footY = canvas.height - M + 60;
     drawCanvasText(ctx, "WTPRP ROLEPLAY - OFFICIAL COMMERCIAL RECORD - KEEP THIS COPY WITH FREIGHT", canvas.width/2, footY, 36, "Georgia", C_INK_BLACK, "center", "bold");
 
@@ -1127,14 +1185,23 @@ function renderTransportCanvas(doc) {
 function printLogBook() {
     const canvas = document.getElementById('docCanvas');
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = C_PAPER; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = C_PAPER;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    let curY = 0; const M = 150; const W = canvas.width - (M * 2);
-    ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 6; ctx.strokeRect(M-10, M-10, W+20, canvas.height - (M*2) + 20);
+    let curY = 0;
+    const M = 150; 
+    const W = canvas.width - (M * 2);
+
+    ctx.strokeStyle = C_INK_BLACK; 
+    ctx.lineWidth = 6; ctx.strokeRect(M-10, M-10, W+20, canvas.height - (M*2) + 20);
     ctx.lineWidth = 2; ctx.strokeRect(M-2, M-2, W+4, canvas.height - (M*2) + 4);
     
+    // --- 1. HEADER ---
     curY = M;
-    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) ctx.drawImage(rtlLogo, M + 20, curY + 20, 200, 200);
+    if (rtlLogo.complete && rtlLogo.naturalWidth !== 0) {
+        ctx.drawImage(rtlLogo, M + 20, curY + 20, 200, 200);
+    }
 
     drawCanvasText(ctx, "RENGOKU TRUCKING LOGISTICS", canvas.width/2, curY + 110, 95, "Georgia", C_INK_BLACK, "center", "bold");
     drawCanvasText(ctx, "COMPANY FLEET LEDGER", canvas.width/2, curY + 180, 45, "Georgia", C_INK_BLACK, "center", "normal");
@@ -1165,12 +1232,14 @@ function printLogBook() {
         return lines;
     };
 
+    // --- 2. TRIPS ---
     ctx.fillStyle = C_INK_BLACK; ctx.fillRect(M, curY, W, 100);
-    drawCanvasText(ctx, "RECENT DISPATCH LOGS (LAST 5)", M + 40, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "RECENT DISPATCH LOGS", M + 40, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
     curY += 100;
 
     const ths1 = ["DATE", "TRUCK", "START", "END", "DIST."];
     const cols1 = [280, 850, 350, 350, 350]; 
+    
     ctx.strokeStyle = C_INK_BLACK; ctx.lineWidth = 3;
     let cX = M;
     ths1.forEach((h, i) => { drawGridText(h, cX + 25, curY + 55, true); cX += cols1[i]; });
@@ -1192,16 +1261,21 @@ function printLogBook() {
             drawGridText(l.end.toString(), cX + 25, curY + 75); cX += cols1[3];
             drawGridText(`+${l.distance}`, cX + 25, curY + 75); cX += cols1[4];
             curY += rH;
-        } else { ctx.strokeRect(M, curY, W, 120); curY += 120; }
+        } else {
+            ctx.strokeRect(M, curY, W, 120);
+            curY += 120;
+        }
     }
     curY += 80;
 
+    // --- 3. SERVICES ---
     ctx.fillStyle = C_INK_BLACK; ctx.fillRect(M, curY, W, 100);
-    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE (LAST 5)", M + 40, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
+    drawCanvasText(ctx, "RECENT GARAGE MAINTENANCE", M + 40, curY + 65, 45, "Georgia", C_PAPER, "left", "bold");
     curY += 100;
 
     const ths2 = ["DATE", "TRUCK", "ODOMETER", "SERVICE RECORD"];
     const cols2 = [280, 750, 350, 800];
+    
     cX = M;
     ths2.forEach((h, i) => { drawGridText(h, cX + 25, curY + 55, true); cX += cols2[i]; });
     ctx.strokeRect(M, curY, W, 80);
@@ -1213,16 +1287,21 @@ function printLogBook() {
             const s = recentSrvs[i];
             const truckLines = getWrappedLines(s.vehicle, cols2[1] - 40);
             const srvLines = getWrappedLines(s.service, cols2[3] - 40);
-            const rH = Math.max(120, (Math.max(truckLines.length, srvLines.length) * 55) + 65);
+            const linesCount = Math.max(1, truckLines.length, srvLines.length);
+            const rH = Math.max(120, (linesCount * 55) + 65);
 
             ctx.strokeRect(M, curY, W, rH);
             let cX = M;
             drawGridText(s.date, cX + 25, curY + 75); cX += cols2[0];
+            
             truckLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 75 + (j*55))); cX += cols2[1];
             drawGridText(s.miles.toString(), cX + 25, curY + 75); cX += cols2[2];
             srvLines.forEach((line, j) => drawGridText(line, cX + 25, curY + 75 + (j*55))); cX += cols2[3];
             curY += rH;
-        } else { ctx.strokeRect(M, curY, W, 120); curY += 120; }
+        } else {
+            ctx.strokeRect(M, curY, W, 120);
+            curY += 120;
+        }
     }
 
     const footY = canvas.height - M + 60;
@@ -1232,15 +1311,6 @@ function printLogBook() {
     document.getElementById('previewModal').style.display = 'flex';
 }
 
-function reprintDocument(id) {
-    const doc = getDB('waybills').find(d => d.id === id);
-    if(doc) { 
-        isReprintMode = true;
-        document.getElementById('modal-download-btn').innerText = "Download Reprint";
-        renderTransportCanvas(doc); 
-    } else { alert("File missing."); }
-}
-
 function closePreview() { document.getElementById('previewModal').style.display = 'none'; }
 function executeDownload() {
     if(!isReprintMode && pendingDraftDoc) {
@@ -1248,7 +1318,7 @@ function executeDownload() {
     } else {
         const canvas = document.getElementById('docCanvas');
         const link = document.createElement('a');
-        link.download = `RTL_DOC_${Math.floor(1000+Math.random()*9000)}.png`;
+        link.download = `RTL_WAYBILL_${Math.floor(1000+Math.random()*9000)}.png`;
         link.href = canvas.toDataURL('image/png'); link.click();
     }
 }
